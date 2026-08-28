@@ -23,25 +23,27 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         }
         
-        .camera-wrapper { width: 100%; max-width: 350px; position: relative; min-height: 250px; }
+        .camera-wrapper { 
+            width: 100%; max-width: 350px; 
+            height: 250px; position: relative; 
+            border-radius: 24px; border: 2px solid rgba(189, 0, 255, 0.4);
+            overflow: hidden; background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            display: flex; align-items: center; justify-content: center;
+        }
 
         #reader {
-            width: 100% !important; background: rgba(255, 255, 255, 0.03);
-            border-radius: 24px; border: 2px solid rgba(189, 0, 255, 0.4);
-            min-height: 250px; display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
-            overflow: hidden; backdrop-filter: blur(10px); position: relative;
+            width: 100%; height: 100%;
         }
 
         #reader video { 
             width: 100% !important; 
             height: 100% !important;
-            object-fit: cover; 
-            border-radius: 20px; 
-            display: block;
+            object-fit: cover !important; 
+            border-radius: 20px;
         }
 
-        .camera-start-card { text-align: center; padding: 20px; }
+        .camera-start-card { text-align: center; padding: 20px; z-index: 5; }
         .camera-start-card p { font-size: 0.95rem; color: #b3a2ce; margin-bottom: 18px; }
 
         #start-cam-btn {
@@ -58,6 +60,7 @@
             display: none; position: absolute; top: 15%; left: 5%; width: 90%; height: 3px;
             background: #ff007f; box-shadow: 0 0 12px #ff007f, 0 0 20px #ff007f;
             animation: scan 2s infinite ease-in-out; z-index: 10; border-radius: 50%;
+            pointer-events: none;
         }
 
         @keyframes scan {
@@ -106,15 +109,14 @@
         <img src="https://lh3.googleusercontent.com/d/109H2w4zxFrJzi5EgQse4u1Ka6KoZyupo" alt="A2Z Hypermarket">
     </div>
 
-    <div class="camera-wrapper">
-        <div id="reader">
-            <div class="camera-start-card" id="start-card">
-                <p>افحص سعر أي مادة فوراً</p>
-                <button id="start-cam-btn" onclick="initScanner()">
-                    📷 فتح الكاميرا للمسح
-                </button>
-            </div>
+    <div class="camera-wrapper" id="camera-box">
+        <div class="camera-start-card" id="start-card">
+            <p>افحص سعر أي مادة فوراً</p>
+            <button id="start-cam-btn" onclick="initScanner()">
+                📷 فتح الكاميرا للمسح
+            </button>
         </div>
+        <div id="reader"></div>
         <div class="laser-line" id="laser"></div>
     </div>
 
@@ -155,37 +157,49 @@
 
         function initScanner() {
             document.getElementById('start-card').style.display = 'none';
-            
-            // حل مشكلة تأخر ظهور الكاميرا بإعطاء مهلة بضعة أجزاء من الثانية لتهيئ أبعاد الشاشة
-            setTimeout(() => {
-                if(!html5QrCode) html5QrCode = new Html5Qrcode("reader");
 
-                const config = { 
-                    fps: 25, 
-                    qrbox: { width: 250, height: 150 },
-                    videoConstraints: {
-                        facingMode: "environment"
-                    }
-                };
+            if(!html5QrCode) {
+                html5QrCode = new Html5Qrcode("reader", {
+                    formatsToSupport: [
+                        Html5QrcodeSupportedFormats.EAN_13,
+                        Html5QrcodeSupportedFormats.EAN_8,
+                        Html5QrcodeSupportedFormats.CODE_128,
+                        Html5QrcodeSupportedFormats.QR_CODE
+                    ],
+                    verbose: false
+                });
+            }
 
-                html5QrCode.start(
-                    { facingMode: "environment" }, 
-                    config,
-                    (decodedText) => handleResult(decodedText)
-                ).then(() => {
-                    document.getElementById('laser').style.display = 'block';
-                    // إجبار المتصفح على إعادة ضبط أبعاد الفيديو تلقائياً
+            const config = { 
+                fps: 20, 
+                qrbox: (viewfinderWidth, viewfinderHeight) => {
+                    return { width: Math.floor(viewfinderWidth * 0.8), height: Math.floor(viewfinderHeight * 0.5) };
+                }
+            };
+
+            html5QrCode.start(
+                { facingMode: "environment" }, 
+                config,
+                (decodedText) => handleResult(decodedText)
+            ).then(() => {
+                document.getElementById('laser').style.display = 'block';
+                
+                // حل مشكلة المتصفح: تنشيط عرض الفيديو إجبارياً فور التشغيل
+                setTimeout(() => {
                     const videoElem = document.querySelector("#reader video");
                     if (videoElem) {
                         videoElem.setAttribute("playsinline", "true");
-                        videoElem.play();
+                        videoElem.style.width = "100%";
+                        videoElem.style.height = "100%";
+                        videoElem.style.objectFit = "cover";
+                        window.dispatchEvent(new Event('resize'));
                     }
-                }).catch(err => {
-                    alert("يرجى السماح للكاميرا بالعمل من إعدادات المتصفح.");
-                    document.getElementById('start-card').style.display = 'block';
-                    document.getElementById('laser').style.display = 'none';
-                });
-            }, 100);
+                }, 300);
+            }).catch(err => {
+                alert("يرجى السماح للكاميرا بالعمل من إعدادات المتصفح.");
+                document.getElementById('start-card').style.display = 'block';
+                document.getElementById('laser').style.display = 'none';
+            });
         }
 
         function handleResult(barcode) {
@@ -194,7 +208,7 @@
             }
             
             document.getElementById('laser').style.display = 'none';
-            document.getElementById('reader').style.display = 'none';
+            document.getElementById('camera-box').style.display = 'none';
             document.getElementById('result-container').style.display = 'block';
 
             const cleanBarcode = String(barcode).trim();
@@ -219,7 +233,7 @@
 
         function resetScanner() {
             document.getElementById('result-container').style.display = 'none';
-            document.getElementById('reader').style.display = 'flex';
+            document.getElementById('camera-box').style.display = 'flex';
             document.getElementById('laser').style.display = 'block';
             if (html5QrCode) {
                 html5QrCode.resume();
