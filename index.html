@@ -7,87 +7,224 @@
     <script src="https://unpkg.com/html5-qrcode"></script>
     <style>
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #06020f;
-            margin: 0; padding: 20px;
-            display: flex; flex-direction: column; align-items: center;
-            color: #ffffff; min-height: 100vh;
+            background: #090514;
+            background-image: radial-gradient(circle at 50% 10%, rgba(189, 0, 255, 0.15), transparent 60%);
+            margin: 0; 
+            padding: 20px;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+            color: #ffffff; 
+            min-height: 100vh;
         }
-        .logo-container { margin-bottom: 20px; }
-        .logo-container img { width: 100px; border-radius: 20px; background: white; padding: 5px; }
+
+        /* الشعار */
+        .logo-container { margin-bottom: 25px; margin-top: 10px; }
+        .logo-container img { 
+            width: 110px; 
+            border-radius: 22px; 
+            background: #ffffff; 
+            padding: 8px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
         
-        .camera-wrapper { width: 100%; max-width: 340px; position: relative; }
+        /* إطار الكاميرا */
+        .camera-wrapper { 
+            width: 100%; 
+            max-width: 350px; 
+            position: relative; 
+        }
+
         #reader {
             width: 100% !important; 
-            background: #000;
-            border-radius: 20px; 
-            border: 2px solid #bd00ff;
-            min-height: 250px; 
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 24px; 
+            border: 2px solid rgba(189, 0, 255, 0.4);
+            min-height: 260px; 
             display: flex; 
+            flex-direction: column;
             align-items: center; 
             justify-content: center;
             overflow: hidden;
-            box-shadow: 0 0 20px rgba(189, 0, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            backdrop-filter: blur(10px);
+            position: relative;
         }
-        #reader video { width: 100% !important; object-fit: cover; border-radius: 18px; }
-        
-        #ios-start-btn {
+
+        #reader video { 
+            width: 100% !important; 
+            object-fit: cover; 
+            border-radius: 20px; 
+        }
+
+        /* زر تشغيل الكاميرا والسماح بالوصول */
+        .camera-start-card {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .camera-start-card p {
+            font-size: 0.9rem;
+            color: #b3a2ce;
+            margin-bottom: 15px;
+        }
+
+        #start-cam-btn {
             background: linear-gradient(135deg, #ff007f 0%, #bd00ff 100%);
-            color: white; border: none; padding: 15px 30px; border-radius: 50px;
-            font-size: 1.1rem; font-weight: bold; cursor: pointer; 
-            box-shadow: 0 5px 15px rgba(255,0,127,0.3);
-            transition: transform 0.2s;
+            color: white; 
+            border: none; 
+            padding: 14px 28px; 
+            border-radius: 50px;
+            font-size: 1.05rem; 
+            font-weight: bold; 
+            cursor: pointer; 
+            box-shadow: 0 6px 20px rgba(189, 0, 255, 0.4);
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
-        #ios-start-btn:active { transform: scale(0.95); }
 
-        /* البحث اليدوي */
+        #start-cam-btn:active { 
+            transform: scale(0.96); 
+        }
+
+        /* خط الليزر المبتكر أثناء المسح */
+        .laser-line {
+            display: none;
+            position: absolute;
+            top: 10%;
+            left: 5%;
+            width: 90%;
+            height: 3px;
+            background: #ff007f;
+            box-shadow: 0 0 12px #ff007f, 0 0 20px #ff007f;
+            animation: scan 2s infinite ease-in-out;
+            z-index: 10;
+            border-radius: 50%;
+        }
+
+        @keyframes scan {
+            0% { top: 15%; }
+            50% { top: 80%; }
+            100% { top: 15%; }
+        }
+
+        /* إدخال الباركود يدويًا */
         .manual-search-container {
-            width: 100%; max-width: 340px; margin-top: 15px;
-            display: flex; gap: 8px;
-        }
-        .manual-input {
-            flex: 1; padding: 12px 15px; border-radius: 25px;
-            border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08);
-            color: white; font-size: 1rem; text-align: center; outline: none;
-        }
-        .manual-input::placeholder { color: #8a8a9e; }
-        .manual-btn {
-            background: #bd00ff; color: white; border: none; padding: 12px 20px;
-            border-radius: 25px; font-weight: bold; cursor: pointer;
+            width: 100%; 
+            max-width: 350px; 
+            margin-top: 20px;
+            display: flex; 
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        #result-container {
-            display: none; width: 100%; max-width: 340px; padding: 20px;
-            background: rgba(255,255,255,0.05); border-radius: 20px; text-align: center;
-            margin-top: 15px; border: 1px solid rgba(255,255,255,0.1);
+        .manual-input {
+            flex: 1; 
+            padding: 12px 18px; 
+            border-radius: 50px;
+            border: none; 
+            background: transparent;
+            color: white; 
+            font-size: 0.95rem; 
+            outline: none;
         }
-        .item-name { font-size: 1.3rem; font-weight: bold; margin-bottom: 10px; }
-        .price-tag { font-size: 2.2rem; color: #ffe259; font-weight: 800; margin-bottom: 15px; }
+
+        .manual-input::placeholder { color: #7f789e; }
+
+        .manual-btn {
+            background: #bd00ff; 
+            color: white; 
+            border: none; 
+            padding: 10px 22px;
+            border-radius: 50px; 
+            font-weight: bold; 
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .manual-btn:hover {
+            background: #d437ff;
+        }
+
+        /* بطاقة عرض النتيجة */
+        #result-container {
+            display: none; 
+            width: 100%; 
+            max-width: 350px; 
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.05); 
+            border-radius: 24px; 
+            text-align: center;
+            margin-top: 20px; 
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .item-name { 
+            font-size: 1.25rem; 
+            font-weight: 600; 
+            margin-bottom: 12px; 
+            color: #e2d9f3;
+        }
+
+        .price-tag { 
+            font-size: 2.3rem; 
+            color: #ffe259; 
+            font-weight: 800; 
+            margin-bottom: 20px; 
+            text-shadow: 0 0 15px rgba(255, 226, 89, 0.3);
+        }
+
         .action-btn {
-            background: #ffffff; color: #06020f; border: none; padding: 12px 20px;
-            border-radius: 30px; font-weight: bold; width: 100%; cursor: pointer;
+            background: #ffffff; 
+            color: #090514; 
+            border: none; 
+            padding: 14px 20px;
+            border-radius: 50px; 
+            font-weight: bold; 
+            width: 100%; 
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255,255,255,0.2);
         }
     </style>
 </head>
 <body>
 
+    <!-- الشعار -->
     <div class="logo-container">
-        <img src="https://lh3.googleusercontent.com/d/109H2w4zxFrJzi5EgQse4u1Ka6KoZyupo" alt="A2Z">
+        <img src="https://lh3.googleusercontent.com/d/109H2w4zxFrJzi5EgQse4u1Ka6KoZyupo" alt="A2Z Hypermarket">
     </div>
 
+    <!-- منطقة الكاميرا -->
     <div class="camera-wrapper">
         <div id="reader">
-            <button id="ios-start-btn" onclick="initScanner()">ابدأ فحص الباركود 📷</button>
+            <div class="camera-start-card" id="start-card">
+                <p>اضغط للبدء والسماح بفتح الكاميرا</p>
+                <button id="start-cam-btn" onclick="initScanner()">
+                    📷 فتح الكاميرا للمسح
+                </button>
+            </div>
         </div>
+        <div class="laser-line" id="laser"></div>
     </div>
 
-    <!-- حقل البحث اليدوي -->
+    <!-- حقل الإدخال والبحث اليدوي -->
     <div class="manual-search-container">
         <input type="text" id="manual-barcode-input" class="manual-input" placeholder="أدخل رقم الباركود يدويًا..." pattern="[0-9]*">
         <button class="manual-btn" onclick="searchManualBarcode()">بحث</button>
     </div>
     
+    <!-- بطاقة نتيجة الفحص -->
     <div id="result-container">
         <div class="item-name" id="item-name">جاري الفحص...</div>
         <div class="price-tag" id="item-price">---</div>
@@ -99,13 +236,14 @@
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwzt9kOh9XqbD_ymqeMZXOAULriQGXMi6pFoOcrEGJZc7Vs6OlliUH7D_GJzDT_XQIKkw/exec"; 
 
         function initScanner() {
-            document.getElementById('ios-start-btn').style.display = 'none';
+            document.getElementById('start-card').style.display = 'none';
+            document.getElementById('laser').style.display = 'block';
+            
             html5QrCode = new Html5Qrcode("reader");
             
-            // إعدادات عالية الدقة وقوة تركيز أسرع لجميع أشكال الباركود
             const config = { 
                 fps: 25, 
-                qrbox: { width: 250, height: 150 },
+                qrbox: { width: 260, height: 160 },
                 aspectRatio: 1.0,
                 experimentalFeatures: {
                     useBarCodeDetectorIfSupported: true
@@ -126,8 +264,9 @@
                     handleResult(decodedText);
                 }
             ).catch(err => {
-                alert("يرجى التأكد من السماح للكاميرا بالعمل.");
-                document.getElementById('ios-start-btn').style.display = 'block';
+                alert("يرجى التأكد من السماح للكاميرا بالعمل من إعدادات المتصفح.");
+                document.getElementById('start-card').style.display = 'block';
+                document.getElementById('laser').style.display = 'none';
             });
         }
 
@@ -137,7 +276,6 @@
                 const data = await response.json();
                 return data;
             } catch (error) {
-                // دعم ثانوي في حال وجود تقييدات CORS في بيئة Apps Script
                 return new Promise((resolve) => {
                     const cb = "cb_" + Date.now();
                     window[cb] = (res) => {
@@ -158,6 +296,7 @@
                 html5QrCode.pause();
             }
             
+            document.getElementById('laser').style.display = 'none';
             document.getElementById('reader').style.display = 'none';
             document.getElementById('result-container').style.display = 'block';
             document.getElementById('item-name').innerText = "جاري جلب البيانات...";
@@ -169,7 +308,7 @@
                 document.getElementById('item-name').innerText = res.name;
                 document.getElementById('item-price').innerText = Number(res.price).toLocaleString() + " د.ع";
             } else {
-                document.getElementById('item-name').innerText = "غير موجود";
+                document.getElementById('item-name').innerText = "غير موجود في النظام";
                 document.getElementById('item-price').innerText = "---";
             }
         }
@@ -186,6 +325,7 @@
         function resetScanner() {
             document.getElementById('result-container').style.display = 'none';
             document.getElementById('reader').style.display = 'flex';
+            document.getElementById('laser').style.display = 'block';
             if (html5QrCode) {
                 html5QrCode.resume();
             }
