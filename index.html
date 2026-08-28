@@ -19,23 +19,48 @@
         
         .camera-wrapper { width: 100%; max-width: 340px; position: relative; }
         #reader {
-            width: 100% !important; background: rgba(255, 255, 255, 0.05);
-            padding: 5px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);
-            min-height: 250px; display: flex; align-items: center; justify-content: center;
+            width: 100% !important; 
+            background: #000;
+            border-radius: 20px; 
+            border: 2px solid #bd00ff;
+            min-height: 250px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(189, 0, 255, 0.3);
         }
-        #reader video { width: 100% !important; border-radius: 15px; }
+        #reader video { width: 100% !important; object-fit: cover; border-radius: 18px; }
         
-        /* زر التنشيط للآيفون */
         #ios-start-btn {
             background: linear-gradient(135deg, #ff007f 0%, #bd00ff 100%);
             color: white; border: none; padding: 15px 30px; border-radius: 50px;
-            font-size: 1.1rem; font-weight: bold; cursor: pointer; box-shadow: 0 5px 15px rgba(255,0,127,0.3);
+            font-size: 1.1rem; font-weight: bold; cursor: pointer; 
+            box-shadow: 0 5px 15px rgba(255,0,127,0.3);
+            transition: transform 0.2s;
+        }
+        #ios-start-btn:active { transform: scale(0.95); }
+
+        /* البحث اليدوي */
+        .manual-search-container {
+            width: 100%; max-width: 340px; margin-top: 15px;
+            display: flex; gap: 8px;
+        }
+        .manual-input {
+            flex: 1; padding: 12px 15px; border-radius: 25px;
+            border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.08);
+            color: white; font-size: 1rem; text-align: center; outline: none;
+        }
+        .manual-input::placeholder { color: #8a8a9e; }
+        .manual-btn {
+            background: #bd00ff; color: white; border: none; padding: 12px 20px;
+            border-radius: 25px; font-weight: bold; cursor: pointer;
         }
 
         #result-container {
             display: none; width: 100%; max-width: 340px; padding: 20px;
             background: rgba(255,255,255,0.05); border-radius: 20px; text-align: center;
-            margin-top: 10px; border: 1px solid rgba(255,255,255,0.1);
+            margin-top: 15px; border: 1px solid rgba(255,255,255,0.1);
         }
         .item-name { font-size: 1.3rem; font-weight: bold; margin-bottom: 10px; }
         .price-tag { font-size: 2.2rem; color: #ffe259; font-weight: 800; margin-bottom: 15px; }
@@ -56,10 +81,16 @@
             <button id="ios-start-btn" onclick="initScanner()">ابدأ فحص الباركود 📷</button>
         </div>
     </div>
+
+    <!-- حقل البحث اليدوي -->
+    <div class="manual-search-container">
+        <input type="text" id="manual-barcode-input" class="manual-input" placeholder="أدخل رقم الباركود يدويًا..." pattern="[0-9]*">
+        <button class="manual-btn" onclick="searchManualBarcode()">بحث</button>
+    </div>
     
     <div id="result-container">
         <div class="item-name" id="item-name">جاري الفحص...</div>
-        <div class="price-tag" id="item-price">0 د.ع</div>
+        <div class="price-tag" id="item-price">---</div>
         <button class="action-btn" onclick="resetScanner()">مسح مادة أخرى</button>
     </div>
 
@@ -71,9 +102,26 @@
             document.getElementById('ios-start-btn').style.display = 'none';
             html5QrCode = new Html5Qrcode("reader");
             
+            // إعدادات عالية الدقة وقوة تركيز أسرع لجميع أشكال الباركود
+            const config = { 
+                fps: 25, 
+                qrbox: { width: 250, height: 150 },
+                aspectRatio: 1.0,
+                experimentalFeatures: {
+                    useBarCodeDetectorIfSupported: true
+                }
+            };
+
+            const videoConstraints = {
+                facingMode: "environment",
+                width: { min: 640, ideal: 1280, max: 1920 },
+                height: { min: 480, ideal: 720, max: 1080 },
+                focusMode: "continuous"
+            };
+
             html5QrCode.start(
-                { facingMode: "environment" }, 
-                { fps: 15, qrbox: 200 },
+                videoConstraints, 
+                config,
                 (decodedText) => {
                     handleResult(decodedText);
                 }
@@ -83,34 +131,64 @@
             });
         }
 
-        function handleResult(barcode) {
-            html5QrCode.pause(); // إيقاف مؤقت لمنع المسح المتكرر
+        async function fetchItemData(barcode) {
+            try {
+                const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=check&barcode=${barcode}`);
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                // دعم ثانوي في حال وجود تقييدات CORS في بيئة Apps Script
+                return new Promise((resolve) => {
+                    const cb = "cb_" + Date.now();
+                    window[cb] = (res) => {
+                        resolve(res);
+                        delete window[cb];
+                        document.getElementById(cb)?.remove();
+                    };
+                    const s = document.createElement('script');
+                    s.id = cb;
+                    s.src = `${GOOGLE_SCRIPT_URL}?action=check&barcode=${barcode}&callback=${cb}`;
+                    document.body.appendChild(s);
+                });
+            }
+        }
+
+        async function handleResult(barcode) {
+            if (html5QrCode && html5QrCode.isScanning) {
+                html5QrCode.pause();
+            }
+            
             document.getElementById('reader').style.display = 'none';
             document.getElementById('result-container').style.display = 'block';
-            
-            const cb = "cb_" + Date.now();
-            window[cb] = (res) => {
-                if(res.found) {
-                    document.getElementById('item-name').innerText = res.name;
-                    document.getElementById('item-price').innerText = Number(res.price).toLocaleString() + " د.ع";
-                } else {
-                    document.getElementById('item-name').innerText = "غير موجود";
-                    document.getElementById('item-price').innerText = "---";
-                }
-                delete window[cb];
-                document.getElementById(cb)?.remove();
-            };
+            document.getElementById('item-name').innerText = "جاري جلب البيانات...";
+            document.getElementById('item-price').innerText = "---";
 
-            const s = document.createElement('script');
-            s.id = cb;
-            s.src = `${GOOGLE_SCRIPT_URL}?action=check&barcode=${barcode}&callback=${cb}`;
-            document.body.appendChild(s);
+            const res = await fetchItemData(barcode);
+
+            if(res && res.found) {
+                document.getElementById('item-name').innerText = res.name;
+                document.getElementById('item-price').innerText = Number(res.price).toLocaleString() + " د.ع";
+            } else {
+                document.getElementById('item-name').innerText = "غير موجود";
+                document.getElementById('item-price').innerText = "---";
+            }
+        }
+
+        function searchManualBarcode() {
+            const input = document.getElementById('manual-barcode-input');
+            const barcode = input.value.trim();
+            if (barcode) {
+                handleResult(barcode);
+                input.value = '';
+            }
         }
 
         function resetScanner() {
             document.getElementById('result-container').style.display = 'none';
             document.getElementById('reader').style.display = 'flex';
-            html5QrCode.resume();
+            if (html5QrCode) {
+                html5QrCode.resume();
+            }
         }
     </script>
 </body>
