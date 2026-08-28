@@ -23,7 +23,7 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         }
         
-        .camera-wrapper { width: 100%; max-width: 350px; position: relative; }
+        .camera-wrapper { width: 100%; max-width: 350px; position: relative; min-height: 250px; }
 
         #reader {
             width: 100% !important; background: rgba(255, 255, 255, 0.03);
@@ -33,7 +33,13 @@
             overflow: hidden; backdrop-filter: blur(10px); position: relative;
         }
 
-        #reader video { width: 100% !important; object-fit: cover; border-radius: 20px; }
+        #reader video { 
+            width: 100% !important; 
+            height: 100% !important;
+            object-fit: cover; 
+            border-radius: 20px; 
+            display: block;
+        }
 
         .camera-start-card { text-align: center; padding: 20px; }
         .camera-start-card p { font-size: 0.95rem; color: #b3a2ce; margin-bottom: 18px; }
@@ -127,10 +133,8 @@
         let html5QrCode;
         let securedDataStore = new Map(); 
         
-        // ضع رابط التطبيق الخاص بك من جوجل هنا
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxeJYj6R_5RlsJthru-BMtrHaKz_08pFgwVWqY9ApT4sBKNzXgPO9iF7wxA8LRJJjJFVA/exec"; 
 
-        // جلب البيانات خلف الكواليس فور فتح الصفحة دون إظهار أي نصوص
         window.onload = function() {
             const cbName = "jsonp_init_" + Math.round(Math.random() * 1000000);
             window[cbName] = function(rawData) {
@@ -151,24 +155,39 @@
 
         function initScanner() {
             document.getElementById('start-card').style.display = 'none';
-            if(!html5QrCode) html5QrCode = new Html5Qrcode("reader");
+            
+            // حل مشكلة تأخر ظهور الكاميرا بإعطاء مهلة بضعة أجزاء من الثانية لتهيئ أبعاد الشاشة
+            setTimeout(() => {
+                if(!html5QrCode) html5QrCode = new Html5Qrcode("reader");
 
-            const config = { fps: 25, qrbox: { width: 250, height: 150 } };
+                const config = { 
+                    fps: 25, 
+                    qrbox: { width: 250, height: 150 },
+                    videoConstraints: {
+                        facingMode: "environment"
+                    }
+                };
 
-            html5QrCode.start(
-                { facingMode: "environment" }, 
-                config,
-                (decodedText) => handleResult(decodedText)
-            ).then(() => {
-                document.getElementById('laser').style.display = 'block';
-            }).catch(err => {
-                alert("يرجى السماح للكاميرا بالعمل من إعدادات المتصفح.");
-                document.getElementById('start-card').style.display = 'block';
-                document.getElementById('laser').style.display = 'none';
-            });
+                html5QrCode.start(
+                    { facingMode: "environment" }, 
+                    config,
+                    (decodedText) => handleResult(decodedText)
+                ).then(() => {
+                    document.getElementById('laser').style.display = 'block';
+                    // إجبار المتصفح على إعادة ضبط أبعاد الفيديو تلقائياً
+                    const videoElem = document.querySelector("#reader video");
+                    if (videoElem) {
+                        videoElem.setAttribute("playsinline", "true");
+                        videoElem.play();
+                    }
+                }).catch(err => {
+                    alert("يرجى السماح للكاميرا بالعمل من إعدادات المتصفح.");
+                    document.getElementById('start-card').style.display = 'block';
+                    document.getElementById('laser').style.display = 'none';
+                });
+            }, 100);
         }
 
-        // إظهار النتيجة من الذاكرة فوراً (0 ثانية تأخير)
         function handleResult(barcode) {
             if (html5QrCode && html5QrCode.isScanning) {
                 html5QrCode.pause();
