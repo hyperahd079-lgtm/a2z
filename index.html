@@ -17,17 +17,10 @@
             color: #ffffff; min-height: 100vh;
         }
 
-        .logo-container { margin-bottom: 12px; margin-top: 10px; }
+        .logo-container { margin-bottom: 25px; margin-top: 15px; }
         .logo-container img { 
-            width: 100px; border-radius: 20px; background: #ffffff; padding: 8px; 
+            width: 110px; border-radius: 20px; background: #ffffff; padding: 8px; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-        }
-
-        #status-bar {
-            font-size: 0.85rem; color: #00ff88; margin-bottom: 15px;
-            background: rgba(0, 255, 136, 0.1); padding: 8px 18px;
-            border-radius: 20px; border: 1px solid rgba(0, 255, 136, 0.3);
-            text-align: center;
         }
         
         .camera-wrapper { width: 100%; max-width: 350px; position: relative; }
@@ -43,14 +36,17 @@
         #reader video { width: 100% !important; object-fit: cover; border-radius: 20px; }
 
         .camera-start-card { text-align: center; padding: 20px; }
-        .camera-start-card p { font-size: 0.9rem; color: #b3a2ce; margin-bottom: 15px; }
+        .camera-start-card p { font-size: 0.95rem; color: #b3a2ce; margin-bottom: 18px; }
 
         #start-cam-btn {
             background: linear-gradient(135deg, #ff007f 0%, #bd00ff 100%);
-            color: white; border: none; padding: 14px 28px; border-radius: 50px;
+            color: white; border: none; padding: 14px 30px; border-radius: 50px;
             font-size: 1.05rem; font-weight: bold; cursor: pointer; 
             box-shadow: 0 6px 20px rgba(189, 0, 255, 0.4);
+            transition: transform 0.2s;
         }
+
+        #start-cam-btn:active { transform: scale(0.96); }
 
         .laser-line {
             display: none; position: absolute; top: 15%; left: 5%; width: 90%; height: 3px;
@@ -65,7 +61,7 @@
         }
 
         .manual-search-container {
-            width: 100%; max-width: 350px; margin-top: 20px;
+            width: 100%; max-width: 350px; margin-top: 25px;
             display: flex; gap: 10px; background: rgba(255, 255, 255, 0.05); 
             padding: 6px; border-radius: 50px; border: 1px solid rgba(255, 255, 255, 0.1);
         }
@@ -91,7 +87,7 @@
         }
 
         .item-name { font-size: 1.25rem; font-weight: 600; margin-bottom: 12px; color: #e2d9f3; }
-        .price-tag { font-size: 2.3rem; color: #ffe259; font-weight: 800; margin-bottom: 20px; }
+        .price-tag { font-size: 2.3rem; color: #ffe259; font-weight: 800; margin-bottom: 20px; text-shadow: 0 0 15px rgba(255, 226, 89, 0.3); }
         .action-btn {
             background: #ffffff; color: #090514; border: none; padding: 14px 20px;
             border-radius: 50px; font-weight: bold; width: 100%; font-size: 1rem; cursor: pointer;
@@ -104,12 +100,10 @@
         <img src="https://lh3.googleusercontent.com/d/109H2w4zxFrJzi5EgQse4u1Ka6KoZyupo" alt="A2Z Hypermarket">
     </div>
 
-    <div id="status-bar">🟢 النظام جاهز ومحمي 100%</div>
-
     <div class="camera-wrapper">
         <div id="reader">
             <div class="camera-start-card" id="start-card">
-                <p>اضغط للبدء والسماح بفتح الكاميرا</p>
+                <p>افحص سعر أي مادة فوراً</p>
                 <button id="start-cam-btn" onclick="initScanner()">
                     📷 فتح الكاميرا للمسح
                 </button>
@@ -124,20 +118,42 @@
     </div>
     
     <div id="result-container">
-        <div class="item-name" id="item-name">جاري البحث...</div>
-        <div class="price-tag" id="item-price">...</div>
+        <div class="item-name" id="item-name">---</div>
+        <div class="price-tag" id="item-price">---</div>
         <button class="action-btn" onclick="resetScanner()">مسح مادة أخرى</button>
     </div>
 
     <script>
         let html5QrCode;
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwLd3-PvmxoxJPMD6qYrga5iVfyWm6BpQQFNidoez-OXQVErIWmo1O26zPt2f2AyqRGiA/exec"; 
+        let securedDataStore = new Map(); 
+        
+        // ضع رابط التطبيق الخاص بك من جوجل هنا
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxeJYj6R_5RlsJthru-BMtrHaKz_08pFgwVWqY9ApT4sBKNzXgPO9iF7wxA8LRJJjJFVA/exec"; 
+
+        // جلب البيانات خلف الكواليس فور فتح الصفحة دون إظهار أي نصوص
+        window.onload = function() {
+            const cbName = "jsonp_init_" + Math.round(Math.random() * 1000000);
+            window[cbName] = function(rawData) {
+                if (typeof rawData === "object") {
+                    for (const [barcode, info] of Object.entries(rawData)) {
+                        securedDataStore.set(String(barcode).trim(), info);
+                    }
+                }
+                delete window[cbName];
+                document.getElementById(cbName)?.remove();
+            };
+
+            const script = document.createElement('script');
+            script.id = cbName;
+            script.src = `${GOOGLE_SCRIPT_URL}?callback=${cbName}`;
+            document.body.appendChild(script);
+        };
 
         function initScanner() {
             document.getElementById('start-card').style.display = 'none';
             if(!html5QrCode) html5QrCode = new Html5Qrcode("reader");
 
-            const config = { fps: 20, qrbox: { width: 250, height: 150 } };
+            const config = { fps: 25, qrbox: { width: 250, height: 150 } };
 
             html5QrCode.start(
                 { facingMode: "environment" }, 
@@ -152,7 +168,7 @@
             });
         }
 
-        // جلب سعر الباركود المحدد فقط عند المسح
+        // إظهار النتيجة من الذاكرة فوراً (0 ثانية تأخير)
         function handleResult(barcode) {
             if (html5QrCode && html5QrCode.isScanning) {
                 html5QrCode.pause();
@@ -161,35 +177,17 @@
             document.getElementById('laser').style.display = 'none';
             document.getElementById('reader').style.display = 'none';
             document.getElementById('result-container').style.display = 'block';
-            
-            document.getElementById('item-name').innerText = "جاري جلب السعر...";
-            document.getElementById('item-price').innerText = "⏳";
 
             const cleanBarcode = String(barcode).trim();
-            const cbName = "fetch_cb_" + Math.round(Math.random() * 1000000);
+            const item = securedDataStore.get(cleanBarcode);
 
-            // إنشاء دالة استقبال النتيجة
-            window[cbName] = function(data) {
-                if(data && data.found) {
-                    document.getElementById('item-name').innerText = data.name;
-                    document.getElementById('item-price').innerText = Number(data.price).toLocaleString() + " د.ع";
-                } else {
-                    document.getElementById('item-name').innerText = "غير موجود في النظام";
-                    document.getElementById('item-price').innerText = "---";
-                }
-                delete window[cbName];
-                document.getElementById(cbName)?.remove();
-            };
-
-            // إرسال الطلب الآمن عن طريق عناصر Script لتتخطي أي حظر من المتصفح
-            const script = document.createElement('script');
-            script.id = cbName;
-            script.src = `${GOOGLE_SCRIPT_URL}?barcode=${encodeURIComponent(cleanBarcode)}&callback=${cbName}`;
-            script.onerror = function() {
-                document.getElementById('item-name').innerText = "خطأ في الاتصال بالشبكة";
-                document.getElementById('item-price').innerText = "❌";
-            };
-            document.body.appendChild(script);
+            if(item) {
+                document.getElementById('item-name').innerText = item.n;
+                document.getElementById('item-price').innerText = Number(item.p).toLocaleString() + " د.ع";
+            } else {
+                document.getElementById('item-name').innerText = "غير موجود في النظام";
+                document.getElementById('item-price').innerText = "---";
+            }
         }
 
         function searchManualBarcode() {
