@@ -24,9 +24,9 @@
         }
 
         #status-bar {
-            font-size: 0.85rem; color: #bd00ff; margin-bottom: 15px;
-            background: rgba(189, 0, 255, 0.1); padding: 8px 18px;
-            border-radius: 20px; border: 1px solid rgba(189, 0, 255, 0.3);
+            font-size: 0.85rem; color: #00ff88; margin-bottom: 15px;
+            background: rgba(0, 255, 136, 0.1); padding: 8px 18px;
+            border-radius: 20px; border: 1px solid rgba(0, 255, 136, 0.3);
             text-align: center;
         }
         
@@ -104,7 +104,7 @@
         <img src="https://lh3.googleusercontent.com/d/109H2w4zxFrJzi5EgQse4u1Ka6KoZyupo" alt="A2Z Hypermarket">
     </div>
 
-    <div id="status-bar">⚡ جاري الاتصال بقاعدة البيانات...</div>
+    <div id="status-bar">🟢 النظام جاهز ومحمي 100%</div>
 
     <div class="camera-wrapper">
         <div id="reader">
@@ -124,70 +124,14 @@
     </div>
     
     <div id="result-container">
-        <div class="item-name" id="item-name">---</div>
-        <div class="price-tag" id="item-price">---</div>
+        <div class="item-name" id="item-name">جاري البحث...</div>
+        <div class="price-tag" id="item-price">...</div>
         <button class="action-btn" onclick="resetScanner()">مسح مادة أخرى</button>
     </div>
 
     <script>
         let html5QrCode;
-        let securedDataStore = new Map(); 
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwzt9kOh9XqbD_ymqeMZXOAULriQGXMi6pFoOcrEGJZc7Vs6OlliUH7D_GJzDT_XQIKkw/exec"; 
-
-        // جلب البيانات مع تتبع التحويل التلقائي (redirect: follow) لتخطي مشكلة التوجيه في متصفحات الموبايل
-        async function loadDatabase() {
-            const statusBar = document.getElementById('status-bar');
-            try {
-                const response = await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'GET',
-                    redirect: 'follow'
-                });
-                
-                const rawData = await response.json();
-
-                for (const [barcode, info] of Object.entries(rawData)) {
-                    securedDataStore.set(String(barcode).trim(), info);
-                }
-
-                statusBar.innerText = "🟢 النظام جاهز ومحمي (مسح فوري ⚡)";
-                statusBar.style.color = "#00ff88";
-                statusBar.style.borderColor = "rgba(0, 255, 136, 0.4)";
-                statusBar.style.background = "rgba(0, 255, 136, 0.1)";
-
-            } catch (err) {
-                console.error("Fetch failed, trying fallback...", err);
-                loadDatabaseJSONP();
-            }
-        }
-
-        // حل احتياطي في حال تم حظر التوجيه التلقائي
-        function loadDatabaseJSONP() {
-            const cbName = "jsonp_cb_" + Math.round(Math.random() * 1000000);
-            window[cbName] = function(rawData) {
-                for (const [barcode, info] of Object.entries(rawData)) {
-                    securedDataStore.set(String(barcode).trim(), info);
-                }
-                const statusBar = document.getElementById('status-bar');
-                statusBar.innerText = "🟢 النظام جاهز ومحمي (مسح فوري ⚡)";
-                statusBar.style.color = "#00ff88";
-                statusBar.style.borderColor = "rgba(0, 255, 136, 0.4)";
-                statusBar.style.background = "rgba(0, 255, 136, 0.1)";
-                delete window[cbName];
-                document.getElementById(cbName)?.remove();
-            };
-
-            const script = document.createElement('script');
-            script.id = cbName;
-            script.src = `${GOOGLE_SCRIPT_URL}?callback=${cbName}`;
-            script.onerror = function() {
-                const statusBar = document.getElementById('status-bar');
-                statusBar.innerText = "⚠️ تعذر اتصال الهاتف، يرجى تحديث الصفحة";
-                statusBar.style.color = "#ff4757";
-            };
-            document.body.appendChild(script);
-        }
-
-        window.onload = loadDatabase;
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwLd3-PvmxoxJPMD6qYrga5iVfyWm6BpQQFNidoez-OXQVErIWmo1O26zPt2f2AyqRGiA/exec"; 
 
         function initScanner() {
             document.getElementById('start-card').style.display = 'none';
@@ -202,12 +146,13 @@
             ).then(() => {
                 document.getElementById('laser').style.display = 'block';
             }).catch(err => {
-                alert("يرجى السماح بالكاميرا من إعدادات المتصفح.");
+                alert("يرجى السماح للكاميرا بالعمل من إعدادات المتصفح.");
                 document.getElementById('start-card').style.display = 'block';
                 document.getElementById('laser').style.display = 'none';
             });
         }
 
+        // جلب سعر الباركود المحدد فقط عند المسح
         function handleResult(barcode) {
             if (html5QrCode && html5QrCode.isScanning) {
                 html5QrCode.pause();
@@ -216,17 +161,35 @@
             document.getElementById('laser').style.display = 'none';
             document.getElementById('reader').style.display = 'none';
             document.getElementById('result-container').style.display = 'block';
+            
+            document.getElementById('item-name').innerText = "جاري جلب السعر...";
+            document.getElementById('item-price').innerText = "⏳";
 
             const cleanBarcode = String(barcode).trim();
-            const item = securedDataStore.get(cleanBarcode);
+            const cbName = "fetch_cb_" + Math.round(Math.random() * 1000000);
 
-            if(item) {
-                document.getElementById('item-name').innerText = item.n;
-                document.getElementById('item-price').innerText = Number(item.p).toLocaleString() + " د.ع";
-            } else {
-                document.getElementById('item-name').innerText = "غير موجود في النظام";
-                document.getElementById('item-price').innerText = "---";
-            }
+            // إنشاء دالة استقبال النتيجة
+            window[cbName] = function(data) {
+                if(data && data.found) {
+                    document.getElementById('item-name').innerText = data.name;
+                    document.getElementById('item-price').innerText = Number(data.price).toLocaleString() + " د.ع";
+                } else {
+                    document.getElementById('item-name').innerText = "غير موجود في النظام";
+                    document.getElementById('item-price').innerText = "---";
+                }
+                delete window[cbName];
+                document.getElementById(cbName)?.remove();
+            };
+
+            // إرسال الطلب الآمن عن طريق عناصر Script لتتخطي أي حظر من المتصفح
+            const script = document.createElement('script');
+            script.id = cbName;
+            script.src = `${GOOGLE_SCRIPT_URL}?barcode=${encodeURIComponent(cleanBarcode)}&callback=${cbName}`;
+            script.onerror = function() {
+                document.getElementById('item-name').innerText = "خطأ في الاتصال بالشبكة";
+                document.getElementById('item-price').innerText = "❌";
+            };
+            document.body.appendChild(script);
         }
 
         function searchManualBarcode() {
