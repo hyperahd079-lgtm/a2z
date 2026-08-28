@@ -25,9 +25,9 @@
 
         #status-bar {
             font-size: 0.85rem; color: #bd00ff; margin-bottom: 15px;
-            background: rgba(189, 0, 255, 0.1); padding: 6px 16px;
+            background: rgba(189, 0, 255, 0.1); padding: 8px 18px;
             border-radius: 20px; border: 1px solid rgba(189, 0, 255, 0.3);
-            transition: all 0.3s ease;
+            text-align: center;
         }
         
         .camera-wrapper { width: 100%; max-width: 350px; position: relative; }
@@ -49,7 +49,7 @@
             background: linear-gradient(135deg, #ff007f 0%, #bd00ff 100%);
             color: white; border: none; padding: 14px 28px; border-radius: 50px;
             font-size: 1.05rem; font-weight: bold; cursor: pointer; 
-            box-shadow: 0 6px 20px rgba(189, 0, 255, 0.4); transition: transform 0.2s;
+            box-shadow: 0 6px 20px rgba(189, 0, 255, 0.4);
         }
 
         .laser-line {
@@ -104,7 +104,7 @@
         <img src="https://lh3.googleusercontent.com/d/109H2w4zxFrJzi5EgQse4u1Ka6KoZyupo" alt="A2Z Hypermarket">
     </div>
 
-    <div id="status-bar">⚡ جاري تحميل البيانات...</div>
+    <div id="status-bar">⚡ جاري الاتصال بقاعدة البيانات...</div>
 
     <div class="camera-wrapper">
         <div id="reader">
@@ -134,42 +134,66 @@
         let securedDataStore = new Map(); 
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwzt9kOh9XqbD_ymqeMZXOAULriQGXMi6pFoOcrEGJZc7Vs6OlliUH7D_GJzDT_XQIKkw/exec"; 
 
-        // تحميل أمن وتخطي CORS عبر JSONP
-        window.onload = function() {
-            const cb = "initDataCb_" + Date.now();
-            window[cb] = (rawData) => {
+        // جلب البيانات مع تتبع التحويل التلقائي (redirect: follow) لتخطي مشكلة التوجيه في متصفحات الموبايل
+        async function loadDatabase() {
+            const statusBar = document.getElementById('status-bar');
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'GET',
+                    redirect: 'follow'
+                });
+                
+                const rawData = await response.json();
+
                 for (const [barcode, info] of Object.entries(rawData)) {
-                    securedDataStore.set(barcode.trim(), info);
+                    securedDataStore.set(String(barcode).trim(), info);
+                }
+
+                statusBar.innerText = "🟢 النظام جاهز ومحمي (مسح فوري ⚡)";
+                statusBar.style.color = "#00ff88";
+                statusBar.style.borderColor = "rgba(0, 255, 136, 0.4)";
+                statusBar.style.background = "rgba(0, 255, 136, 0.1)";
+
+            } catch (err) {
+                console.error("Fetch failed, trying fallback...", err);
+                loadDatabaseJSONP();
+            }
+        }
+
+        // حل احتياطي في حال تم حظر التوجيه التلقائي
+        function loadDatabaseJSONP() {
+            const cbName = "jsonp_cb_" + Math.round(Math.random() * 1000000);
+            window[cbName] = function(rawData) {
+                for (const [barcode, info] of Object.entries(rawData)) {
+                    securedDataStore.set(String(barcode).trim(), info);
                 }
                 const statusBar = document.getElementById('status-bar');
                 statusBar.innerText = "🟢 النظام جاهز ومحمي (مسح فوري ⚡)";
                 statusBar.style.color = "#00ff88";
                 statusBar.style.borderColor = "rgba(0, 255, 136, 0.4)";
                 statusBar.style.background = "rgba(0, 255, 136, 0.1)";
-
-                delete window[cb];
-                document.getElementById(cb)?.remove();
+                delete window[cbName];
+                document.getElementById(cbName)?.remove();
             };
 
             const script = document.createElement('script');
-            script.id = cb;
-            script.src = `${GOOGLE_SCRIPT_URL}?action=loadAll&callback=${cb}`;
-            script.onerror = () => {
+            script.id = cbName;
+            script.src = `${GOOGLE_SCRIPT_URL}?callback=${cbName}`;
+            script.onerror = function() {
                 const statusBar = document.getElementById('status-bar');
-                statusBar.innerText = "⚠️ تعذر تحميل البيانات، يرجى تحديث الصفحة";
+                statusBar.innerText = "⚠️ تعذر اتصال الهاتف، يرجى تحديث الصفحة";
                 statusBar.style.color = "#ff4757";
             };
             document.body.appendChild(script);
-        };
+        }
+
+        window.onload = loadDatabase;
 
         function initScanner() {
             document.getElementById('start-card').style.display = 'none';
             if(!html5QrCode) html5QrCode = new Html5Qrcode("reader");
 
-            const config = { 
-                fps: 20, 
-                qrbox: { width: 250, height: 150 }
-            };
+            const config = { fps: 20, qrbox: { width: 250, height: 150 } };
 
             html5QrCode.start(
                 { facingMode: "environment" }, 
@@ -178,7 +202,7 @@
             ).then(() => {
                 document.getElementById('laser').style.display = 'block';
             }).catch(err => {
-                alert("يرجى التأكد من السماح للكاميرا بالعمل من إعدادات المتصفح.");
+                alert("يرجى السماح بالكاميرا من إعدادات المتصفح.");
                 document.getElementById('start-card').style.display = 'block';
                 document.getElementById('laser').style.display = 'none';
             });
@@ -193,7 +217,7 @@
             document.getElementById('reader').style.display = 'none';
             document.getElementById('result-container').style.display = 'block';
 
-            const cleanBarcode = barcode.trim();
+            const cleanBarcode = String(barcode).trim();
             const item = securedDataStore.get(cleanBarcode);
 
             if(item) {
