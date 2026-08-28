@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>A2Z HYPERMARKET</title>
+    <!-- مكتبة قراءة الباركود -->
     <script src="https://unpkg.com/html5-qrcode"></script>
     <style>
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -12,51 +13,107 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #090514;
             background-image: radial-gradient(circle at 50% 10%, rgba(189, 0, 255, 0.15), transparent 60%);
-            margin: 0; padding: 20px;
-            display: flex; flex-direction: column; align-items: center;
-            color: #ffffff; min-height: 100vh;
+            margin: 0; 
+            padding: 20px;
+            display: flex; 
+            flex-direction: column; 
+            align-items: center;
+            color: #ffffff; 
+            min-height: 100vh;
         }
 
-        .logo-container { margin-bottom: 25px; margin-top: 10px; }
+        /* الشعار */
+        .logo-container { margin-bottom: 12px; margin-top: 10px; }
         .logo-container img { 
-            width: 110px; border-radius: 22px; background: #ffffff; padding: 8px; 
+            width: 100px; 
+            border-radius: 20px; 
+            background: #ffffff; 
+            padding: 8px; 
             box-shadow: 0 10px 25px rgba(0,0,0,0.5);
         }
+
+        /* شريط حالة النظام والأمان */
+        #status-bar {
+            font-size: 0.85rem;
+            color: #bd00ff;
+            margin-bottom: 15px;
+            background: rgba(189, 0, 255, 0.1);
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(189, 0, 255, 0.3);
+            transition: all 0.3s ease;
+        }
         
-        .camera-wrapper { width: 100%; max-width: 350px; position: relative; }
+        /* إطار الكاميرا */
+        .camera-wrapper { 
+            width: 100%; 
+            max-width: 350px; 
+            position: relative; 
+        }
 
         #reader {
             width: 100% !important; 
             background: rgba(255, 255, 255, 0.03);
             border-radius: 24px; 
             border: 2px solid rgba(189, 0, 255, 0.4);
-            min-height: 260px; 
-            display: flex; flex-direction: column;
-            align-items: center; justify-content: center;
+            min-height: 250px; 
+            display: flex; 
+            flex-direction: column;
+            align-items: center; 
+            justify-content: center;
             overflow: hidden;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
             backdrop-filter: blur(10px);
             position: relative;
         }
 
-        #reader video { width: 100% !important; object-fit: cover; border-radius: 20px; }
+        #reader video { 
+            width: 100% !important; 
+            object-fit: cover; 
+            border-radius: 20px; 
+        }
 
-        .camera-start-card { text-align: center; padding: 20px; }
-        .camera-start-card p { font-size: 0.9rem; color: #b3a2ce; margin-bottom: 15px; }
+        /* بطاقة بدء الكاميرا */
+        .camera-start-card { 
+            text-align: center; 
+            padding: 20px; 
+        }
+        
+        .camera-start-card p { 
+            font-size: 0.9rem; 
+            color: #b3a2ce; 
+            margin-bottom: 15px; 
+        }
 
         #start-cam-btn {
             background: linear-gradient(135deg, #ff007f 0%, #bd00ff 100%);
-            color: white; border: none; padding: 14px 28px; border-radius: 50px;
-            font-size: 1.05rem; font-weight: bold; cursor: pointer; 
+            color: white; 
+            border: none; 
+            padding: 14px 28px; 
+            border-radius: 50px;
+            font-size: 1.05rem; 
+            font-weight: bold; 
+            cursor: pointer; 
             box-shadow: 0 6px 20px rgba(189, 0, 255, 0.4);
-            transition: all 0.3s ease;
-            display: inline-flex; align-items: center; gap: 8px;
+            transition: transform 0.2s;
         }
 
+        #start-cam-btn:active {
+            transform: scale(0.96);
+        }
+
+        /* خط الليزر التفاعلي */
         .laser-line {
-            display: none; position: absolute; top: 15%; left: 5%; width: 90%; height: 3px;
-            background: #ff007f; box-shadow: 0 0 12px #ff007f, 0 0 20px #ff007f;
-            animation: scan 2s infinite ease-in-out; z-index: 10; border-radius: 50%;
+            display: none; 
+            position: absolute; 
+            top: 15%; 
+            left: 5%; 
+            width: 90%; 
+            height: 3px;
+            background: #ff007f; 
+            box-shadow: 0 0 12px #ff007f, 0 0 20px #ff007f;
+            animation: scan 2s infinite ease-in-out; 
+            z-index: 10; 
+            border-radius: 50%;
         }
 
         @keyframes scan {
@@ -65,47 +122,97 @@
             100% { top: 15%; }
         }
 
+        /* حقل الإدخال اليدوي */
         .manual-search-container {
-            width: 100%; max-width: 350px; margin-top: 20px;
-            display: flex; gap: 10px;
-            background: rgba(255, 255, 255, 0.05); padding: 6px;
-            border-radius: 50px; border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%; 
+            max-width: 350px; 
+            margin-top: 20px;
+            display: flex; 
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.05); 
+            padding: 6px;
+            border-radius: 50px; 
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .manual-input {
-            flex: 1; padding: 12px 18px; border-radius: 50px;
-            border: none; background: transparent; color: white;
-            font-size: 0.95rem; outline: none;
+            flex: 1; 
+            padding: 12px 18px; 
+            border-radius: 50px;
+            border: none; 
+            background: transparent; 
+            color: white;
+            font-size: 0.95rem; 
+            outline: none;
         }
 
         .manual-input::placeholder { color: #7f789e; }
 
         .manual-btn {
-            background: #bd00ff; color: white; border: none; padding: 10px 22px;
-            border-radius: 50px; font-weight: bold; cursor: pointer;
+            background: #bd00ff; 
+            color: white; 
+            border: none; 
+            padding: 10px 22px;
+            border-radius: 50px; 
+            font-weight: bold; 
+            cursor: pointer;
         }
 
+        /* بطاقة عرض السعر والاسم */
         #result-container {
-            display: none; width: 100%; max-width: 350px; padding: 25px;
-            background: rgba(255, 255, 255, 0.05); border-radius: 24px; text-align: center;
-            margin-top: 20px; border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5); backdrop-filter: blur(10px);
+            display: none; 
+            width: 100%; 
+            max-width: 350px; 
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.05); 
+            border-radius: 24px; 
+            text-align: center;
+            margin-top: 20px; 
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
-        .item-name { font-size: 1.25rem; font-weight: 600; margin-bottom: 12px; color: #e2d9f3; }
-        .price-tag { font-size: 2.3rem; color: #ffe259; font-weight: 800; margin-bottom: 20px; }
+        .item-name { 
+            font-size: 1.25rem; 
+            font-weight: 600; 
+            margin-bottom: 12px; 
+            color: #e2d9f3; 
+        }
+
+        .price-tag { 
+            font-size: 2.3rem; 
+            color: #ffe259; 
+            font-weight: 800; 
+            margin-bottom: 20px; 
+            text-shadow: 0 0 15px rgba(255, 226, 89, 0.3);
+        }
+
         .action-btn {
-            background: #ffffff; color: #090514; border: none; padding: 14px 20px;
-            border-radius: 50px; font-weight: bold; width: 100%; font-size: 1rem; cursor: pointer;
+            background: #ffffff; 
+            color: #090514; 
+            border: none; 
+            padding: 14px 20px;
+            border-radius: 50px; 
+            font-weight: bold; 
+            width: 100%; 
+            font-size: 1rem; 
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255,255,255,0.2);
         }
     </style>
 </head>
 <body>
 
+    <!-- الشعار -->
     <div class="logo-container">
         <img src="https://lh3.googleusercontent.com/d/109H2w4zxFrJzi5EgQse4u1Ka6KoZyupo" alt="A2Z Hypermarket">
     </div>
 
+    <!-- شريط الحالة -->
+    <div id="status-bar">⚡ جاري مزامنة قاعدة البيانات...</div>
+
+    <!-- منطقة الكاميرا -->
     <div class="camera-wrapper">
         <div id="reader">
             <div class="camera-start-card" id="start-card">
@@ -118,72 +225,74 @@
         <div class="laser-line" id="laser"></div>
     </div>
 
+    <!-- البحث اليدوي -->
     <div class="manual-search-container">
         <input type="text" id="manual-barcode-input" class="manual-input" placeholder="أدخل رقم الباركود يدويًا..." pattern="[0-9]*">
         <button class="manual-btn" onclick="searchManualBarcode()">بحث</button>
     </div>
     
+    <!-- نتيجة البحث -->
     <div id="result-container">
-        <div class="item-name" id="item-name">جاري الفحص...</div>
+        <div class="item-name" id="item-name">---</div>
         <div class="price-tag" id="item-price">---</div>
         <button class="action-btn" onclick="resetScanner()">مسح مادة أخرى</button>
     </div>
 
     <script>
         let html5QrCode;
+        // خريطة لتخزين المواد في ذاكرة المتصفح المؤقتة (RAM فقط)
+        let securedDataStore = new Map(); 
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwzt9kOh9XqbD_ymqeMZXOAULriQGXMi6pFoOcrEGJZc7Vs6OlliUH7D_GJzDT_XQIKkw/exec"; 
 
+        // 1. التحميل المباشر للبيانات فور فتح الصفحة لتصفير وقت الانتظار
+        window.onload = async function() {
+            try {
+                const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=loadAll`);
+                const rawData = await response.json();
+                
+                // تحويل البيانات وحفظها في Map سريعة وآمنة للبحث اللحظي
+                for (const [barcode, info] of Object.entries(rawData)) {
+                    securedDataStore.set(barcode.trim(), info);
+                }
+                
+                const statusBar = document.getElementById('status-bar');
+                statusBar.innerText = "🟢 النظام جاهز ومحمي (مسح فوري ⚡)";
+                statusBar.style.color = "#00ff88";
+                statusBar.style.borderColor = "rgba(0, 255, 136, 0.4)";
+                statusBar.style.background = "rgba(0, 255, 136, 0.1)";
+            } catch (err) {
+                console.error(err);
+                const statusBar = document.getElementById('status-bar');
+                statusBar.innerText = "⚠️ تعذر تحميل البيانات، يرجى إعادة التحديث";
+                statusBar.style.color = "#ff4757";
+            }
+        };
+
+        // 2. تشغيل الكاميرا
         function initScanner() {
             document.getElementById('start-card').style.display = 'none';
-            
-            if(!html5QrCode) {
-                html5QrCode = new Html5Qrcode("reader");
-            }
-            
+            if(!html5QrCode) html5QrCode = new Html5Qrcode("reader");
+
             const config = { 
-                fps: 15, 
+                fps: 20, 
                 qrbox: { width: 250, height: 150 }
             };
 
-            // البدء بالمسح بوضع الكاميرا الخلفية العادية كخيار آمن ومضمون
             html5QrCode.start(
                 { facingMode: "environment" }, 
                 config,
-                (decodedText) => {
-                    handleResult(decodedText);
-                }
+                (decodedText) => handleResult(decodedText)
             ).then(() => {
                 document.getElementById('laser').style.display = 'block';
             }).catch(err => {
-                console.error(err);
-                alert("لم نتمكن من فتح الكاميرا. يرجى التأكد من إعطاء إذن الكاميرا للموقع من إعدادات المتصفح.");
+                alert("يرجى التأكد من السماح للكاميرا بالعمل من إعدادات المتصفح.");
                 document.getElementById('start-card').style.display = 'block';
                 document.getElementById('laser').style.display = 'none';
             });
         }
 
-        async function fetchItemData(barcode) {
-            try {
-                const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=check&barcode=${barcode}`);
-                const data = await response.json();
-                return data;
-            } catch (error) {
-                return new Promise((resolve) => {
-                    const cb = "cb_" + Date.now();
-                    window[cb] = (res) => {
-                        resolve(res);
-                        delete window[cb];
-                        document.getElementById(cb)?.remove();
-                    };
-                    const s = document.createElement('script');
-                    s.id = cb;
-                    s.src = `${GOOGLE_SCRIPT_URL}?action=check&barcode=${barcode}&callback=${cb}`;
-                    document.body.appendChild(s);
-                });
-            }
-        }
-
-        async function handleResult(barcode) {
+        // 3. مطابقة الباركود الممسوح بالذاكرة فوراً (0 ثانية تأخير)
+        function handleResult(barcode) {
             if (html5QrCode && html5QrCode.isScanning) {
                 html5QrCode.pause();
             }
@@ -191,29 +300,30 @@
             document.getElementById('laser').style.display = 'none';
             document.getElementById('reader').style.display = 'none';
             document.getElementById('result-container').style.display = 'block';
-            document.getElementById('item-name').innerText = "جاري جلب البيانات...";
-            document.getElementById('item-price').innerText = "---";
 
-            const res = await fetchItemData(barcode);
+            const cleanBarcode = barcode.trim();
+            // البحث المباشر السريع من الذاكرة
+            const item = securedDataStore.get(cleanBarcode);
 
-            if(res && res.found) {
-                document.getElementById('item-name').innerText = res.name;
-                document.getElementById('item-price').innerText = Number(res.price).toLocaleString() + " د.ع";
+            if(item) {
+                document.getElementById('item-name').innerText = item.n;
+                document.getElementById('item-price').innerText = Number(item.p).toLocaleString() + " د.ع";
             } else {
                 document.getElementById('item-name').innerText = "غير موجود في النظام";
                 document.getElementById('item-price').innerText = "---";
             }
         }
 
+        // 4. البحث عند كتابة الباركود يدويًا
         function searchManualBarcode() {
-            const input = document.getElementById('manual-barcode-input');
-            const barcode = input.value.trim();
+            const barcode = document.getElementById('manual-barcode-input').value.trim();
             if (barcode) {
                 handleResult(barcode);
-                input.value = '';
+                document.getElementById('manual-barcode-input').value = '';
             }
         }
 
+        // 5. مسح مادة أخرى
         function resetScanner() {
             document.getElementById('result-container').style.display = 'none';
             document.getElementById('reader').style.display = 'flex';
