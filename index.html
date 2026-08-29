@@ -21,14 +21,49 @@
             color: #ffffff; min-height: 100vh;
         }
 
-        .logo-container { margin-bottom: 20px; margin-top: 10px; text-align: center; }
-        .logo-container img { 
-            width: 100px; height: 100px; object-fit: contain; border-radius: 24px; background: #ffffff; padding: 10px; 
-            box-shadow: 0 10px 30px rgba(189, 0, 255, 0.3);
-            border: 2px solid rgba(255, 255, 255, 0.2);
+        /* حاوية الشعار مع الضوء الدائر والنبض */
+        .logo-container { 
+            position: relative;
+            margin-bottom: 25px; 
+            margin-top: 15px; 
+            text-align: center;
+            display: inline-block;
         }
+
+        /* حلقة الضوء المتحركة داير ما داير اللوغو */
+        .logo-glow-ring {
+            position: absolute;
+            inset: -5px;
+            border-radius: 28px;
+            background: conic-gradient(from 0deg, #ff007f, #bd00ff, #ffe259, #00f0ff, #ff007f);
+            animation: rotateGlow 3s linear infinite;
+            z-index: 1;
+            filter: blur(6px);
+            opacity: 0.85;
+        }
+
+        @keyframes rotateGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .logo-container img { 
+            position: relative;
+            z-index: 2;
+            width: 100px; height: 100px; object-fit: contain; 
+            border-radius: 24px; background: #ffffff; padding: 10px; 
+            box-shadow: 0 10px 30px rgba(189, 0, 255, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            animation: pulseLogo 2s ease-in-out infinite; /* تأثير النبض */
+        }
+
+        @keyframes pulseLogo {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.06); }
+        }
+
         .app-title {
-            font-size: 1.1rem; font-weight: 700; color: #d4b8ff; margin-top: 8px; letter-spacing: 1px;
+            font-size: 1.1rem; font-weight: 700; color: #d4b8ff; margin-top: 12px; letter-spacing: 1px;
         }
         
         /* إطار الكاميرا الأنيق */
@@ -141,9 +176,11 @@
 <body>
 
     <div class="logo-container">
+        <!-- حلقة الضوء المتحركة داير ما داير اللوغو -->
+        <div class="logo-glow-ring"></div>
         <img src="https://lh3.googleusercontent.com/d/109H2w4zxFrJzi5EgQse4u1Ka6KoZyupo" alt="A2Z Hypermarket">
-        <div class="app-title">A2Z HYPERMARKET</div>
     </div>
+    <div class="app-title">A2Z HYPERMARKET</div>
 
     <div class="camera-wrapper" id="camera-box">
         <button id="torch-btn" onclick="toggleTorch()">⚡ فلاش</button>
@@ -200,7 +237,7 @@
             document.body.appendChild(script);
         };
 
-        // دالة تشغيل صوت التنبيه عند ظهور السعر (باستخدام Web Audio API)
+        // دالة تشغيل صوت التنبيه عند ظهور السعر
         function playSuccessSound() {
             try {
                 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -208,8 +245,8 @@
                 const gainNode = audioCtx.createGain();
                 
                 oscillator.type = 'sine';
-                oscillator.frequency.setValueAtTime(587.33, audioCtx.currentTime); // نغمة D5
-                oscillator.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15); // انتقال إلى A5
+                oscillator.frequency.setValueAtTime(587.33, audioCtx.currentTime); 
+                oscillator.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15); 
                 
                 gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
                 gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
@@ -236,6 +273,11 @@
             canScan = true;
 
             try {
+                // إجبار المتصفح على إظهار رسالة طلب إذن الكاميرا (هل تريد فتح الكاميرا؟)
+                const tempStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+                tempStream.getTracks().forEach(track => track.stop()); // إيقاف البث المؤقت ليتم استخدامه بكفاءة من المكتبة
+
+                // جلب الأجهزة بعد منح الإذن
                 const videoInputDevices = await ZXing.BrowserMultiFormatReader.listVideoInputDevices();
                 let selectedDeviceId = videoInputDevices[0]?.deviceId;
 
