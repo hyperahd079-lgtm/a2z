@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>A2Z HYPERMARKET</title>
-    <!-- مكتبة ZXing الرسمية والسريعة جداً -->
     <script src="https://unpkg.com/@zxing/library@latest"></script>
     <style>
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -34,7 +33,6 @@
             display: flex; align-items: center; justify-content: center;
         }
 
-        /* فيديو الكاميرا المباشر والمضبوط 100% */
         #webcam-video { 
             width: 100%; 
             height: 100%; 
@@ -55,6 +53,14 @@
         }
 
         #start-cam-btn:active { transform: scale(0.96); }
+
+        /* زر الفلاش */
+        #torch-btn {
+            display: none; position: absolute; top: 15px; left: 15px;
+            background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white; border-radius: 50px; padding: 8px 14px; font-size: 0.85rem;
+            cursor: pointer; z-index: 20; backdrop-filter: blur(5px);
+        }
 
         .laser-line {
             display: none; position: absolute; top: 15%; left: 5%; width: 90%; height: 3px;
@@ -110,6 +116,7 @@
     </div>
 
     <div class="camera-wrapper" id="camera-box">
+        <button id="torch-btn" onclick="toggleTorch()">⚡ فلاش</button>
         <div class="camera-start-card" id="start-card">
             <p>افحص سعر أي مادة فوراً</p>
             <button id="start-cam-btn" onclick="initScanner()">
@@ -117,7 +124,6 @@
             </button>
         </div>
         
-        <!-- فيديو الكاميرا الصريح والمستقر -->
         <video id="webcam-video" playsinline muted></video>
         <div class="laser-line" id="laser"></div>
     </div>
@@ -136,10 +142,12 @@
     <script>
         let codeReader;
         let securedDataStore = new Map(); 
+        let canScan = true; // قفل لمنع التكرار السريع للمسح
+        let torchOn = false;
+        let videoTrack = null;
         
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxeJYj6R_5RlsJthru-BMtrHaKz_08pFgwVWqY9ApT4sBKNzXgPO9iF7wxA8LRJJjJFVA/exec"; 
 
-        // تحضير البيانات خلف الكواليس
         window.onload = function() {
             const cbName = "jsonp_init_" + Math.round(Math.random() * 1000000);
             window[cbName] = function(rawData) {
@@ -158,7 +166,7 @@
             document.body.appendChild(script);
         };
 
-        function initScanner() {
+        async function initScanner() {
             document.getElementById('start-card').style.display = 'none';
             const videoElem = document.getElementById('webcam-video');
             videoElem.style.display = 'block';
@@ -167,23 +175,83 @@
                 codeReader = new ZXing.BrowserMultiFormatReader();
             }
 
-            // تشغيل الكاميرا الخلفية فوراً بدون مشاكل أبعاد
-            codeReader.decodeFromVideoDevice(undefined, 'webcam-video', (result, err) => {
-                if (result) {
-                    handleResult(result.text);
+            canScan = true;
+
+            try {
+                // جلب قائمة الكاميرات وتحديد الكاميرا الخلفية تلقائياً
+                const videoInputDevices = await ZXing.BrowserMultiFormatReader.listVideoInputDevices();
+                let selectedDeviceId = videoInputDevices[0]?.deviceId;
+
+                for (const device of videoInputDevices) {
+                    const label = device.label.toLowerCase();
+                    if (label.includes('back') || label.includes('rear') || label.includes('environment') || label.includes('خلفية')) {
+                        selectedDeviceId = device.deviceId;
+                        break;
+                    }
                 }
-            }).then(() => {
-                document.getElementById('laser').style.display = 'block';
-            }).catch(err => {
+                if (videoInputDevices.length > 1 && selectedDeviceId === videoInputDevices[0]?.deviceId) {
+                    selectedDeviceId = videoInputDevices[videoInputDevices.length - 1].deviceId;
+                }
+
+                codeReader.decodeFromVideoDevice(selectedDeviceId, 'webcam-video', (result, err) => {
+                    if (result && canScan) {
+                        canScan = false; // تفعيل القفل لمنع قراءة الباركود المتكررة في نفس اللحظة
+                        handleResult(result.text);
+                    }
+                }).then(() => {
+                    document.getElementById('laser').style.display = 'block';
+                    
+                    // التحقق مما إذا كانت الكاميرا تدعم الفلاش وإظهار زر الفلاش
+                    setTimeout(() => {
+                        const stream = videoElem.srcObject;
+                        if (stream) {
+                            videoTrack = stream.getVideoTracks()[0];
+                            if (videoTrack && videoTrack.getCapabilities && videoTrack.getCapabilities().torch) {
+                                document.getElementById('torch-btn').style.display = 'block';
+                            }
+                        }
+                    }, 500);
+
+                }).catch(err => {
+                    throw err;
+                });
+
+            } catch (err) {
                 alert("يرجى السماح بفتح الكاميرا من إعدادات المتصفح.");
                 document.getElementById('start-card').style.display = 'block';
                 videoElem.style.display = 'none';
                 document.getElementById('laser').style.display = 'none';
-            });
+            }
+        }
+
+        async function toggleTorch() {
+            if (!videoTrack) return;
+            try {
+                torchOn = !torchOn;
+                await videoTrack.applyConstraints({
+                    advanced: [{ torch: torchOn }]
+                });
+                const torchBtn = document.getElementById('torch-btn');
+                torchBtn.style.background = torchOn ? '#ffe259' : 'rgba(0, 0, 0, 0.6)';
+                torchBtn.style.color = torchOn ? '#090514' : 'white';
+            } catch (e) {
+                console.error("الفلاش غير مدعوم على هذا الجهاز:", e);
+            }
         }
 
         function handleResult(barcode) {
-            // إيقاف الكاميرا فوراً عند المسح
+            // اهتزاز تفاعلي عند نجاح قراءة الباركود
+            if (navigator.vibrate) {
+                navigator.vibrate(150);
+            }
+
+            // إيقاف الفلاش والكاميرا عند القراءة الناجحة
+            if (torchOn && videoTrack) {
+                torchOn = false;
+                videoTrack.applyConstraints({ advanced: [{ torch: false }] }).catch(() => {});
+            }
+            document.getElementById('torch-btn').style.display = 'none';
+
             if (codeReader) {
                 codeReader.reset();
             }
