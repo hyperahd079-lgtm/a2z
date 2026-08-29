@@ -21,13 +21,13 @@
             color: #ffffff; height: 100vh; overflow: hidden;
         }
 
-        /* حاوية اللوغو المدمجة */
+        /* حاوية اللوغو */
         .logo-box-wrapper {
             position: relative;
-            width: 70px;
-            height: 70px;
+            width: 65px;
+            height: 65px;
             margin-bottom: 2px;
-            border-radius: 18px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -38,7 +38,7 @@
             content: '';
             position: absolute;
             inset: -2px;
-            border-radius: 20px;
+            border-radius: 18px;
             background: conic-gradient(from 0deg, transparent 65%, #ff007f 85%, #ffe259 100%);
             animation: rotateLight 2s linear infinite;
             z-index: 1;
@@ -48,12 +48,12 @@
             position: absolute;
             inset: 2px;
             background: #ffffff;
-            border-radius: 16px;
+            border-radius: 14px;
             z-index: 2;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 5px;
+            padding: 4px;
             box-shadow: 0 4px 15px rgba(189, 0, 255, 0.4);
         }
 
@@ -74,59 +74,32 @@
         }
 
         .app-title {
-            font-size: 0.85rem; font-weight: 700; color: #d4b8ff; margin-bottom: 2px; letter-spacing: 1px;
-        }
-
-        /* واجهة الترحيب الذهبية الفاخرة */
-        .welcome-card-header {
-            text-align: center;
-            background: rgba(255, 226, 89, 0.05);
-            border: 1px solid rgba(255, 226, 89, 0.2);
-            padding: 6px 15px;
-            border-radius: 15px;
-            margin-bottom: 5px;
-            width: 100%;
-            max-width: 350px;
-            backdrop-filter: blur(10px);
-        }
-
-        .welcome-title {
-            font-size: 0.95rem;
-            font-weight: 900;
-            color: #ffe259;
-            text-shadow: 0 0 10px rgba(255, 226, 89, 0.4);
-            margin-bottom: 2px;
-        }
-
-        .welcome-subtitle {
-            font-size: 0.75rem;
-            color: #d0c2e8;
-            font-weight: 600;
+            font-size: 0.8rem; font-weight: 700; color: #d4b8ff; margin-bottom: 5px; letter-spacing: 1px;
         }
         
-        /* إطار الكاميرا المتناسق مع الشاشة الواحدة */
+        /* إطار الكاميرا */
         .camera-wrapper { 
             width: 100%; max-width: 350px; 
-            height: 220px; position: relative; 
-            border-radius: 22px; border: 2px solid rgba(189, 0, 255, 0.5);
+            height: 230px; position: relative; 
+            border-radius: 20px; border: 2px solid rgba(189, 0, 255, 0.5);
             overflow: hidden; background: rgba(255, 255, 255, 0.02);
             backdrop-filter: blur(16px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(189, 0, 255, 0.1);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(189, 0, 255, 0.1);
             display: flex; align-items: center; justify-content: center;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
         }
 
         #webcam-video { 
-            width: 100%; height: 100%; object-fit: cover; display: none; border-radius: 20px;
+            width: 100%; height: 100%; object-fit: cover; display: none; border-radius: 18px;
         }
 
         .camera-start-card { text-align: center; padding: 15px; z-index: 5; }
-        .camera-start-card p { font-size: 0.85rem; color: #d0c2e8; margin-bottom: 12px; font-weight: 600; }
+        .camera-start-card p { font-size: 0.85rem; color: #d0c2e8; margin-bottom: 10px; font-weight: 600; }
 
         #start-cam-btn {
             background: linear-gradient(135deg, #ff007f 0%, #bd00ff 100%);
-            color: white; border: none; padding: 12px 25px; border-radius: 50px;
-            font-size: 0.95rem; font-weight: 700; cursor: pointer; 
+            color: white; border: none; padding: 10px 22px; border-radius: 50px;
+            font-size: 0.9rem; font-weight: 700; cursor: pointer; 
             box-shadow: 0 6px 20px rgba(189, 0, 255, 0.5);
             transition: all 0.3s ease;
             display: inline-flex; align-items: center; gap: 6px;
@@ -160,7 +133,7 @@
             padding: 5px 10px; border-radius: 50px; border: 1px solid rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
             box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-            margin-bottom: 5px;
+            margin-bottom: 8px;
         }
 
         .manual-input {
@@ -218,16 +191,10 @@
         <div class="app-title">A2Z HYPERMARKET</div>
     </div>
 
-    <!-- واجهة ترحيب الزبون الذهبية -->
-    <div class="welcome-card-header">
-        <div class="welcome-title">✨ أهلاً وسهلاً بك عزيزي الزبون ✨</div>
-        <div class="welcome-subtitle">اضغط لمعرفة الأسعار وفحص المادة عبر الباركود</div>
-    </div>
-
     <div class="camera-wrapper" id="camera-box">
         <button id="torch-btn" onclick="toggleTorch()">⚡ فلاش</button>
         <div class="camera-start-card" id="start-card">
-            <p>قم بتوجيه الكاميرا نحو باركود المادة</p>
+            <p>افحص سعر أي مادة فوراً عبر الباركود</p>
             <button id="start-cam-btn" onclick="initScanner()">
                 📷 فتح الكاميرا للمسح
             </button>
@@ -242,7 +209,7 @@
         <button class="manual-btn" onclick="searchManualBarcode()">بحث</button>
     </div>
     
-    <div id="result-container" style="display: none;">
+    <div id="result-container">
         <div class="result-icon" id="result-icon">🏷️</div>
         <div class="item-name" id="item-name">---</div>
         <div class="price-box">
