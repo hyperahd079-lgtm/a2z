@@ -16,31 +16,29 @@
             background-image: 
                 radial-gradient(circle at 50% 0%, rgba(189, 0, 255, 0.2), transparent 50%),
                 radial-gradient(circle at 10% 90%, rgba(255, 0, 127, 0.1), transparent 40%);
-            margin: 0; padding: 10px 20px;
+            margin: 0; padding: 10px 15px;
             display: flex; flex-direction: column; align-items: center; justify-content: space-between;
-            color: #ffffff; min-height: 100vh;
+            color: #ffffff; height: 100vh; overflow: hidden;
         }
 
-        /* حاوية اللوغو */
+        /* حاوية اللوغو المدمجة */
         .logo-box-wrapper {
             position: relative;
-            width: 90px;
-            height: 90px;
-            margin-bottom: 5px;
-            margin-top: 5px;
-            border-radius: 22px;
+            width: 70px;
+            height: 70px;
+            margin-bottom: 2px;
+            border-radius: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
             animation: pulseLogo 2s ease-in-out infinite;
         }
 
-        /* الإطار الضوئي المتحرك */
         .logo-box-wrapper::before {
             content: '';
             position: absolute;
             inset: -2px;
-            border-radius: 24px;
+            border-radius: 20px;
             background: conic-gradient(from 0deg, transparent 65%, #ff007f 85%, #ffe259 100%);
             animation: rotateLight 2s linear infinite;
             z-index: 1;
@@ -50,13 +48,13 @@
             position: absolute;
             inset: 2px;
             background: #ffffff;
-            border-radius: 20px;
+            border-radius: 16px;
             z-index: 2;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 6px;
-            box-shadow: 0 6px 20px rgba(189, 0, 255, 0.4);
+            padding: 5px;
+            box-shadow: 0 4px 15px rgba(189, 0, 255, 0.4);
         }
 
         .logo-box-inner img {
@@ -76,59 +74,76 @@
         }
 
         .app-title {
-            font-size: 1rem; font-weight: 700; color: #d4b8ff; margin-bottom: 2px; letter-spacing: 1px;
+            font-size: 0.85rem; font-weight: 700; color: #d4b8ff; margin-bottom: 2px; letter-spacing: 1px;
         }
 
-        /* واجهة ترحيب الزبون باللون الذهبي */
-        .welcome-text {
-            font-size: 0.9rem;
-            font-weight: 700;
+        /* واجهة الترحيب الذهبية الفاخرة */
+        .welcome-card-header {
+            text-align: center;
+            background: rgba(255, 226, 89, 0.05);
+            border: 1px solid rgba(255, 226, 89, 0.2);
+            padding: 6px 15px;
+            border-radius: 15px;
+            margin-bottom: 5px;
+            width: 100%;
+            max-width: 350px;
+            backdrop-filter: blur(10px);
+        }
+
+        .welcome-title {
+            font-size: 0.95rem;
+            font-weight: 900;
             color: #ffe259;
-            margin-bottom: 8px;
-            text-shadow: 0 0 10px rgba(255, 226, 89, 0.3);
-            letter-spacing: 0.5px;
+            text-shadow: 0 0 10px rgba(255, 226, 89, 0.4);
+            margin-bottom: 2px;
+        }
+
+        .welcome-subtitle {
+            font-size: 0.75rem;
+            color: #d0c2e8;
+            font-weight: 600;
         }
         
-        /* إطار الكاميرا مصمم ليرتفع للأعلى ويمنع الاختفاء */
+        /* إطار الكاميرا المتناسق مع الشاشة الواحدة */
         .camera-wrapper { 
-            width: 100%; max-width: 380px; 
-            height: 270px; position: relative; 
-            border-radius: 24px; border: 2px solid rgba(189, 0, 255, 0.5);
+            width: 100%; max-width: 350px; 
+            height: 220px; position: relative; 
+            border-radius: 22px; border: 2px solid rgba(189, 0, 255, 0.5);
             overflow: hidden; background: rgba(255, 255, 255, 0.02);
             backdrop-filter: blur(16px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(189, 0, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6), inset 0 0 15px rgba(189, 0, 255, 0.1);
             display: flex; align-items: center; justify-content: center;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
 
         #webcam-video { 
-            width: 100%; height: 100%; object-fit: cover; display: none; border-radius: 22px;
+            width: 100%; height: 100%; object-fit: cover; display: none; border-radius: 20px;
         }
 
-        .camera-start-card { text-align: center; padding: 20px; z-index: 5; }
-        .camera-start-card p { font-size: 0.95rem; color: #d0c2e8; margin-bottom: 15px; font-weight: 600; }
+        .camera-start-card { text-align: center; padding: 15px; z-index: 5; }
+        .camera-start-card p { font-size: 0.85rem; color: #d0c2e8; margin-bottom: 12px; font-weight: 600; }
 
         #start-cam-btn {
             background: linear-gradient(135deg, #ff007f 0%, #bd00ff 100%);
-            color: white; border: none; padding: 14px 30px; border-radius: 50px;
-            font-size: 1rem; font-weight: 700; cursor: pointer; 
-            box-shadow: 0 8px 25px rgba(189, 0, 255, 0.5);
+            color: white; border: none; padding: 12px 25px; border-radius: 50px;
+            font-size: 0.95rem; font-weight: 700; cursor: pointer; 
+            box-shadow: 0 6px 20px rgba(189, 0, 255, 0.5);
             transition: all 0.3s ease;
-            display: inline-flex; align-items: center; gap: 8px;
+            display: inline-flex; align-items: center; gap: 6px;
         }
         #start-cam-btn:active { transform: scale(0.95); }
 
         /* زر الفلاش */
         #torch-btn {
-            display: none; position: absolute; top: 12px; left: 12px;
+            display: none; position: absolute; top: 10px; left: 10px;
             background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white; border-radius: 50px; padding: 6px 14px; font-size: 0.8rem; font-weight: 600;
+            color: white; border-radius: 50px; padding: 4px 12px; font-size: 0.75rem; font-weight: 600;
             cursor: pointer; z-index: 20; backdrop-filter: blur(8px);
         }
 
         .laser-line {
-            display: none; position: absolute; top: 15%; left: 5%; width: 90%; height: 3px;
-            background: #ff007f; box-shadow: 0 0 15px #ff007f, 0 0 25px #ff007f;
+            display: none; position: absolute; top: 15%; left: 5%; width: 90%; height: 2px;
+            background: #ff007f; box-shadow: 0 0 12px #ff007f, 0 0 20px #ff007f;
             animation: scan 2s infinite ease-in-out; z-index: 10; border-radius: 50%;
             pointer-events: none;
         }
@@ -140,55 +155,55 @@
         }
 
         .manual-search-container {
-            width: 100%; max-width: 380px; 
-            display: flex; gap: 8px; background: rgba(255, 255, 255, 0.04); 
-            padding: 6px; border-radius: 50px; border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%; max-width: 350px; 
+            display: flex; gap: 6px; background: rgba(255, 255, 255, 0.04); 
+            padding: 5px 10px; border-radius: 50px; border: 1px solid rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.3);
             margin-bottom: 5px;
         }
 
         .manual-input {
-            flex: 1; padding: 10px 18px; border-radius: 50px;
+            flex: 1; padding: 8px 12px; border-radius: 50px;
             border: none; background: transparent; color: white;
-            font-size: 0.95rem; outline: none;
+            font-size: 0.9rem; outline: none;
         }
 
         .manual-input::placeholder { color: #8c82ab; }
 
         .manual-btn {
             background: linear-gradient(135deg, #7928ca 0%, #4300b0 100%); 
-            color: white; border: none; padding: 8px 20px;
-            border-radius: 50px; font-weight: 700; cursor: pointer;
-            box-shadow: 0 4px 15px rgba(121, 40, 202, 0.4);
+            color: white; border: none; padding: 8px 18px;
+            border-radius: 50px; font-weight: 700; cursor: pointer; font-size: 0.85rem;
+            box-shadow: 0 4px 12px rgba(121, 40, 202, 0.4);
         }
 
         #result-container {
-            display: none; width: 100%; max-width: 380px; padding: 25px 20px;
-            background: rgba(255, 255, 255, 0.06); border-radius: 28px; text-align: center;
-            margin-top: 10px; border: 1px solid rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(20px); box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            display: none; width: 100%; max-width: 350px; padding: 20px 15px;
+            background: rgba(255, 255, 255, 0.06); border-radius: 24px; text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px); box-shadow: 0 15px 30px rgba(0,0,0,0.6);
             animation: fadeIn 0.4s ease-out;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .result-icon { font-size: 2.2rem; margin-bottom: 8px; }
-        .item-name { font-size: 1.25rem; font-weight: 700; margin-bottom: 12px; color: #f3eeff; line-height: 1.4; }
+        .result-icon { font-size: 2rem; margin-bottom: 6px; }
+        .item-name { font-size: 1.15rem; font-weight: 700; margin-bottom: 10px; color: #f3eeff; line-height: 1.3; }
         .price-box { 
             background: rgba(255, 226, 89, 0.08); border: 1px solid rgba(255, 226, 89, 0.3);
-            border-radius: 18px; padding: 12px; margin-bottom: 20px;
+            border-radius: 16px; padding: 10px; margin-bottom: 15px;
         }
-        .price-label { font-size: 0.8rem; color: #c4b6e8; margin-bottom: 4px; }
-        .price-tag { font-size: 2.2rem; color: #ffe259; font-weight: 900; text-shadow: 0 0 20px rgba(255, 226, 89, 0.4); }
+        .price-label { font-size: 0.75rem; color: #c4b6e8; margin-bottom: 2px; }
+        .price-tag { font-size: 2rem; color: #ffe259; font-weight: 900; text-shadow: 0 0 15px rgba(255, 226, 89, 0.4); }
         
         .action-btn {
-            background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%); color: #06030d; border: none; padding: 14px 20px;
-            border-radius: 50px; font-weight: 800; width: 100%; font-size: 1.05rem; cursor: pointer;
-            box-shadow: 0 8px 25px rgba(0, 176, 155, 0.4);
+            background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%); color: #06030d; border: none; padding: 12px 20px;
+            border-radius: 50px; font-weight: 800; width: 100%; font-size: 0.95rem; cursor: pointer;
+            box-shadow: 0 6px 20px rgba(0, 176, 155, 0.4);
         }
     </style>
 </head>
@@ -201,13 +216,18 @@
             </div>
         </div>
         <div class="app-title">A2Z HYPERMARKET</div>
-        <div class="welcome-text">أهلاً بك عزيزي الزبون ✨</div>
+    </div>
+
+    <!-- واجهة ترحيب الزبون الذهبية -->
+    <div class="welcome-card-header">
+        <div class="welcome-title">✨ أهلاً وسهلاً بك عزيزي الزبون ✨</div>
+        <div class="welcome-subtitle">اضغط لمعرفة الأسعار وفحص المادة عبر الباركود</div>
     </div>
 
     <div class="camera-wrapper" id="camera-box">
         <button id="torch-btn" onclick="toggleTorch()">⚡ فلاش</button>
         <div class="camera-start-card" id="start-card">
-            <p>افحص سعر أي مادة فوراً عبر الباركود</p>
+            <p>قم بتوجيه الكاميرا نحو باركود المادة</p>
             <button id="start-cam-btn" onclick="initScanner()">
                 📷 فتح الكاميرا للمسح
             </button>
@@ -217,12 +237,12 @@
         <div class="laser-line" id="laser"></div>
     </div>
 
-    <div class="manual-search-container">
+    <div class="manual-search-container" id="manual-box">
         <input type="text" id="manual-barcode-input" class="manual-input" placeholder="أدخل رقم الباركود يدويًا..." pattern="[0-9]*">
         <button class="manual-btn" onclick="searchManualBarcode()">بحث</button>
     </div>
     
-    <div id="result-container">
+    <div id="result-container" style="display: none;">
         <div class="result-icon" id="result-icon">🏷️</div>
         <div class="item-name" id="item-name">---</div>
         <div class="price-box">
@@ -372,6 +392,7 @@
             document.getElementById('laser').style.display = 'none';
             document.getElementById('webcam-video').style.display = 'none';
             document.getElementById('camera-box').style.display = 'none';
+            document.getElementById('manual-box').style.display = 'none';
             document.getElementById('result-container').style.display = 'block';
 
             const cleanBarcode = String(barcode).trim();
@@ -399,6 +420,7 @@
         function resetScanner() {
             document.getElementById('result-container').style.display = 'none';
             document.getElementById('camera-box').style.display = 'flex';
+            document.getElementById('manual-box').style.display = 'flex';
             document.getElementById('manual-barcode-input').value = '';
             initScanner();
         }
