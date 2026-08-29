@@ -3,122 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>A2Z HYPERMARKET</title>
+    <title>A2Z HYPERMARKET - فحص الأسعار</title>
+    <!-- مكتبة ZXing للباركود -->
     <script src="https://unpkg.com/@zxing/library@latest"></script>
+    <!-- خط Cairo الجميل -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: 'Cairo', sans-serif; }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #090514;
-            background-image: radial-gradient(circle at 50% 10%, rgba(189, 0, 255, 0.15), transparent 60%);
+            background: #06030d;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(189, 0, 255, 0.2), transparent 50%),
+                radial-gradient(circle at 10% 90%, rgba(255, 0, 127, 0.1), transparent 40%);
             margin: 0; padding: 20px;
             display: flex; flex-direction: column; align-items: center;
             color: #ffffff; min-height: 100vh;
         }
 
-        .logo-container { margin-bottom: 25px; margin-top: 15px; }
+        .logo-container { margin-bottom: 20px; margin-top: 10px; text-align: center; }
         .logo-container img { 
-            width: 110px; border-radius: 20px; background: #ffffff; padding: 8px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            width: 100px; height: 100px; object-fit: contain; border-radius: 24px; background: #ffffff; padding: 10px; 
+            box-shadow: 0 10px 30px rgba(189, 0, 255, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        .app-title {
+            font-size: 1.1rem; font-weight: 700; color: #d4b8ff; margin-top: 8px; letter-spacing: 1px;
         }
         
         /* إطار الكاميرا الأنيق */
         .camera-wrapper { 
-            width: 100%; max-width: 350px; 
-            height: 250px; position: relative; 
-            border-radius: 24px; border: 2px solid rgba(189, 0, 255, 0.4);
-            overflow: hidden; background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(10px);
+            width: 100%; max-width: 360px; 
+            height: 280px; position: relative; 
+            border-radius: 28px; border: 2px solid rgba(189, 0, 255, 0.5);
+            overflow: hidden; background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(16px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(189, 0, 255, 0.1);
             display: flex; align-items: center; justify-content: center;
+            margin-bottom: 20px;
         }
 
         #webcam-video { 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; 
-            display: none;
-            border-radius: 20px;
+            width: 100%; height: 100%; object-fit: cover; display: none; border-radius: 26px;
         }
 
-        .camera-start-card { text-align: center; padding: 20px; z-index: 5; }
-        .camera-start-card p { font-size: 0.95rem; color: #b3a2ce; margin-bottom: 18px; }
+        .camera-start-card { text-align: center; padding: 25px; z-index: 5; }
+        .camera-start-card p { font-size: 1rem; color: #d0c2e8; margin-bottom: 20px; font-weight: 600; }
 
         #start-cam-btn {
             background: linear-gradient(135deg, #ff007f 0%, #bd00ff 100%);
-            color: white; border: none; padding: 14px 30px; border-radius: 50px;
-            font-size: 1.05rem; font-weight: bold; cursor: pointer; 
-            box-shadow: 0 6px 20px rgba(189, 0, 255, 0.4);
-            transition: transform 0.2s;
+            color: white; border: none; padding: 16px 35px; border-radius: 50px;
+            font-size: 1.1rem; font-weight: 700; cursor: pointer; 
+            box-shadow: 0 8px 25px rgba(189, 0, 255, 0.5);
+            transition: all 0.3s ease;
+            display: inline-flex; align-items: center; gap: 8px;
         }
-
-        #start-cam-btn:active { transform: scale(0.96); }
+        #start-cam-btn:active { transform: scale(0.95); box-shadow: 0 4px 15px rgba(189, 0, 255, 0.3); }
 
         /* زر الفلاش */
         #torch-btn {
             display: none; position: absolute; top: 15px; left: 15px;
             background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white; border-radius: 50px; padding: 8px 14px; font-size: 0.85rem;
-            cursor: pointer; z-index: 20; backdrop-filter: blur(5px);
+            color: white; border-radius: 50px; padding: 8px 16px; font-size: 0.85rem; font-weight: 600;
+            cursor: pointer; z-index: 20; backdrop-filter: blur(8px);
+            transition: all 0.2s;
         }
 
         .laser-line {
             display: none; position: absolute; top: 15%; left: 5%; width: 90%; height: 3px;
-            background: #ff007f; box-shadow: 0 0 12px #ff007f, 0 0 20px #ff007f;
+            background: #ff007f; box-shadow: 0 0 15px #ff007f, 0 0 25px #ff007f;
             animation: scan 2s infinite ease-in-out; z-index: 10; border-radius: 50%;
             pointer-events: none;
         }
 
         @keyframes scan {
             0% { top: 15%; }
-            50% { top: 80%; }
+            50% { top: 85%; }
             100% { top: 15%; }
         }
 
         .manual-search-container {
-            width: 100%; max-width: 350px; margin-top: 25px;
-            display: flex; gap: 10px; background: rgba(255, 255, 255, 0.05); 
-            padding: 6px; border-radius: 50px; border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%; max-width: 360px; 
+            display: flex; gap: 10px; background: rgba(255, 255, 255, 0.04); 
+            padding: 8px; border-radius: 50px; border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
         }
 
         .manual-input {
-            flex: 1; padding: 12px 18px; border-radius: 50px;
+            flex: 1; padding: 12px 20px; border-radius: 50px;
             border: none; background: transparent; color: white;
-            font-size: 0.95rem; outline: none;
+            font-size: 1rem; outline: none;
         }
 
-        .manual-input::placeholder { color: #7f789e; }
+        .manual-input::placeholder { color: #8c82ab; }
 
         .manual-btn {
-            background: #bd00ff; color: white; border: none; padding: 10px 22px;
-            border-radius: 50px; font-weight: bold; cursor: pointer;
+            background: linear-gradient(135deg, #7928ca 0%, #4300b0 100%); 
+            color: white; border: none; padding: 10px 24px;
+            border-radius: 50px; font-weight: 700; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(121, 40, 202, 0.4);
+            transition: transform 0.2s;
         }
+        .manual-btn:active { transform: scale(0.96); }
 
         #result-container {
-            display: none; width: 100%; max-width: 350px; padding: 25px;
-            background: rgba(255, 255, 255, 0.05); border-radius: 24px; text-align: center;
-            margin-top: 20px; border: 1px solid rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(10px); box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: none; width: 100%; max-width: 360px; padding: 30px 20px;
+            background: rgba(255, 255, 255, 0.06); border-radius: 28px; text-align: center;
+            margin-top: 20px; border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(20px); box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            animation: fadeIn 0.4s ease-out;
         }
 
-        .item-name { font-size: 1.25rem; font-weight: 600; margin-bottom: 12px; color: #e2d9f3; }
-        .price-tag { font-size: 2.3rem; color: #ffe259; font-weight: 800; margin-bottom: 20px; text-shadow: 0 0 15px rgba(255, 226, 89, 0.3); }
-        .action-btn {
-            background: #ffffff; color: #090514; border: none; padding: 14px 20px;
-            border-radius: 50px; font-weight: bold; width: 100%; font-size: 1rem; cursor: pointer;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
         }
+
+        .result-icon { font-size: 2.5rem; margin-bottom: 10px; }
+        .item-name { font-size: 1.35rem; font-weight: 700; margin-bottom: 15px; color: #f3eeff; line-height: 1.4; }
+        .price-box { 
+            background: rgba(255, 226, 89, 0.08); border: 1px solid rgba(255, 226, 89, 0.3);
+            border-radius: 20px; padding: 15px; margin-bottom: 25px;
+        }
+        .price-label { font-size: 0.85rem; color: #c4b6e8; margin-bottom: 5px; }
+        .price-tag { font-size: 2.5rem; color: #ffe259; font-weight: 900; text-shadow: 0 0 20px rgba(255, 226, 89, 0.4); }
+        
+        .action-btn {
+            background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%); color: #06030d; border: none; padding: 15px 20px;
+            border-radius: 50px; font-weight: 800; width: 100%; font-size: 1.1rem; cursor: pointer;
+            box-shadow: 0 8px 25px rgba(0, 176, 155, 0.4);
+            transition: transform 0.2s;
+        }
+        .action-btn:active { transform: scale(0.97); }
     </style>
 </head>
 <body>
 
     <div class="logo-container">
         <img src="https://lh3.googleusercontent.com/d/109H2w4zxFrJzi5EgQse4u1Ka6KoZyupo" alt="A2Z Hypermarket">
+        <div class="app-title">A2Z HYPERMARKET</div>
     </div>
 
     <div class="camera-wrapper" id="camera-box">
         <button id="torch-btn" onclick="toggleTorch()">⚡ فلاش</button>
         <div class="camera-start-card" id="start-card">
-            <p>افحص سعر أي مادة فوراً</p>
+            <p>افحص سعر أي مادة فوراً عبر الباركود</p>
             <button id="start-cam-btn" onclick="initScanner()">
                 📷 فتح الكاميرا للمسح
             </button>
@@ -134,15 +164,19 @@
     </div>
     
     <div id="result-container">
+        <div class="result-icon" id="result-icon">🏷️</div>
         <div class="item-name" id="item-name">---</div>
-        <div class="price-tag" id="item-price">---</div>
-        <button class="action-btn" onclick="resetScanner()">مسح مادة أخرى</button>
+        <div class="price-box">
+            <div class="price-label">السعر الإجمالي</div>
+            <div class="price-tag" id="item-price">---</div>
+        </div>
+        <button class="action-btn" onclick="resetScanner()">🔄 مسح مادة أخرى</button>
     </div>
 
     <script>
         let codeReader;
         let securedDataStore = new Map(); 
-        let canScan = true; // قفل لمنع التكرار السريع للمسح
+        let canScan = true; 
         let torchOn = false;
         let videoTrack = null;
         
@@ -166,6 +200,30 @@
             document.body.appendChild(script);
         };
 
+        // دالة تشغيل صوت التنبيه عند ظهور السعر (باستخدام Web Audio API)
+        function playSuccessSound() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(587.33, audioCtx.currentTime); // نغمة D5
+                oscillator.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15); // انتقال إلى A5
+                
+                gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + 0.3);
+            } catch(e) {
+                console.log("Audio not supported or blocked", e);
+            }
+        }
+
         async function initScanner() {
             document.getElementById('start-card').style.display = 'none';
             const videoElem = document.getElementById('webcam-video');
@@ -178,7 +236,6 @@
             canScan = true;
 
             try {
-                // جلب قائمة الكاميرات وتحديد الكاميرا الخلفية تلقائياً
                 const videoInputDevices = await ZXing.BrowserMultiFormatReader.listVideoInputDevices();
                 let selectedDeviceId = videoInputDevices[0]?.deviceId;
 
@@ -195,13 +252,12 @@
 
                 codeReader.decodeFromVideoDevice(selectedDeviceId, 'webcam-video', (result, err) => {
                     if (result && canScan) {
-                        canScan = false; // تفعيل القفل لمنع قراءة الباركود المتكررة في نفس اللحظة
+                        canScan = false; 
                         handleResult(result.text);
                     }
                 }).then(() => {
                     document.getElementById('laser').style.display = 'block';
                     
-                    // التحقق مما إذا كانت الكاميرا تدعم الفلاش وإظهار زر الفلاش
                     setTimeout(() => {
                         const stream = videoElem.srcObject;
                         if (stream) {
@@ -233,19 +289,21 @@
                 });
                 const torchBtn = document.getElementById('torch-btn');
                 torchBtn.style.background = torchOn ? '#ffe259' : 'rgba(0, 0, 0, 0.6)';
-                torchBtn.style.color = torchOn ? '#090514' : 'white';
+                torchBtn.style.color = torchOn ? '#06030d' : 'white';
             } catch (e) {
                 console.error("الفلاش غير مدعوم على هذا الجهاز:", e);
             }
         }
 
         function handleResult(barcode) {
-            // اهتزاز تفاعلي عند نجاح قراءة الباركود
+            // اهتزاز الهاتف
             if (navigator.vibrate) {
                 navigator.vibrate(150);
             }
 
-            // إيقاف الفلاش والكاميرا عند القراءة الناجحة
+            // تشغيل صوت التنبيه
+            playSuccessSound();
+
             if (torchOn && videoTrack) {
                 torchOn = false;
                 videoTrack.applyConstraints({ advanced: [{ torch: false }] }).catch(() => {});
@@ -265,9 +323,11 @@
             const item = securedDataStore.get(cleanBarcode);
 
             if(item) {
+                document.getElementById('result-icon').innerText = '✅';
                 document.getElementById('item-name').innerText = item.n;
                 document.getElementById('item-price').innerText = Number(item.p).toLocaleString() + " د.ع";
             } else {
+                document.getElementById('result-icon').innerText = '❌';
                 document.getElementById('item-name').innerText = "غير موجود في النظام";
                 document.getElementById('item-price').innerText = "---";
             }
@@ -284,8 +344,8 @@
         function resetScanner() {
             document.getElementById('result-container').style.display = 'none';
             document.getElementById('camera-box').style.display = 'flex';
-            document.getElementById('start-card').style.display = 'none';
-            initScanner();
+            document.getElementById('start-card').style.display = 'block';
+            document.getElementById('manual-barcode-input').value = '';
         }
     </script>
 </body>
