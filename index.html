@@ -21,49 +21,63 @@
             color: #ffffff; min-height: 100vh;
         }
 
-        /* حاوية الشعار مع الضوء الدائر والنبض */
-        .logo-container { 
+        /* حاوية اللوغو مع الضوء المتحرك والنبض */
+        .logo-box-wrapper {
             position: relative;
-            margin-bottom: 25px; 
-            margin-top: 15px; 
-            text-align: center;
-            display: inline-block;
-        }
-
-        /* حلقة الضوء المتحركة داير ما داير اللوغو */
-        .logo-glow-ring {
-            position: absolute;
-            inset: -5px;
+            width: 110px;
+            height: 110px;
+            margin-bottom: 25px;
+            margin-top: 15px;
             border-radius: 28px;
-            background: conic-gradient(from 0deg, #ff007f, #bd00ff, #ffe259, #00f0ff, #ff007f);
-            animation: rotateGlow 3s linear infinite;
-            z-index: 1;
-            filter: blur(6px);
-            opacity: 0.85;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulseLogo 2s ease-in-out infinite;
         }
 
-        @keyframes rotateGlow {
+        /* الإطار الضوئي المتحرك (نقطة ضوء تدور داير ما داير اللوغو) */
+        .logo-box-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 30px;
+            background: conic-gradient(from 0deg, transparent 60%, #ff007f 85%, #ffe259 100%);
+            animation: rotateLight 2.5s linear infinite;
+            z-index: 1;
+        }
+
+        /* غطاء لخلق تأثير الحدود المضيئة فقط */
+        .logo-box-inner {
+            position: absolute;
+            inset: 2px;
+            background: #ffffff;
+            border-radius: 26px;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+            box-shadow: 0 10px 30px rgba(189, 0, 255, 0.4);
+        }
+
+        .logo-box-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        @keyframes rotateLight {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
 
-        .logo-container img { 
-            position: relative;
-            z-index: 2;
-            width: 100px; height: 100px; object-fit: contain; 
-            border-radius: 24px; background: #ffffff; padding: 10px; 
-            box-shadow: 0 10px 30px rgba(189, 0, 255, 0.4);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            animation: pulseLogo 2s ease-in-out infinite; /* تأثير النبض */
-        }
-
         @keyframes pulseLogo {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.06); }
+            50% { transform: scale(1.05); }
         }
 
         .app-title {
-            font-size: 1.1rem; font-weight: 700; color: #d4b8ff; margin-top: 12px; letter-spacing: 1px;
+            font-size: 1.1rem; font-weight: 700; color: #d4b8ff; margin-bottom: 20px; letter-spacing: 1px;
         }
         
         /* إطار الكاميرا الأنيق */
@@ -175,10 +189,10 @@
 </head>
 <body>
 
-    <div class="logo-container">
-        <!-- حلقة الضوء المتحركة داير ما داير اللوغو -->
-        <div class="logo-glow-ring"></div>
-        <img src="https://lh3.googleusercontent.com/d/109H2w4zxFrJzi5EgQse4u1Ka6KoZyupo" alt="A2Z Hypermarket">
+    <div class="logo-box-wrapper">
+        <div class="logo-box-inner">
+            <img src="https://lh3.googleusercontent.com/d/109H2w4zxFrJzi5EgQse4u1Ka6KoZyupo" alt="A2Z Hypermarket">
+        </div>
     </div>
     <div class="app-title">A2Z HYPERMARKET</div>
 
@@ -261,7 +275,7 @@
             }
         }
 
-        async function initScanner() {
+        function initScanner() {
             document.getElementById('start-card').style.display = 'none';
             const videoElem = document.getElementById('webcam-video');
             videoElem.style.display = 'block';
@@ -272,54 +286,31 @@
 
             canScan = true;
 
-            try {
-                // إجبار المتصفح على إظهار رسالة طلب إذن الكاميرا (هل تريد فتح الكاميرا؟)
-                const tempStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-                tempStream.getTracks().forEach(track => track.stop()); // إيقاف البث المؤقت ليتم استخدامه بكفاءة من المكتبة
-
-                // جلب الأجهزة بعد منح الإذن
-                const videoInputDevices = await ZXing.BrowserMultiFormatReader.listVideoInputDevices();
-                let selectedDeviceId = videoInputDevices[0]?.deviceId;
-
-                for (const device of videoInputDevices) {
-                    const label = device.label.toLowerCase();
-                    if (label.includes('back') || label.includes('rear') || label.includes('environment') || label.includes('خلفية')) {
-                        selectedDeviceId = device.deviceId;
-                        break;
-                    }
+            // استخدام طريقة ZXing الافتراضية التي تطلب الإذن من المتصفح تلقائياً عند أول تشغيل
+            codeReader.decodeFromVideoDevice(undefined, 'webcam-video', (result, err) => {
+                if (result && canScan) {
+                    canScan = false; 
+                    handleResult(result.text);
                 }
-                if (videoInputDevices.length > 1 && selectedDeviceId === videoInputDevices[0]?.deviceId) {
-                    selectedDeviceId = videoInputDevices[videoInputDevices.length - 1].deviceId;
-                }
-
-                codeReader.decodeFromVideoDevice(selectedDeviceId, 'webcam-video', (result, err) => {
-                    if (result && canScan) {
-                        canScan = false; 
-                        handleResult(result.text);
-                    }
-                }).then(() => {
-                    document.getElementById('laser').style.display = 'block';
-                    
-                    setTimeout(() => {
-                        const stream = videoElem.srcObject;
-                        if (stream) {
-                            videoTrack = stream.getVideoTracks()[0];
-                            if (videoTrack && videoTrack.getCapabilities && videoTrack.getCapabilities().torch) {
-                                document.getElementById('torch-btn').style.display = 'block';
-                            }
+            }).then(() => {
+                document.getElementById('laser').style.display = 'block';
+                
+                setTimeout(() => {
+                    const stream = videoElem.srcObject;
+                    if (stream) {
+                        videoTrack = stream.getVideoTracks()[0];
+                        if (videoTrack && videoTrack.getCapabilities && videoTrack.getCapabilities().torch) {
+                            document.getElementById('torch-btn').style.display = 'block';
                         }
-                    }, 500);
+                    }
+                }, 600);
 
-                }).catch(err => {
-                    throw err;
-                });
-
-            } catch (err) {
+            }).catch(err => {
                 alert("يرجى السماح بفتح الكاميرا من إعدادات المتصفح.");
                 document.getElementById('start-card').style.display = 'block';
                 videoElem.style.display = 'none';
                 document.getElementById('laser').style.display = 'none';
-            }
+            });
         }
 
         async function toggleTorch() {
