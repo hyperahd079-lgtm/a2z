@@ -89,7 +89,7 @@ body::after{
     z-index:2;
 }
 
-/* ================= HEADER ================= */
+/* HEADER */
 
 .header{
     display:flex;
@@ -171,7 +171,7 @@ body::after{
     box-shadow:0 0 8px #ff4545;
 }
 
-/* ================= TITLE ================= */
+/* HERO */
 
 .hero{
     text-align:center;
@@ -198,7 +198,7 @@ body::after{
     font-weight:600;
 }
 
-/* ================= SCANNER ================= */
+/* SCANNER */
 
 .scanner-card{
     position:relative;
@@ -328,7 +328,7 @@ body::after{
     text-shadow:0 1px 5px #000;
 }
 
-/* ================= FLASH ================= */
+/* FLASH */
 
 #torch-btn{
     display:none;
@@ -347,37 +347,23 @@ body::after{
     font-weight:800;
 }
 
-/* ================= ZOOM ================= */
+/* ZOOM */
 
 .zoom-controls{
-
     position:absolute;
-
     top:13px;
     right:13px;
-
     z-index:20;
-
     display:none;
-
     align-items:center;
-
     gap:4px;
-
     padding:4px;
-
     background:rgba(0,0,0,.58);
-
     border:1px solid rgba(255,255,255,.14);
-
     border-radius:30px;
-
     backdrop-filter:blur(12px);
     -webkit-backdrop-filter:blur(12px);
-
-    box-shadow:
-        0 8px 25px rgba(0,0,0,.35);
-
+    box-shadow:0 8px 25px rgba(0,0,0,.35);
 }
 
 .zoom-controls.visible{
@@ -385,52 +371,78 @@ body::after{
 }
 
 .zoom-btn{
-
     border:0;
-
     min-width:39px;
-
     height:30px;
-
     padding:0 7px;
-
     border-radius:20px;
-
     background:transparent;
-
     color:#b9c1ca;
-
     font-family:'Cairo',sans-serif;
-
     font-size:.61rem;
-
     font-weight:900;
-
     cursor:pointer;
-
     transition:
         background .18s ease,
         color .18s ease,
         transform .12s ease;
-
 }
 
 .zoom-btn.active{
-
     background:#007aff;
-
     color:#fff;
-
-    box-shadow:
-        0 3px 12px rgba(0,122,255,.35);
-
+    box-shadow:0 3px 12px rgba(0,122,255,.35);
 }
 
 .zoom-btn:active{
     transform:scale(.92);
 }
 
-/* ================= START SCREEN ================= */
+/* AI STATUS */
+
+.ai-status{
+    position:absolute;
+    left:50%;
+    bottom:13px;
+    transform:translateX(-50%);
+    z-index:15;
+    display:none;
+    align-items:center;
+    gap:7px;
+    padding:6px 11px;
+    border-radius:30px;
+    background:rgba(0,0,0,.65);
+    border:1px solid rgba(0,170,255,.2);
+    backdrop-filter:blur(10px);
+    color:#b8c1ca;
+    font-size:.59rem;
+    font-weight:700;
+    white-space:nowrap;
+}
+
+.ai-status.visible{
+    display:flex;
+}
+
+.ai-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:#00aaff;
+    box-shadow:0 0 10px #00aaff;
+    animation:aiPulse 1s infinite;
+}
+
+@keyframes aiPulse{
+
+    50%{
+        opacity:.35;
+        transform:scale(.7);
+    }
+
+}
+
+/* START SCREEN */
 
 .start-screen{
     position:absolute;
@@ -488,7 +500,7 @@ body::after{
     transform:scale(.96);
 }
 
-/* ================= SEARCH ================= */
+/* SEARCH */
 
 .search-box{
     width:100%;
@@ -544,7 +556,7 @@ body::after{
     transform:scale(.95);
 }
 
-/* ================= ACTIONS ================= */
+/* ACTIONS */
 
 .quick-actions{
     display:flex;
@@ -575,7 +587,7 @@ body::after{
     margin-bottom:2px;
 }
 
-/* ================= RESULT ================= */
+/* RESULT */
 
 .result{
     display:none;
@@ -678,7 +690,7 @@ body::after{
     cursor:pointer;
 }
 
-/* ================= RECENT ================= */
+/* RECENT */
 
 .recent-section{
     margin-top:16px;
@@ -741,7 +753,7 @@ body::after{
     padding:10px;
 }
 
-/* ================= TOAST ================= */
+/* TOAST */
 
 .toast{
     position:fixed;
@@ -768,7 +780,7 @@ body::after{
     transform:translate(-50%,0);
 }
 
-/* ================= LOADER ================= */
+/* LOADER */
 
 .loader{
     position:fixed;
@@ -849,7 +861,7 @@ body::after{
 
 }
 
-/* ================= MOBILE ================= */
+/* MOBILE */
 
 @media(max-height:700px){
 
@@ -877,7 +889,7 @@ body::after{
 
 <body>
 
-<!-- ================= LOADER ================= -->
+<!-- LOADER -->
 
 <div class="loader" id="loader">
 
@@ -901,7 +913,7 @@ body::after{
 
 <div class="app">
 
-<!-- ================= HEADER ================= -->
+<!-- HEADER -->
 
 <header class="header">
 
@@ -943,12 +955,12 @@ body::after{
 </header>
 
 
-<!-- ================= HERO ================= -->
+<!-- HERO -->
 
 <section class="hero">
 
     <h1>
-        <span>خاص الى محمد ❤️</span>
+        <span>خاص الى محمد احمد</span>
     </h1>
 
     <p>
@@ -958,7 +970,7 @@ body::after{
 </section>
 
 
-<!-- ================= SCANNER ================= -->
+<!-- SCANNER -->
 
 <section
     class="scanner-card"
@@ -1050,6 +1062,22 @@ body::after{
     </div>
 
 
+    <!-- AI STATUS -->
+
+    <div
+        class="ai-status"
+        id="ai-status"
+    >
+
+        <span class="ai-dot"></span>
+
+        <span id="ai-status-text">
+            تحسين قراءة الباركود...
+        </span>
+
+    </div>
+
+
     <!-- START -->
 
     <div
@@ -1081,7 +1109,7 @@ body::after{
 </section>
 
 
-<!-- ================= ACTIONS ================= -->
+<!-- ACTIONS -->
 
 <div
     class="quick-actions"
@@ -1126,7 +1154,7 @@ body::after{
 </div>
 
 
-<!-- ================= MANUAL SEARCH ================= -->
+<!-- MANUAL SEARCH -->
 
 <div
     class="search-box"
@@ -1160,7 +1188,7 @@ body::after{
 </div>
 
 
-<!-- ================= RESULT ================= -->
+<!-- RESULT -->
 
 <section
     class="result"
@@ -1240,7 +1268,7 @@ body::after{
 </section>
 
 
-<!-- ================= RECENT ================= -->
+<!-- RECENT -->
 
 <section
     class="recent-section"
@@ -1279,7 +1307,7 @@ body::after{
 </div>
 
 
-<!-- ================= TOAST ================= -->
+<!-- TOAST -->
 
 <div
     class="toast"
@@ -1290,7 +1318,7 @@ body::after{
 <script>
 
 /* =====================================================
-   إعدادات
+   إعدادات عامة
 ===================================================== */
 
 let codeReader = null;
@@ -1308,7 +1336,9 @@ let scannerRunning = false;
 let scanLocked = false;
 
 
-/* ================= ZOOM ================= */
+/* =====================================================
+   إعدادات الزوم
+===================================================== */
 
 let zoomSupported = false;
 
@@ -1322,11 +1352,40 @@ let zoomStep = 0.5;
 
 
 /* =====================================================
-   رابط Google Apps Script
+   Google Apps Script
 ===================================================== */
 
 const GOOGLE_SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbxeJYj6R_5RlsJthru-BMtrHaKz_08pFgwVWqY9ApT4sBKNzXgPO9iF7wxA8LRJJjJFVA/exec";
+"https://script.google.com/macros/s/AKfycbxeYj6R_5RlsJthru-BMtrHaKz_08pFgwVWqY9ApT4sBKNzXgPO9iF7wxA8LRJJjJFVA/exec";
+
+
+/* =====================================================
+   A2Z AI WORKER
+===================================================== */
+
+const AI_WORKER_URL =
+"https://ahmed.hyperahd079.workers.dev/";
+
+
+/*
+   AI لا يعمل مع كل فريم.
+
+   ينتظر أولاً حتى يعطي ZXing فرصة.
+
+   وبعدها يعمل بعدد محدود من المحاولات.
+*/
+
+let aiBusy = false;
+
+let aiTimer = null;
+
+let aiAttempts = 0;
+
+const AI_MAX_ATTEMPTS = 4;
+
+const AI_FIRST_DELAY = 3500;
+
+const AI_INTERVAL = 2800;
 
 
 /* =====================================================
@@ -1545,7 +1604,7 @@ function setSystemStatus(
 
 
 /* =====================================================
-   صوت
+   صوت الفحص
 ===================================================== */
 
 function playCashierBeep(){
@@ -1598,17 +1657,12 @@ function playCashierBeep(){
         );
 
 
-        oscillator.connect(
-            gain
-        );
+        oscillator.connect(gain);
 
-        gain.connect(
-            audio.destination
-        );
+        gain.connect(audio.destination);
 
 
         oscillator.start();
-
 
         oscillator.stop(
             audio.currentTime + .09
@@ -1624,7 +1678,7 @@ function playCashierBeep(){
 
 
 /* =====================================================
-   فتح البحث اليدوي
+   البحث اليدوي
 ===================================================== */
 
 function showManualSearch(){
@@ -1661,10 +1715,6 @@ function showManualSearch(){
 
 }
 
-
-/* =====================================================
-   إخفاء البحث اليدوي
-===================================================== */
 
 function hideManualSearch(){
 
@@ -1735,9 +1785,13 @@ function initScanner(){
         "block";
 
 
-    /*
-       إظهار الزوم فقط عند تشغيل الكاميرا
-    */
+    document
+        .getElementById(
+            "ai-status"
+        )
+        .classList
+        .remove("visible");
+
 
     document
         .getElementById(
@@ -1804,16 +1858,11 @@ function initScanner(){
     }
 
 
-    canScan =
-        true;
+    canScan = true;
 
+    scanLocked = false;
 
-    scanLocked =
-        false;
-
-
-    scannerRunning =
-        true;
+    scannerRunning = true;
 
 
     const constraints = {
@@ -1864,12 +1913,11 @@ function initScanner(){
                     !scanLocked
                 ){
 
-                    scanLocked =
-                        true;
+                    scanLocked = true;
 
-                    canScan =
-                        false;
+                    canScan = false;
 
+                    stopAIFallback();
 
                     handleResult(
                         result.text
@@ -1889,6 +1937,16 @@ function initScanner(){
 
                         detectZoom();
 
+                        /*
+                           بعد تشغيل الكاميرا
+                           نعطي ZXing فرصة.
+
+                           إذا لم ينجح،
+                           يبدأ AI تلقائياً.
+                        */
+
+                        startAIFallback();
+
                     },
                     700
                 );
@@ -1903,8 +1961,7 @@ function initScanner(){
                 );
 
 
-                scannerRunning =
-                    false;
+                scannerRunning = false;
 
 
                 video.style.display =
@@ -1917,6 +1974,9 @@ function initScanner(){
 
                 startScreen.style.display =
                     "flex";
+
+
+                stopAIFallback();
 
 
                 document
@@ -1938,7 +1998,451 @@ function initScanner(){
 
 
 /* =====================================================
-   اكتشاف الفلاش
+   التقاط صورة من الكاميرا
+===================================================== */
+
+function captureCameraImage(){
+
+    const video =
+        document.getElementById(
+            "webcam-video"
+        );
+
+
+    if(
+        !video ||
+        !video.videoWidth ||
+        !video.videoHeight
+    ){
+
+        return null;
+
+    }
+
+
+    const canvas =
+        document.createElement(
+            "canvas"
+        );
+
+
+    /*
+       حجم مناسب للـAI
+       حتى لا يصير طلب ضخم
+    */
+
+    const maxWidth = 900;
+
+
+    const scale =
+        Math.min(
+            1,
+            maxWidth /
+            video.videoWidth
+        );
+
+
+    canvas.width =
+        Math.round(
+            video.videoWidth *
+            scale
+        );
+
+
+    canvas.height =
+        Math.round(
+            video.videoHeight *
+            scale
+        );
+
+
+    const ctx =
+        canvas.getContext(
+            "2d",
+            {
+                alpha:false
+            }
+        );
+
+
+    if(!ctx){
+
+        return null;
+
+    }
+
+
+    ctx.drawImage(
+        video,
+        0,
+        0,
+        canvas.width,
+        canvas.height
+    );
+
+
+    return canvas.toDataURL(
+        "image/jpeg",
+        0.72
+    );
+
+}
+
+
+/* =====================================================
+   AI BARCODE SCAN
+===================================================== */
+
+async function scanBarcodeWithAI(){
+
+    if(
+        aiBusy ||
+        !scannerRunning ||
+        scanLocked
+    ){
+
+        return;
+
+    }
+
+
+    if(
+        aiAttempts >=
+        AI_MAX_ATTEMPTS
+    ){
+
+        stopAIFallback();
+
+        showAIStatus(
+            "تعذر قراءة الباركود",
+            false
+        );
+
+
+        setTimeout(
+            function(){
+
+                hideAIStatus();
+
+            },
+            1800
+        );
+
+
+        return;
+
+    }
+
+
+    const image =
+        captureCameraImage();
+
+
+    if(!image){
+
+        return;
+
+    }
+
+
+    aiBusy = true;
+
+    aiAttempts++;
+
+
+    showAIStatus(
+        "AI يحاول قراءة الباركود...",
+        true
+    );
+
+
+    try{
+
+        const response =
+            await fetch(
+                AI_WORKER_URL,
+                {
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:JSON.stringify({
+                        image:image
+                    })
+                }
+            );
+
+
+        if(!response.ok){
+
+            throw new Error(
+                "AI HTTP " +
+                response.status
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "A2Z AI:",
+            data
+        );
+
+
+        if(
+            data &&
+            data.ok &&
+            data.found &&
+            data.barcode
+        ){
+
+            let barcode =
+                String(
+                    data.barcode
+                ).trim();
+
+
+            /*
+               تنظيف الناتج
+            */
+
+            barcode =
+                barcode.replace(
+                    /\D/g,
+                    ""
+                );
+
+
+            /*
+               الباركود التجاري عادة
+               يكون من 6 إلى 14 رقم
+            */
+
+            if(
+                /^\d{6,14}$/.test(
+                    barcode
+                )
+            ){
+
+                stopAIFallback();
+
+                showAIStatus(
+                    "تمت قراءة الباركود ✓",
+                    true
+                );
+
+
+                setTimeout(
+                    function(){
+
+                        hideAIStatus();
+
+                    },
+                    700
+                );
+
+
+                handleResult(
+                    barcode
+                );
+
+
+                return;
+
+            }
+
+        }
+
+
+        showAIStatus(
+            "لم تتم القراءة، إعادة المحاولة...",
+            true
+        );
+
+
+    }catch(error){
+
+        console.log(
+            "AI fallback error:",
+            error
+        );
+
+
+        showAIStatus(
+            "تعذر الاتصال بالـAI، إعادة المحاولة...",
+            true
+        );
+
+    }finally{
+
+        aiBusy = false;
+
+    }
+
+}
+
+
+/* =====================================================
+   تشغيل AI Fallback
+===================================================== */
+
+function startAIFallback(){
+
+    stopAIFallback();
+
+
+    aiAttempts = 0;
+
+    aiBusy = false;
+
+
+    /*
+       أول محاولة بعد 3.5 ثانية
+    */
+
+    aiTimer =
+        setTimeout(
+            function(){
+
+                if(
+                    scannerRunning &&
+                    !scanLocked
+                ){
+
+                    scanBarcodeWithAI();
+
+
+                    /*
+                       بعدها كل 2.8 ثانية
+                    */
+
+                    aiTimer =
+                        setInterval(
+                            function(){
+
+                                if(
+                                    scannerRunning &&
+                                    !scanLocked &&
+                                    aiAttempts <
+                                    AI_MAX_ATTEMPTS
+                                ){
+
+                                    scanBarcodeWithAI();
+
+                                }else{
+
+                                    stopAIFallback();
+
+                                }
+
+                            },
+                            AI_INTERVAL
+                        );
+
+                }
+
+            },
+            AI_FIRST_DELAY
+        );
+
+}
+
+
+/* =====================================================
+   إيقاف AI
+===================================================== */
+
+function stopAIFallback(){
+
+    if(aiTimer){
+
+        clearTimeout(
+            aiTimer
+        );
+
+        clearInterval(
+            aiTimer
+        );
+
+        aiTimer = null;
+
+    }
+
+
+    aiBusy = false;
+
+
+    hideAIStatus();
+
+}
+
+
+/* =====================================================
+   حالة AI
+===================================================== */
+
+function showAIStatus(
+    text,
+    visible
+){
+
+    const box =
+        document.getElementById(
+            "ai-status"
+        );
+
+
+    const label =
+        document.getElementById(
+            "ai-status-text"
+        );
+
+
+    label.innerText =
+        text;
+
+
+    if(visible){
+
+        box.classList.add(
+            "visible"
+        );
+
+    }else{
+
+        box.classList.remove(
+            "visible"
+        );
+
+    }
+
+}
+
+
+function hideAIStatus(){
+
+    const box =
+        document.getElementById(
+            "ai-status"
+        );
+
+
+    box.classList.remove(
+        "visible"
+    );
+
+}
+
+
+/* =====================================================
+   الفلاش
 ===================================================== */
 
 function detectTorch(){
@@ -2000,7 +2504,7 @@ function detectTorch(){
 
 
 /* =====================================================
-   اكتشاف زوم الكاميرا
+   اكتشاف الزوم
 ===================================================== */
 
 function detectZoom(){
@@ -2028,7 +2532,8 @@ function detectZoom(){
 
 
     const tracks =
-        video.srcObject.getVideoTracks();
+        video.srcObject
+            .getVideoTracks();
 
 
     if(!tracks.length){
@@ -2074,8 +2579,7 @@ function detectZoom(){
     }
 
 
-    zoomSupported =
-        true;
+    zoomSupported = true;
 
 
     minZoom =
@@ -2095,11 +2599,6 @@ function detectZoom(){
             capabilities.zoom.step || .1
         );
 
-
-    /*
-       إظهار فقط مستويات الزوم
-       التي يدعمها الهاتف
-    */
 
     document
         .querySelectorAll(
@@ -2132,11 +2631,6 @@ function detectZoom(){
             }
         );
 
-
-    /*
-       إظهار شريط الزوم
-       إذا الجهاز يدعم أكثر من 1×
-    */
 
     if(
         maxZoom > minZoom
@@ -2230,7 +2724,8 @@ async function setCameraZoom(
                     button.classList.toggle(
                         "active",
                         Math.abs(
-                            buttonZoom - zoom
+                            buttonZoom -
+                            zoom
                         ) < .15
                     );
 
@@ -2288,7 +2783,7 @@ document
 
 
 /* =====================================================
-   تشغيل / إطفاء الفلاش
+   الفلاش تشغيل / إطفاء
 ===================================================== */
 
 async function toggleTorch(){
@@ -2337,6 +2832,9 @@ async function toggleTorch(){
 
     }catch(error){
 
+        torchOn = false;
+
+
         showToast(
             "الفلاش غير مدعوم بهذا الجهاز"
         );
@@ -2361,6 +2859,37 @@ function handleResult(
     }
 
 
+    /*
+       تنظيف الباركود
+    */
+
+    const cleanBarcode =
+        String(
+            barcode
+        ).trim();
+
+
+    if(!cleanBarcode){
+
+        return;
+
+    }
+
+
+    /*
+       أوقف AI فوراً
+    */
+
+    stopAIFallback();
+
+
+    aiAttempts = 0;
+
+
+    /*
+       اهتزاز
+    */
+
     if(navigator.vibrate){
 
         navigator.vibrate([
@@ -2371,6 +2900,10 @@ function handleResult(
 
     }
 
+
+    /*
+       صوت
+    */
 
     playCashierBeep();
 
@@ -2384,8 +2917,7 @@ function handleResult(
         videoTrack
     ){
 
-        torchOn =
-            false;
+        torchOn = false;
 
 
         videoTrack
@@ -2415,7 +2947,6 @@ function handleResult(
 
     /*
        إخفاء الزوم
-       بمجرد ظهور النتيجة
     */
 
     document
@@ -2427,7 +2958,7 @@ function handleResult(
 
 
     /*
-       إيقاف القارئ
+       إيقاف قارئ ZXing
     */
 
     if(codeReader){
@@ -2453,9 +2984,9 @@ function handleResult(
         false;
 
 
-    const cleanBarcode =
-        String(barcode).trim();
-
+    /*
+       البحث عن المادة
+    */
 
     const item =
         securedDataStore.get(
@@ -2464,7 +2995,7 @@ function handleResult(
 
 
     /*
-       إخفاء الواجهة السابقة
+       إخفاء الواجهة
     */
 
     document
@@ -2538,7 +3069,9 @@ function handleResult(
 
 
         let price =
-            Number(item.p);
+            Number(
+                item.p
+            );
 
 
         document
@@ -2555,7 +3088,8 @@ function handleResult(
 
         saveRecent(
             cleanBarcode,
-            item.n || "مادة",
+            item.n ||
+            "مادة",
             price
         );
 
@@ -2636,7 +3170,7 @@ function searchManualBarcode(){
 
 
 /* =====================================================
-   Enter للبحث
+   Enter
 ===================================================== */
 
 document
@@ -2661,9 +3195,14 @@ document
     );
 
 
-/* =====================================================
-   منع أي معالجة أثناء الكتابة
-===================================================== */
+/*
+   مهم:
+
+   لا نسوي أي بحث داخل input event.
+
+   حتى الكتابة تبقى سلسة
+   وما يصير تقطيع.
+*/
 
 document
     .getElementById(
@@ -2673,11 +3212,7 @@ document
         "input",
         function(){
 
-            /*
-               لا يوجد بحث أثناء الكتابة.
-               البحث فقط عند الضغط على بحث
-               أو Enter.
-            */
+            /* لا شيء */
 
         },
         {
@@ -2687,7 +3222,7 @@ document
 
 
 /* =====================================================
-   إعادة المسح
+   إعادة الفحص
 ===================================================== */
 
 function resetScanner(){
@@ -2767,10 +3302,6 @@ function resetScanner(){
         "none";
 
 
-    /*
-       إخفاء الزوم
-    */
-
     document
         .getElementById(
             "zoom-controls"
@@ -2779,32 +3310,34 @@ function resetScanner(){
         .remove("visible");
 
 
-    canScan =
-        true;
+    document
+        .getElementById(
+            "torch-btn"
+        )
+        .style.display =
+        "none";
 
 
-    scannerRunning =
-        false;
+    hideAIStatus();
 
 
-    videoTrack =
-        null;
+    canScan = true;
 
+    scannerRunning = false;
 
-    torchOn =
-        false;
+    videoTrack = null;
 
+    torchOn = false;
 
-    scanLocked =
-        false;
+    scanLocked = false;
 
+    currentZoom = 1;
 
-    currentZoom =
-        1;
+    zoomSupported = false;
 
+    aiAttempts = 0;
 
-    zoomSupported =
-        false;
+    aiBusy = false;
 
 }
 
@@ -2814,6 +3347,18 @@ function resetScanner(){
 ===================================================== */
 
 function stopCamera(){
+
+    /*
+       أول شيء نوقف AI
+    */
+
+    stopAIFallback();
+
+
+    aiAttempts = 0;
+
+    aiBusy = false;
+
 
     try{
 
@@ -2859,16 +3404,23 @@ function stopCamera(){
         false;
 
 
-    /*
-       إخفاء الزوم عند إيقاف الكاميرا
-    */
-
     document
         .getElementById(
             "zoom-controls"
         )
         .classList
         .remove("visible");
+
+
+    document
+        .getElementById(
+            "torch-btn"
+        )
+        .style.display =
+        "none";
+
+
+    hideAIStatus();
 
 
     zoomSupported =
@@ -2965,7 +3517,9 @@ function saveRecent(
 
     localStorage.setItem(
         "a2z_recent",
-        JSON.stringify(recent)
+        JSON.stringify(
+            recent
+        )
     );
 
 
