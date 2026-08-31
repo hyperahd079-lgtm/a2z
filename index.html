@@ -1,14 +1,25 @@
-<!DOCTYPE html><html lang="ar" dir="rtl">
-<head><meta charset="UTF-8"><meta
-name="viewport"
-content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 
-«»
+<head>
 
-<title>A2Z HYPERMARKET - فحص الأسعار</title><script src="https://unpkg.com/@zxing/library@latest"></script><link
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+>
+
+<title>A2Z HYPERMARKET - فحص الأسعار</title>
+
+<script src="https://unpkg.com/@zxing/library@latest"></script>
+
+<link
     href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap"
     rel="stylesheet"
-><style>
+>
+
+<style>
 
 *{
     box-sizing:border-box;
@@ -295,6 +306,7 @@ body::after{
 }
 
 @keyframes laserMove{
+
     0%,100%{
         top:7%;
     }
@@ -302,6 +314,7 @@ body::after{
     50%{
         top:91%;
     }
+
 }
 
 .scan-label{
@@ -315,6 +328,8 @@ body::after{
     text-shadow:0 1px 5px #000;
 }
 
+/* ================= FLASH ================= */
+
 #torch-btn{
     display:none;
     position:absolute;
@@ -325,11 +340,97 @@ body::after{
     background:rgba(0,0,0,.55);
     color:#fff;
     backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
     border-radius:30px;
     padding:7px 13px;
     font-size:.68rem;
     font-weight:800;
 }
+
+/* ================= ZOOM ================= */
+
+.zoom-controls{
+
+    position:absolute;
+
+    top:13px;
+    right:13px;
+
+    z-index:20;
+
+    display:none;
+
+    align-items:center;
+
+    gap:4px;
+
+    padding:4px;
+
+    background:rgba(0,0,0,.58);
+
+    border:1px solid rgba(255,255,255,.14);
+
+    border-radius:30px;
+
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+
+    box-shadow:
+        0 8px 25px rgba(0,0,0,.35);
+
+}
+
+.zoom-controls.visible{
+    display:flex;
+}
+
+.zoom-btn{
+
+    border:0;
+
+    min-width:39px;
+
+    height:30px;
+
+    padding:0 7px;
+
+    border-radius:20px;
+
+    background:transparent;
+
+    color:#b9c1ca;
+
+    font-family:'Cairo',sans-serif;
+
+    font-size:.61rem;
+
+    font-weight:900;
+
+    cursor:pointer;
+
+    transition:
+        background .18s ease,
+        color .18s ease,
+        transform .12s ease;
+
+}
+
+.zoom-btn.active{
+
+    background:#007aff;
+
+    color:#fff;
+
+    box-shadow:
+        0 3px 12px rgba(0,122,255,.35);
+
+}
+
+.zoom-btn:active{
+    transform:scale(.92);
+}
+
+/* ================= START SCREEN ================= */
 
 .start-screen{
     position:absolute;
@@ -419,12 +520,6 @@ body::after{
     padding:9px 4px;
     direction:ltr;
     text-align:left;
-
-    /*
-       مهم جداً:
-       يمنع المتصفح من عمل تغييرات
-       رسومية ثقيلة أثناء الكتابة
-    */
     transform:translateZ(0);
     -webkit-transform:translateZ(0);
 }
@@ -488,6 +583,7 @@ body::after{
 }
 
 @keyframes resultIn{
+
     from{
         opacity:0;
         transform:translateY(15px) scale(.98);
@@ -497,6 +593,7 @@ body::after{
         opacity:1;
         transform:none;
     }
+
 }
 
 .result-card{
@@ -733,12 +830,15 @@ body::after{
 }
 
 @keyframes logoPulse{
+
     50%{
         transform:scale(1.04);
     }
+
 }
 
 @keyframes loadLine{
+
     from{
         transform:translateX(-300%);
     }
@@ -746,6 +846,7 @@ body::after{
     to{
         transform:translateX(300%);
     }
+
 }
 
 /* ================= MOBILE ================= */
@@ -767,24 +868,40 @@ body::after{
     .recent-section{
         margin-top:10px;
     }
+
 }
 
-</style></head><body><!-- ================= LOADER ================= --><div class="loader" id="loader"><div class="loader-logo">
+</style>
 
-    <img
-        src="https://lh3.googleusercontent.com/d/109H2w4zxFrJzi5EgQse4u1Ka6KoZyupo"
-        alt="A2Z"
-    >
+</head>
+
+<body>
+
+<!-- ================= LOADER ================= -->
+
+<div class="loader" id="loader">
+
+    <div class="loader-logo">
+
+        <img
+            src="https://lh3.googleusercontent.com/d/109H2w4zxFrJzi5EgQse4u1Ka6KoZyupo"
+            alt="A2Z"
+        >
+
+    </div>
+
+    <div class="loader-text">
+        جاري تجهيز فاحص الأسعار...
+    </div>
+
+    <div class="loader-line"></div>
 
 </div>
 
-<div class="loader-text">
-    جاري تجهيز فاحص الأسعار...
-</div>
 
-<div class="loader-line"></div>
+<div class="app">
 
-</div><div class="app"><!-- ================= HEADER ================= -->
+<!-- ================= HEADER ================= -->
 
 <header class="header">
 
@@ -813,7 +930,6 @@ body::after{
 
     </div>
 
-
     <div class="status" id="system-status">
 
         <span class="status-dot"></span>
@@ -832,7 +948,7 @@ body::after{
 <section class="hero">
 
     <h1>
-        <span>خاص الى حمودي</span>
+        <span>خاص الى محمد ❤️</span>
     </h1>
 
     <p>
@@ -849,6 +965,8 @@ body::after{
     id="scanner-card"
 >
 
+    <!-- FLASH -->
+
     <button
         id="torch-btn"
         onclick="toggleTorch()"
@@ -857,12 +975,54 @@ body::after{
     </button>
 
 
+    <!-- ZOOM -->
+
+    <div
+        id="zoom-controls"
+        class="zoom-controls"
+    >
+
+        <button
+            class="zoom-btn active"
+            data-zoom="1"
+        >
+            1×
+        </button>
+
+        <button
+            class="zoom-btn"
+            data-zoom="1.5"
+        >
+            1.5×
+        </button>
+
+        <button
+            class="zoom-btn"
+            data-zoom="2"
+        >
+            2×
+        </button>
+
+        <button
+            class="zoom-btn"
+            data-zoom="3"
+        >
+            3×
+        </button>
+
+    </div>
+
+
+    <!-- CAMERA -->
+
     <video
         id="webcam-video"
         playsinline
         muted
     ></video>
 
+
+    <!-- CAMERA OVERLAY -->
 
     <div
         class="camera-overlay"
@@ -968,11 +1128,6 @@ body::after{
 
 <!-- ================= MANUAL SEARCH ================= -->
 
-<!--
-    هذا المربع مخفي بالبداية.
-    يظهر فقط عند الضغط على "بحث يدوي".
--->
-
 <div
     class="search-box"
     id="manual-box"
@@ -981,7 +1136,6 @@ body::after{
     <div class="search-icon">
         🔎
     </div>
-
 
     <input
         type="text"
@@ -994,7 +1148,6 @@ body::after{
         spellcheck="false"
         placeholder="أدخل رقم الباركود..."
     >
-
 
     <button
         class="search-btn"
@@ -1052,7 +1205,6 @@ body::after{
                 السعر الإجمالي
             </div>
 
-
             <div class="price">
 
                 <span id="item-price">
@@ -1060,7 +1212,6 @@ body::after{
                 </span>
 
             </div>
-
 
             <div class="currency">
                 دينار عراقي
@@ -1125,10 +1276,18 @@ body::after{
 
 </section>
 
-</div><!-- ================= TOAST ================= --><div
+</div>
+
+
+<!-- ================= TOAST ================= -->
+
+<div
     class="toast"
     id="toast"
-></div><script>
+></div>
+
+
+<script>
 
 /* =====================================================
    إعدادات
@@ -1149,7 +1308,22 @@ let scannerRunning = false;
 let scanLocked = false;
 
 
-/* رابط Google Apps Script */
+/* ================= ZOOM ================= */
+
+let zoomSupported = false;
+
+let currentZoom = 1;
+
+let minZoom = 1;
+
+let maxZoom = 1;
+
+let zoomStep = 0.5;
+
+
+/* =====================================================
+   رابط Google Apps Script
+===================================================== */
 
 const GOOGLE_SCRIPT_URL =
 "https://script.google.com/macros/s/AKfycbxeJYj6R_5RlsJthru-BMtrHaKz_08pFgwVWqY9ApT4sBKNzXgPO9iF7wxA8LRJJjJFVA/exec";
@@ -1159,22 +1333,28 @@ const GOOGLE_SCRIPT_URL =
    بداية الصفحة
 ===================================================== */
 
-window.addEventListener("load",function(){
+window.addEventListener(
+    "load",
+    function(){
 
-    loadRecent();
+        loadRecent();
 
-    loadPriceData();
+        loadPriceData();
 
-    setTimeout(function(){
+        setTimeout(
+            function(){
 
-        document
-            .getElementById("loader")
-            .classList
-            .add("hide");
+                document
+                    .getElementById("loader")
+                    .classList
+                    .add("hide");
 
-    },900);
+            },
+            900
+        );
 
-});
+    }
+);
 
 
 /* =====================================================
@@ -1193,80 +1373,85 @@ function loadPriceData(){
         "jsonp_" +
         Date.now() +
         "_" +
-        Math.floor(Math.random()*1000);
+        Math.floor(
+            Math.random()*1000
+        );
 
 
-    window[callbackName] = function(rawData){
+    window[callbackName] =
+        function(rawData){
 
-        try{
+            try{
 
-            if(
-                rawData &&
-                typeof rawData === "object"
-            ){
-
-                securedDataStore.clear();
-
-
-                for(
-                    const [barcode,info]
-                    of Object.entries(rawData)
+                if(
+                    rawData &&
+                    typeof rawData === "object"
                 ){
 
-                    if(
-                        barcode !== undefined &&
-                        info !== undefined
+                    securedDataStore.clear();
+
+
+                    for(
+                        const [barcode,info]
+                        of Object.entries(rawData)
                     ){
 
-                        securedDataStore.set(
-                            String(barcode).trim(),
-                            info
-                        );
+                        if(
+                            barcode !== undefined &&
+                            info !== undefined
+                        ){
+
+                            securedDataStore.set(
+                                String(barcode).trim(),
+                                info
+                            );
+
+                        }
 
                     }
 
                 }
 
+
+                setSystemStatus(
+                    "النظام متصل",
+                    "online"
+                );
+
+
+                showToast(
+                    "تم تحديث الأسعار ✓"
+                );
+
+
+            }catch(error){
+
+                console.error(error);
+
+                setSystemStatus(
+                    "خطأ بالبيانات",
+                    "error"
+                );
+
             }
 
 
-            setSystemStatus(
-                "النظام متصل",
-                "online"
-            );
+            delete window[callbackName];
 
 
-            showToast(
-                "تم تحديث الأسعار ✓"
-            );
+            const oldScript =
+                document.getElementById(
+                    callbackName
+                );
 
 
-        }catch(error){
+            if(oldScript){
 
-            console.error(error);
+                oldScript.remove();
 
-            setSystemStatus(
-                "خطأ بالبيانات",
-                "error"
-            );
+            }
 
-        }
-
-
-        delete window[callbackName];
-
-
-        const oldScript =
-            document.getElementById(
-                callbackName
-            );
-
-
-        if(oldScript){
-            oldScript.remove();
-        }
-
-    };
+        };
 
 
     const script =
@@ -1285,22 +1470,25 @@ function loadPriceData(){
         Date.now();
 
 
-    script.onerror = function(){
+    script.onerror =
+        function(){
 
-        setSystemStatus(
-            "تعذر الاتصال",
-            "error"
-        );
-
-
-        showToast(
-            "تعذر تحميل الأسعار"
-        );
-
-    };
+            setSystemStatus(
+                "تعذر الاتصال",
+                "error"
+            );
 
 
-    document.body.appendChild(script);
+            showToast(
+                "تعذر تحميل الأسعار"
+            );
+
+        };
+
+
+    document.body.appendChild(
+        script
+    );
 
 }
 
@@ -1309,7 +1497,10 @@ function loadPriceData(){
    حالة النظام
 ===================================================== */
 
-function setSystemStatus(text,state){
+function setSystemStatus(
+    text,
+    state
+){
 
     const status =
         document.getElementById(
@@ -1334,12 +1525,20 @@ function setSystemStatus(text,state){
 
 
     if(state === "online"){
-        status.classList.add("online");
+
+        status.classList.add(
+            "online"
+        );
+
     }
 
 
     if(state === "error"){
-        status.classList.add("error");
+
+        status.classList.add(
+            "error"
+        );
+
     }
 
 }
@@ -1359,7 +1558,9 @@ function playCashierBeep(){
 
 
         if(!AudioContext){
+
             return;
+
         }
 
 
@@ -1397,9 +1598,13 @@ function playCashierBeep(){
         );
 
 
-        oscillator.connect(gain);
+        oscillator.connect(
+            gain
+        );
 
-        gain.connect(audio.destination);
+        gain.connect(
+            audio.destination
+        );
 
 
         oscillator.start();
@@ -1436,24 +1641,17 @@ function showManualSearch(){
         );
 
 
-    /*
-       يظهر فقط عند الطلب
-    */
-
     box.style.display =
         "flex";
 
 
-    /*
-       نخلي التركيز بعد ظهور العنصر
-       حتى ما يصير تقطيع
-    */
+    requestAnimationFrame(
+        function(){
 
-    requestAnimationFrame(function(){
+            input.focus();
 
-        input.focus();
-
-    });
+        }
+    );
 
 
     box.scrollIntoView({
@@ -1537,15 +1735,23 @@ function initScanner(){
         "block";
 
 
+    /*
+       إظهار الزوم فقط عند تشغيل الكاميرا
+    */
+
+    document
+        .getElementById(
+            "zoom-controls"
+        )
+        .classList
+        .remove("visible");
+
+
     if(!codeReader){
 
         const hints =
             new Map();
 
-
-        /*
-           أنواع باركود متعددة
-        */
 
         const formats = [
 
@@ -1584,10 +1790,6 @@ function initScanner(){
         );
 
 
-        /*
-           محاولة أقوى للقراءة
-        */
-
         hints.set(
             ZXing.DecodeHintType.TRY_HARDER,
             true
@@ -1613,11 +1815,6 @@ function initScanner(){
     scannerRunning =
         true;
 
-
-    /*
-       إعدادات الكاميرا:
-       خلفية + دقة جيدة + تركيز مستمر
-    */
 
     const constraints = {
 
@@ -1655,14 +1852,10 @@ function initScanner(){
         .decodeFromConstraints(
             constraints,
             "webcam-video",
-            function(result,error){
-
-                /*
-                   لا نسوي أي معالجة ثقيلة
-                   لكل Frame.
-                   فقط عندما يتم العثور
-                   على باركود فعلي.
-                */
+            function(
+                result,
+                error
+            ){
 
                 if(
                     result &&
@@ -1686,46 +1879,66 @@ function initScanner(){
 
             }
         )
-        .then(function(){
+        .then(
+            function(){
 
-            setTimeout(
-                detectTorch,
-                700
-            );
+                setTimeout(
+                    function(){
 
-        })
-        .catch(function(error){
+                        detectTorch();
 
-            console.error(error);
+                        detectZoom();
 
+                    },
+                    700
+                );
 
-            scannerRunning =
-                false;
+            }
+        )
+        .catch(
+            function(error){
 
-
-            video.style.display =
-                "none";
-
-
-            overlay.style.display =
-                "none";
-
-
-            startScreen.style.display =
-                "flex";
+                console.error(
+                    error
+                );
 
 
-            showToast(
-                "يرجى السماح للمتصفح باستخدام الكاميرا"
-            );
+                scannerRunning =
+                    false;
 
-        });
+
+                video.style.display =
+                    "none";
+
+
+                overlay.style.display =
+                    "none";
+
+
+                startScreen.style.display =
+                    "flex";
+
+
+                document
+                    .getElementById(
+                        "zoom-controls"
+                    )
+                    .classList
+                    .remove("visible");
+
+
+                showToast(
+                    "يرجى السماح للمتصفح باستخدام الكاميرا"
+                );
+
+            }
+        );
 
 }
 
 
 /* =====================================================
-   الفلاش
+   اكتشاف الفلاش
 ===================================================== */
 
 function detectTorch(){
@@ -1741,7 +1954,9 @@ function detectTorch(){
 
 
     if(!stream){
+
         return;
+
     }
 
 
@@ -1750,7 +1965,9 @@ function detectTorch(){
 
 
     if(!tracks.length){
+
         return;
+
     }
 
 
@@ -1769,7 +1986,9 @@ function detectTorch(){
         if(capabilities.torch){
 
             document
-                .getElementById("torch-btn")
+                .getElementById(
+                    "torch-btn"
+                )
                 .style.display =
                 "block";
 
@@ -1781,13 +2000,303 @@ function detectTorch(){
 
 
 /* =====================================================
+   اكتشاف زوم الكاميرا
+===================================================== */
+
+function detectZoom(){
+
+    const video =
+        document.getElementById(
+            "webcam-video"
+        );
+
+
+    const zoomControls =
+        document.getElementById(
+            "zoom-controls"
+        );
+
+
+    if(
+        !video ||
+        !video.srcObject
+    ){
+
+        return;
+
+    }
+
+
+    const tracks =
+        video.srcObject.getVideoTracks();
+
+
+    if(!tracks.length){
+
+        return;
+
+    }
+
+
+    const track =
+        tracks[0];
+
+
+    videoTrack =
+        track;
+
+
+    if(!track.getCapabilities){
+
+        zoomControls
+            .classList
+            .remove("visible");
+
+        return;
+
+    }
+
+
+    const capabilities =
+        track.getCapabilities();
+
+
+    if(
+        !capabilities.zoom
+    ){
+
+        zoomControls
+            .classList
+            .remove("visible");
+
+        return;
+
+    }
+
+
+    zoomSupported =
+        true;
+
+
+    minZoom =
+        Number(
+            capabilities.zoom.min || 1
+        );
+
+
+    maxZoom =
+        Number(
+            capabilities.zoom.max || 1
+        );
+
+
+    zoomStep =
+        Number(
+            capabilities.zoom.step || .1
+        );
+
+
+    /*
+       إظهار فقط مستويات الزوم
+       التي يدعمها الهاتف
+    */
+
+    document
+        .querySelectorAll(
+            ".zoom-btn"
+        )
+        .forEach(
+            function(button){
+
+                const requestedZoom =
+                    Number(
+                        button.dataset.zoom
+                    );
+
+
+                if(
+                    requestedZoom >= minZoom &&
+                    requestedZoom <= maxZoom
+                ){
+
+                    button.style.display =
+                        "block";
+
+                }else{
+
+                    button.style.display =
+                        "none";
+
+                }
+
+            }
+        );
+
+
+    /*
+       إظهار شريط الزوم
+       إذا الجهاز يدعم أكثر من 1×
+    */
+
+    if(
+        maxZoom > minZoom
+    ){
+
+        zoomControls
+            .classList
+            .add("visible");
+
+    }else{
+
+        zoomControls
+            .classList
+            .remove("visible");
+
+    }
+
+}
+
+
+/* =====================================================
+   تطبيق الزوم
+===================================================== */
+
+async function setCameraZoom(
+    value
+){
+
+    if(
+        !videoTrack ||
+        !zoomSupported
+    ){
+
+        return;
+
+    }
+
+
+    let zoom =
+        Math.max(
+            minZoom,
+            Math.min(
+                value,
+                maxZoom
+            )
+        );
+
+
+    if(
+        zoomStep > 0
+    ){
+
+        zoom =
+            Math.round(
+                zoom / zoomStep
+            ) * zoomStep;
+
+    }
+
+
+    try{
+
+        await videoTrack.applyConstraints({
+
+            advanced:[
+                {
+                    zoom:zoom
+                }
+            ]
+
+        });
+
+
+        currentZoom =
+            zoom;
+
+
+        document
+            .querySelectorAll(
+                ".zoom-btn"
+            )
+            .forEach(
+                function(button){
+
+                    const buttonZoom =
+                        Number(
+                            button.dataset.zoom
+                        );
+
+
+                    button.classList.toggle(
+                        "active",
+                        Math.abs(
+                            buttonZoom - zoom
+                        ) < .15
+                    );
+
+                }
+            );
+
+
+    }catch(error){
+
+        console.log(
+            "Zoom error:",
+            error
+        );
+
+
+        showToast(
+            "الزوم غير مدعوم بهذا الجهاز"
+        );
+
+    }
+
+}
+
+
+/* =====================================================
+   أزرار الزوم
+===================================================== */
+
+document
+    .querySelectorAll(
+        ".zoom-btn"
+    )
+    .forEach(
+        function(button){
+
+            button.addEventListener(
+                "click",
+                function(){
+
+                    const zoom =
+                        Number(
+                            this.dataset.zoom
+                        );
+
+
+                    setCameraZoom(
+                        zoom
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+/* =====================================================
    تشغيل / إطفاء الفلاش
 ===================================================== */
 
 async function toggleTorch(){
 
     if(!videoTrack){
+
         return;
+
     }
 
 
@@ -1841,10 +2350,14 @@ async function toggleTorch(){
    نتيجة الباركود
 ===================================================== */
 
-function handleResult(barcode){
+function handleResult(
+    barcode
+){
 
     if(!barcode){
+
         return;
+
     }
 
 
@@ -1885,15 +2398,32 @@ function handleResult(barcode){
                 ]
 
             })
-            .catch(()=>{});
+            .catch(
+                ()=>{}
+            );
 
     }
 
 
     document
-        .getElementById("torch-btn")
+        .getElementById(
+            "torch-btn"
+        )
         .style.display =
         "none";
+
+
+    /*
+       إخفاء الزوم
+       بمجرد ظهور النتيجة
+    */
+
+    document
+        .getElementById(
+            "zoom-controls"
+        )
+        .classList
+        .remove("visible");
 
 
     /*
@@ -1938,13 +2468,17 @@ function handleResult(barcode){
     */
 
     document
-        .getElementById("scanner-card")
+        .getElementById(
+            "scanner-card"
+        )
         .style.display =
         "none";
 
 
     document
-        .getElementById("quick-actions")
+        .getElementById(
+            "quick-actions"
+        )
         .style.display =
         "none";
 
@@ -1953,19 +2487,25 @@ function handleResult(barcode){
 
 
     document
-        .getElementById("recent-section")
+        .getElementById(
+            "recent-section"
+        )
         .style.display =
         "none";
 
 
     document
-        .getElementById("result-container")
+        .getElementById(
+            "result-container"
+        )
         .style.display =
         "block";
 
 
     document
-        .getElementById("barcode-display")
+        .getElementById(
+            "barcode-display"
+        )
         .innerText =
         cleanBarcode;
 
@@ -1973,19 +2513,25 @@ function handleResult(barcode){
     if(item){
 
         document
-            .getElementById("result-icon")
+            .getElementById(
+                "result-icon"
+            )
             .innerText =
             "✅";
 
 
         document
-            .getElementById("result-status-text")
+            .getElementById(
+                "result-status-text"
+            )
             .innerText =
             "تم العثور على المادة";
 
 
         document
-            .getElementById("item-name")
+            .getElementById(
+                "item-name"
+            )
             .innerText =
             item.n ||
             "مادة بدون اسم";
@@ -1996,11 +2542,15 @@ function handleResult(barcode){
 
 
         document
-            .getElementById("item-price")
+            .getElementById(
+                "item-price"
+            )
             .innerText =
             isNaN(price)
             ? item.p
-            : price.toLocaleString("en-US");
+            : price.toLocaleString(
+                "en-US"
+            );
 
 
         saveRecent(
@@ -2013,25 +2563,33 @@ function handleResult(barcode){
     }else{
 
         document
-            .getElementById("result-icon")
+            .getElementById(
+                "result-icon"
+            )
             .innerText =
             "❌";
 
 
         document
-            .getElementById("result-status-text")
+            .getElementById(
+                "result-status-text"
+            )
             .innerText =
             "المادة غير موجودة";
 
 
         document
-            .getElementById("item-name")
+            .getElementById(
+                "item-name"
+            )
             .innerText =
             "غير موجود في النظام";
 
 
         document
-            .getElementById("item-price")
+            .getElementById(
+                "item-price"
+            )
             .innerText =
             "---";
 
@@ -2052,11 +2610,6 @@ function searchManualBarcode(){
         );
 
 
-    /*
-       قراءة القيمة مرة واحدة فقط.
-       لا يوجد بحث أثناء الكتابة.
-    */
-
     const barcode =
         input.value.trim();
 
@@ -2067,16 +2620,13 @@ function searchManualBarcode(){
             "أدخل رقم الباركود أولاً"
         );
 
+
         input.focus();
 
         return;
 
     }
 
-
-    /*
-       البحث يتم فقط هنا
-    */
 
     handleResult(
         barcode
@@ -2097,7 +2647,9 @@ document
         "keydown",
         function(event){
 
-            if(event.key === "Enter"){
+            if(
+                event.key === "Enter"
+            ){
 
                 event.preventDefault();
 
@@ -2122,14 +2674,9 @@ document
         function(){
 
             /*
-               مهم:
-               لا نستدعي بحث،
-               لا نستدعي render،
-               لا نستدعي Firebase،
-               ولا نحدث الصفحة أثناء الكتابة.
-
-               فقط نخلي المتصفح يتعامل
-               مع النص بشكل طبيعي.
+               لا يوجد بحث أثناء الكتابة.
+               البحث فقط عند الضغط على بحث
+               أو Enter.
             */
 
         },
@@ -2145,65 +2692,91 @@ document
 
 function resetScanner(){
 
-    /*
-       إيقاف أي Stream قديم
-    */
-
     stopCamera();
 
 
     document
-        .getElementById("result-container")
+        .getElementById(
+            "result-container"
+        )
         .style.display =
         "none";
 
 
     document
-        .getElementById("scanner-card")
+        .getElementById(
+            "scanner-card"
+        )
         .style.display =
         "block";
 
 
     document
-        .getElementById("quick-actions")
+        .getElementById(
+            "quick-actions"
+        )
         .style.display =
         "flex";
 
 
     document
-        .getElementById("recent-section")
+        .getElementById(
+            "recent-section"
+        )
         .style.display =
         "block";
 
 
     document
-        .getElementById("start-screen")
+        .getElementById(
+            "start-screen"
+        )
         .style.display =
         "flex";
 
 
     document
-        .getElementById("webcam-video")
+        .getElementById(
+            "webcam-video"
+        )
         .style.display =
         "none";
 
 
     document
-        .getElementById("camera-overlay")
+        .getElementById(
+            "camera-overlay"
+        )
         .style.display =
         "none";
 
 
     document
-        .getElementById("manual-barcode-input")
+        .getElementById(
+            "manual-barcode-input"
+        )
         .value =
         "";
 
 
     document
-        .getElementById("manual-box")
+        .getElementById(
+            "manual-box"
+        )
         .style.display =
         "none";
+
+
+    /*
+       إخفاء الزوم
+    */
+
+    document
+        .getElementById(
+            "zoom-controls"
+        )
+        .classList
+        .remove("visible");
 
 
     canScan =
@@ -2223,6 +2796,14 @@ function resetScanner(){
 
 
     scanLocked =
+        false;
+
+
+    currentZoom =
+        1;
+
+
+    zoomSupported =
         false;
 
 }
@@ -2259,11 +2840,13 @@ function stopCamera(){
 
         video.srcObject
             .getTracks()
-            .forEach(function(track){
+            .forEach(
+                function(track){
 
-                track.stop();
+                    track.stop();
 
-            });
+                }
+            );
 
 
         video.srcObject =
@@ -2274,6 +2857,26 @@ function stopCamera(){
 
     scannerRunning =
         false;
+
+
+    /*
+       إخفاء الزوم عند إيقاف الكاميرا
+    */
+
+    document
+        .getElementById(
+            "zoom-controls"
+        )
+        .classList
+        .remove("visible");
+
+
+    zoomSupported =
+        false;
+
+
+    currentZoom =
+        1;
 
 }
 
@@ -2301,7 +2904,9 @@ function refreshPrices(){
 function focusScanner(){
 
     document
-        .getElementById("scanner-card")
+        .getElementById(
+            "scanner-card"
+        )
         .scrollIntoView({
 
             behavior:"smooth",
@@ -2314,7 +2919,7 @@ function focusScanner(){
 
 
 /* =====================================================
-   السجل
+   حفظ السجل
 ===================================================== */
 
 function saveRecent(
@@ -2410,80 +3015,89 @@ function renderRecent(){
     }
 
 
-    /*
-       استخدام createElement بدل
-       تحديثات كثيرة للـ DOM.
-    */
-
-    container.innerHTML = "";
+    container.innerHTML =
+        "";
 
 
-    recent.forEach(function(item){
+    recent.forEach(
+        function(item){
 
-        const row =
-            document.createElement(
-                "div"
-            );
-
-
-        row.className =
-            "recent-item";
-
-
-        row.addEventListener(
-            "click",
-            function(){
-
-                searchRecent(
-                    item.barcode
+            const row =
+                document.createElement(
+                    "div"
                 );
 
-            }
-        );
+
+            row.className =
+                "recent-item";
 
 
-        const name =
-            document.createElement(
-                "div"
+            row.addEventListener(
+                "click",
+                function(){
+
+                    searchRecent(
+                        item.barcode
+                    );
+
+                }
             );
 
 
-        name.className =
-            "recent-name";
+            const name =
+                document.createElement(
+                    "div"
+                );
 
 
-        name.innerText =
-            item.name;
+            name.className =
+                "recent-name";
 
 
-        const price =
-            document.createElement(
-                "div"
+            name.innerText =
+                item.name;
+
+
+            const price =
+                document.createElement(
+                    "div"
+                );
+
+
+            price.className =
+                "recent-price";
+
+
+            let numericPrice =
+                Number(
+                    item.price
+                );
+
+
+            price.innerText =
+                isNaN(numericPrice)
+                ? item.price
+                : numericPrice.toLocaleString(
+                    "en-US"
+                ) + " د.ع";
+
+
+            row.appendChild(
+                name
             );
 
 
-        price.className =
-            "recent-price";
+            row.appendChild(
+                price
+            );
 
 
-        let numericPrice =
-            Number(item.price);
+            container.appendChild(
+                row
+            );
 
-
-        price.innerText =
-            isNaN(numericPrice)
-            ? item.price
-            : numericPrice.toLocaleString("en-US")
-                + " د.ع";
-
-
-        row.appendChild(name);
-
-        row.appendChild(price);
-
-        container.appendChild(row);
-
-    });
+        }
+    );
 
 }
 
@@ -2492,7 +3106,9 @@ function renderRecent(){
    البحث من السجل
 ===================================================== */
 
-function searchRecent(barcode){
+function searchRecent(
+    barcode
+){
 
     handleResult(
         barcode
@@ -2530,7 +3146,9 @@ let toastTimer =
     null;
 
 
-function showToast(message){
+function showToast(
+    message
+){
 
     const toast =
         document.getElementById(
@@ -2566,5 +3184,7 @@ function showToast(message){
 
 }
 
-</script></body>
+</script>
+
+</body>
 </html>
