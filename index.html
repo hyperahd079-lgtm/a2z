@@ -1,7 +1,8 @@
 <!DOCTYPE html><html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>A2Z HYPERMARKET - فحص الأسعار</title><script src="https://unpkg.com/@zxing/library@latest"></script><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"><style>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>A2Z HYPERMARKET - فحص الأسعار</title><script src="https://unpkg.com/@zxing/library@latest"></script><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"><style>
 *{
     box-sizing:border-box;
     -webkit-tap-highlight-color:transparent;
@@ -745,7 +746,7 @@ body:after{
 </div>
 
 </header><section class="hero"><h1>
-    <span>خاص الى محمد</span>
+    <span>خااص محمد احمد</span>
 </h1>
 
 <p>
@@ -948,6 +949,8 @@ let scanLocked = false;
 
 let videoTrack = null;
 
+let videoStream = null;
+
 let torchOn = false;
 
 let zoomSupported = false;
@@ -983,7 +986,7 @@ window.addEventListener("load",function(){
 
 
 /* =========================================================
-   تحميل الأسعار من Google Apps Script
+   تحميل الأسعار
 ========================================================= */
 
 function loadPriceData(){
@@ -1018,8 +1021,7 @@ function loadPriceData(){
             Object.entries(data).forEach(function(entry){
 
                 const barcode =
-                    String(entry[0])
-                        .trim();
+                    String(entry[0]).trim();
 
                 const item =
                     entry[1];
@@ -1040,11 +1042,6 @@ function loadPriceData(){
                 "الأسعار محدثة",
                 "online"
             );
-
-            showToast(
-                "تم تحميل الأسعار ✓"
-            );
-
 
         }catch(error){
 
@@ -1141,17 +1138,14 @@ function setSystemStatus(text,state){
     textElement.innerText =
         text;
 
-
     status.classList.remove(
         "online",
         "error"
     );
 
-
     if(state === "online"){
         status.classList.add("online");
     }
-
 
     if(state === "error"){
         status.classList.add("error");
@@ -1170,10 +1164,8 @@ function createBarcodeReader(){
         return;
     }
 
-
     const hints =
         new Map();
-
 
     const formats = [
 
@@ -1193,18 +1185,15 @@ function createBarcodeReader(){
 
     ];
 
-
     hints.set(
         ZXing.DecodeHintType.POSSIBLE_FORMATS,
         formats
     );
 
-
     hints.set(
         ZXing.DecodeHintType.TRY_HARDER,
         true
     );
-
 
     codeReader =
         new ZXing.BrowserMultiFormatReader(
@@ -1216,6 +1205,7 @@ function createBarcodeReader(){
 
 /* =========================================================
    فتح الكاميرا
+   أولاً نطلب إذن الكاميرا بشكل مباشر
 ========================================================= */
 
 async function initScanner(){
@@ -1228,21 +1218,15 @@ async function initScanner(){
 
     }
 
-
-    createBarcodeReader();
-
-
     const start =
         document.getElementById(
             "start-screen"
         );
 
-
     const video =
         document.getElementById(
             "webcam-video"
         );
-
 
     const overlay =
         document.getElementById(
@@ -1250,30 +1234,43 @@ async function initScanner(){
         );
 
 
-    start.style.display =
-        "none";
+    /*
+       مهم جداً:
+       نطلب إذن الكاميرا أولاً عن طريق
+       navigator.mediaDevices.getUserMedia
+    */
+
+    if(
+        !navigator.mediaDevices ||
+        !navigator.mediaDevices.getUserMedia
+    ){
+
+        showToast(
+            "المتصفح لا يدعم تشغيل الكاميرا"
+        );
+
+        return;
+
+    }
 
 
-    video.style.display =
-        "block";
-
-
-    overlay.style.display =
-        "block";
-
-
-    scannerRunning = true;
-
-    canScan = true;
-
-    scanLocked = false;
+    setSystemStatus(
+        "جاري طلب إذن الكاميرا",
+        "loading"
+    );
 
 
     try{
 
-        await codeReader.decodeFromConstraints(
+        /*
+           هذا هو طلب الإذن الحقيقي.
+           المتصفح هنا يعرض للمستخدم:
+           السماح / رفض
+        */
 
-            {
+        videoStream =
+            await navigator.mediaDevices.getUserMedia({
+
                 audio:false,
 
                 video:{
@@ -1282,21 +1279,226 @@ async function initScanner(){
                     },
 
                     width:{
-                        ideal:1280,
-                        min:640
+                        ideal:1280
                     },
 
                     height:{
-                        ideal:720,
-                        min:480
-                    },
-
-                    frameRate:{
-                        ideal:30,
-                        max:30
+                        ideal:720
                     }
                 }
-            },
+
+            });
+
+
+        /*
+           وصلنا هنا يعني المستخدم سمح بالكاميرا
+        */
+
+        video.srcObject =
+            videoStream;
+
+        video.style.display =
+            "block";
+
+        overlay.style.display =
+            "block";
+
+        start.style.display =
+            "none";
+
+
+        await video.play();
+
+
+        /*
+           نحصل على مسار الكاميرا
+        */
+
+        const tracks =
+            videoStream.getVideoTracks();
+
+
+        if(tracks.length){
+
+            videoTrack =
+                tracks[0];
+
+        }
+
+
+        scannerRunning = true;
+
+        canScan = true;
+
+        scanLocked = false;
+
+
+        setSystemStatus(
+            "الكاميرا تعمل",
+            "online"
+        );
+
+
+        /*
+           تشغيل الفلاش والزوم
+        */
+
+        detectTorch();
+
+        detectZoom();
+
+
+        /*
+           الآن فقط نشغل ZXing
+           على الكاميرا التي وافق عليها المستخدم
+        */
+
+        startZXingScanner();
+
+
+    }catch(error){
+
+        console.error(
+            "Camera permission/error:",
+            error
+        );
+
+
+        scannerRunning = false;
+
+        canScan = false;
+
+        scanLocked = false;
+
+
+        if(videoStream){
+
+            videoStream
+                .getTracks()
+                .forEach(function(track){
+
+                    track.stop();
+
+                });
+
+            videoStream = null;
+
+        }
+
+
+        video.srcObject =
+            null;
+
+        video.style.display =
+            "none";
+
+        overlay.style.display =
+            "none";
+
+        start.style.display =
+            "flex";
+
+
+        /*
+           إذا المستخدم رفض الإذن
+        */
+
+        if(
+            error.name ===
+            "NotAllowedError"
+        ){
+
+            setSystemStatus(
+                "إذن الكاميرا مرفوض",
+                "error"
+            );
+
+            showToast(
+                "اضغط السماح للكاميرا حتى يبدأ الفحص"
+            );
+
+            return;
+
+        }
+
+
+        if(
+            error.name ===
+            "NotFoundError"
+        ){
+
+            setSystemStatus(
+                "الكاميرا غير موجودة",
+                "error"
+            );
+
+            showToast(
+                "لم يتم العثور على كاميرا"
+            );
+
+            return;
+
+        }
+
+
+        if(
+            error.name ===
+            "NotReadableError"
+        ){
+
+            setSystemStatus(
+                "الكاميرا مشغولة",
+                "error"
+            );
+
+            showToast(
+                "الكاميرا مستخدمة من تطبيق آخر"
+            );
+
+            return;
+
+        }
+
+
+        setSystemStatus(
+            "تعذر تشغيل الكاميرا",
+            "error"
+        );
+
+        showToast(
+            "تعذر تشغيل الكاميرا"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   تشغيل ZXing بعد الحصول على الإذن
+========================================================= */
+
+function startZXingScanner(){
+
+    createBarcodeReader();
+
+
+    if(!codeReader){
+
+        showToast(
+            "تعذر تشغيل قارئ الباركود"
+        );
+
+        return;
+
+    }
+
+
+    try{
+
+        codeReader.decodeFromVideoDevice(
+
+            undefined,
 
             "webcam-video",
 
@@ -1324,39 +1526,15 @@ async function initScanner(){
 
         );
 
-
-        setTimeout(function(){
-
-            detectTorch();
-
-            detectZoom();
-
-        },700);
-
-
     }catch(error){
 
         console.error(
-            "Camera error:",
+            "ZXing error:",
             error
         );
 
-        scannerRunning = false;
-
-        canScan = false;
-
-        video.style.display =
-            "none";
-
-        overlay.style.display =
-            "none";
-
-        start.style.display =
-            "flex";
-
-
         showToast(
-            "يرجى السماح للمتصفح باستخدام الكاميرا"
+            "تعذر تشغيل قارئ الباركود"
         );
 
     }
@@ -1375,33 +1553,26 @@ function detectTorch(){
             "webcam-video"
         );
 
-
     if(!video.srcObject){
         return;
     }
 
-
     const tracks =
         video.srcObject.getVideoTracks();
-
 
     if(!tracks.length){
         return;
     }
 
-
     videoTrack =
         tracks[0];
-
 
     if(!videoTrack.getCapabilities){
         return;
     }
 
-
     const caps =
         videoTrack.getCapabilities();
-
 
     if(caps.torch){
 
@@ -1433,33 +1604,26 @@ function detectZoom(){
             "zoom-controls"
         );
 
-
     if(!video.srcObject){
         return;
     }
 
-
     const tracks =
         video.srcObject.getVideoTracks();
-
 
     if(!tracks.length){
         return;
     }
 
-
     videoTrack =
         tracks[0];
-
 
     if(!videoTrack.getCapabilities){
         return;
     }
 
-
     const caps =
         videoTrack.getCapabilities();
-
 
     if(!caps.zoom){
 
@@ -1471,21 +1635,17 @@ function detectZoom(){
 
     }
 
-
     zoomSupported = true;
-
 
     minZoom =
         Number(
             caps.zoom.min || 1
         );
 
-
     maxZoom =
         Number(
             caps.zoom.max || 1
         );
-
 
     zoomStep =
         Number(
@@ -1501,7 +1661,6 @@ function detectZoom(){
                 Number(
                     btn.dataset.zoom
                 );
-
 
             btn.style.display =
                 value >= minZoom &&
@@ -1535,7 +1694,6 @@ async function setCameraZoom(value){
     ){
         return;
     }
-
 
     let zoom =
         Math.max(
@@ -1582,7 +1740,6 @@ async function setCameraZoom(value){
                     Number(
                         btn.dataset.zoom
                     );
-
 
                 btn.classList.toggle(
                     "active",
@@ -1637,12 +1794,10 @@ async function toggleTorch(){
         return;
     }
 
-
     try{
 
         torchOn =
             !torchOn;
-
 
         await videoTrack.applyConstraints({
 
@@ -1699,7 +1854,6 @@ function handleResult(
         return;
     }
 
-
     const clean =
         String(barcode)
             .replace(/\s+/g,"")
@@ -1724,9 +1878,7 @@ function handleResult(
 
     playBeep();
 
-
     stopCamera();
-
 
     showResult(
         clean,
@@ -1737,7 +1889,7 @@ function handleResult(
 
 
 /* =========================================================
-   عرض النتيجة والسعر
+   عرض النتيجة
 ========================================================= */
 
 function showResult(
@@ -1898,19 +2050,15 @@ function showManualSearch(){
             "manual-box"
         );
 
-
     const input =
         document.getElementById(
             "manual-barcode-input"
         );
 
-
     box.style.display =
         "flex";
 
-
     input.focus();
-
 
     box.scrollIntoView({
         behavior:"smooth",
@@ -1927,19 +2075,15 @@ function hideManualSearch(){
             "manual-box"
         );
 
-
     const input =
         document.getElementById(
             "manual-barcode-input"
         );
 
-
     input.value =
         "";
 
-
     input.blur();
-
 
     box.style.display =
         "none";
@@ -1953,7 +2097,6 @@ function searchManualBarcode(){
         document.getElementById(
             "manual-barcode-input"
         );
-
 
     const barcode =
         input.value
@@ -2078,6 +2221,8 @@ function resetScanner(){
 
     videoTrack = null;
 
+    videoStream = null;
+
     torchOn = false;
 
     zoomSupported = false;
@@ -2108,6 +2253,22 @@ function stopCamera(){
     }
 
 
+    if(videoStream){
+
+        videoStream
+            .getTracks()
+            .forEach(function(track){
+
+                track.stop();
+
+            });
+
+        videoStream =
+            null;
+
+    }
+
+
     const video =
         document.getElementById(
             "webcam-video"
@@ -2123,7 +2284,6 @@ function stopCamera(){
                 track.stop();
 
             });
-
 
         video.srcObject =
             null;
