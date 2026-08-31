@@ -1,27 +1,24 @@
-<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport"
-content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-<title>A2Z HYPERMARKET - فحص الأسعار</title><script src="https://unpkg.com/@zxing/library@latest"></script><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap"
-      rel="stylesheet"><style>
-
+<!DOCTYPE html><html lang="ar" dir="rtl"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>A2Z HYPERMARKET - فحص الأسعار</title><script src="https://unpkg.com/@zxing/library@latest"></script><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"><style>
 *{
     box-sizing:border-box;
     -webkit-tap-highlight-color:transparent;
-    font-family:'Cairo',sans-serif;
+    font-family:Cairo,sans-serif;
 }
 
 :root{
     --blue:#007aff;
     --cyan:#00c8ff;
-    --dark:#050608;
+    --bg:#050608;
     --card:#0d1015;
+    --border:rgba(0,122,255,.22);
     --text:#fff;
-    --muted:#89919d;
+    --muted:#7d8792;
 }
 
 html,body{
     margin:0;
-    width:100%;
     min-height:100%;
     background:#000;
 }
@@ -29,15 +26,14 @@ html,body{
 body{
     color:#fff;
     overflow-x:hidden;
-    min-height:100vh;
 }
 
-body::before{
+body:before{
     content:"";
     position:fixed;
-    width:280px;
-    height:280px;
-    top:-150px;
+    width:300px;
+    height:300px;
+    top:-160px;
     right:-120px;
     background:rgba(0,122,255,.13);
     filter:blur(80px);
@@ -45,15 +41,15 @@ body::before{
     pointer-events:none;
 }
 
-body::after{
+body:after{
     content:"";
     position:fixed;
-    width:220px;
-    height:220px;
-    bottom:-130px;
+    width:250px;
+    height:250px;
+    bottom:-150px;
     left:-100px;
-    background:rgba(0,170,255,.08);
-    filter:blur(70px);
+    background:rgba(0,180,255,.08);
+    filter:blur(80px);
     border-radius:50%;
     pointer-events:none;
 }
@@ -63,7 +59,7 @@ body::after{
     max-width:430px;
     min-height:100vh;
     margin:auto;
-    padding:20px 16px 30px;
+    padding:18px 15px 30px;
     position:relative;
     z-index:2;
 }
@@ -74,23 +70,23 @@ body::after{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    margin-bottom:22px;
+    margin-bottom:20px;
 }
 
 .brand{
     display:flex;
     align-items:center;
-    gap:11px;
+    gap:10px;
 }
 
 .logo{
-    width:48px;
-    height:48px;
-    border-radius:15px;
+    width:47px;
+    height:47px;
     background:#fff;
+    border-radius:15px;
     padding:5px;
-    border:1px solid rgba(0,122,255,.6);
-    box-shadow:0 0 20px rgba(0,122,255,.22);
+    border:1px solid rgba(0,122,255,.5);
+    box-shadow:0 0 22px rgba(0,122,255,.2);
 }
 
 .logo img{
@@ -105,23 +101,23 @@ body::after{
 }
 
 .brand-sub{
-    color:#6e7885;
-    font-size:.62rem;
-    font-weight:700;
+    color:#68727d;
+    font-size:.58rem;
+    font-weight:800;
     letter-spacing:1.5px;
-    margin-top:4px;
 }
 
 .status{
     display:flex;
     align-items:center;
     gap:6px;
-    background:#0c1116;
-    border:1px solid rgba(255,255,255,.08);
     padding:7px 10px;
     border-radius:30px;
-    font-size:.62rem;
-    color:#9ca5af;
+    background:#0c1116;
+    border:1px solid rgba(255,255,255,.06);
+    color:#9099a3;
+    font-size:.58rem;
+    font-weight:700;
 }
 
 .status-dot{
@@ -146,13 +142,13 @@ body::after{
 
 .hero{
     text-align:center;
-    margin:8px 0 20px;
+    margin:5px 0 18px;
 }
 
 .hero h1{
-    font-size:1.55rem;
-    font-weight:900;
     margin:0;
+    font-size:1.5rem;
+    font-weight:900;
 }
 
 .hero h1 span{
@@ -163,24 +159,22 @@ body::after{
 
 .hero p{
     margin:5px 0 0;
-    color:#747d89;
-    font-size:.72rem;
+    color:#717b86;
+    font-size:.68rem;
     font-weight:600;
 }
 
 /* SCANNER */
 
 .scanner-card{
-    position:relative;
     width:100%;
     height:275px;
-    border-radius:28px;
+    position:relative;
     overflow:hidden;
+    border-radius:27px;
     background:#080b0f;
-    border:1px solid rgba(0,122,255,.27);
-    box-shadow:
-        0 20px 50px rgba(0,0,0,.7),
-        inset 0 0 35px rgba(0,122,255,.025);
+    border:1px solid rgba(0,122,255,.25);
+    box-shadow:0 20px 50px rgba(0,0,0,.65);
 }
 
 #webcam-video{
@@ -194,11 +188,11 @@ body::after{
 .camera-overlay{
     position:absolute;
     inset:0;
-    pointer-events:none;
     display:none;
+    pointer-events:none;
 }
 
-.camera-overlay::before{
+.camera-overlay:after{
     content:"";
     position:absolute;
     inset:0;
@@ -213,6 +207,7 @@ body::after{
 
 .scan-area{
     position:absolute;
+    z-index:2;
     width:78%;
     height:105px;
     top:50%;
@@ -225,39 +220,39 @@ body::after{
     width:27px;
     height:27px;
     border-color:#00aaff;
-    filter:drop-shadow(0 0 5px rgba(0,170,255,.8));
+    filter:drop-shadow(0 0 5px #00aaff);
 }
 
-.corner.tl{
+.tl{
     top:0;
     left:0;
     border-top:3px solid;
     border-left:3px solid;
-    border-radius:9px 0 0 0;
+    border-radius:8px 0 0 0;
 }
 
-.corner.tr{
+.tr{
     top:0;
     right:0;
     border-top:3px solid;
     border-right:3px solid;
-    border-radius:0 9px 0 0;
+    border-radius:0 8px 0 0;
 }
 
-.corner.bl{
+.bl{
     bottom:0;
     left:0;
     border-bottom:3px solid;
     border-left:3px solid;
-    border-radius:0 0 0 9px;
+    border-radius:0 0 0 8px;
 }
 
-.corner.br{
+.br{
     bottom:0;
     right:0;
     border-bottom:3px solid;
     border-right:3px solid;
-    border-radius:0 0 9px 0;
+    border-radius:0 0 8px 0;
 }
 
 .laser{
@@ -265,47 +260,38 @@ body::after{
     width:92%;
     height:2px;
     left:4%;
-    top:4%;
+    top:5%;
     background:#00baff;
-    box-shadow:
-        0 0 7px #00aaff,
-        0 0 15px #00aaff,
-        0 0 30px rgba(0,170,255,.5);
-    animation:laserMove 2.1s ease-in-out infinite;
+    box-shadow:0 0 8px #00aaff,0 0 20px #00aaff;
+    animation:laser 2s ease-in-out infinite;
 }
 
-@keyframes laserMove{
-
-    0%,100%{
-        top:7%;
-    }
-
-    50%{
-        top:91%;
-    }
-
+@keyframes laser{
+    0%,100%{top:6%}
+    50%{top:92%}
 }
 
 .scan-label{
     position:absolute;
-    bottom:-43px;
+    top:116px;
     width:100%;
     text-align:center;
-    color:#fff;
-    font-size:.68rem;
+    font-size:.63rem;
     font-weight:700;
+    color:#fff;
+    text-shadow:0 1px 5px #000;
 }
 
-/* CAMERA START */
+/* START */
 
 .start-screen{
     position:absolute;
     inset:0;
     display:flex;
-    flex-direction:column;
     align-items:center;
     justify-content:center;
-    padding:25px;
+    flex-direction:column;
+    padding:20px;
 }
 
 .camera-icon{
@@ -315,42 +301,39 @@ body::after{
     display:flex;
     align-items:center;
     justify-content:center;
-    background:linear-gradient(
-        145deg,
-        rgba(0,122,255,.16),
-        rgba(0,210,255,.05)
-    );
+    background:rgba(0,122,255,.1);
     border:1px solid rgba(0,122,255,.25);
     font-size:1.8rem;
-    margin-bottom:14px;
+    margin-bottom:13px;
 }
 
 .start-title{
-    font-size:.92rem;
-    font-weight:800;
-    margin-bottom:5px;
+    font-size:.9rem;
+    font-weight:900;
 }
 
 .start-desc{
-    color:#707985;
-    font-size:.68rem;
+    margin:4px 0 15px;
+    color:#717b86;
+    font-size:.65rem;
     text-align:center;
-    margin-bottom:17px;
 }
 
-.primary-btn{
+.primary-btn,
+.reset-btn{
     border:0;
     color:#fff;
     background:linear-gradient(135deg,#007aff,#00bfff);
     border-radius:50px;
-    padding:11px 22px;
-    font-size:.78rem;
+    padding:11px 23px;
+    font-size:.72rem;
     font-weight:900;
-    box-shadow:0 8px 25px rgba(0,122,255,.25);
     cursor:pointer;
+    box-shadow:0 8px 25px rgba(0,122,255,.25);
 }
 
-.primary-btn:active{
+.primary-btn:active,
+.reset-btn:active{
     transform:scale(.96);
 }
 
@@ -359,31 +342,31 @@ body::after{
 #torch-btn{
     display:none;
     position:absolute;
-    top:13px;
-    left:13px;
     z-index:20;
-    border:1px solid rgba(255,255,255,.15);
-    background:rgba(0,0,0,.55);
+    top:12px;
+    left:12px;
+    border:1px solid rgba(255,255,255,.14);
+    background:rgba(0,0,0,.58);
     color:#fff;
     border-radius:30px;
-    padding:7px 13px;
-    font-size:.68rem;
+    padding:7px 12px;
+    font-size:.6rem;
     font-weight:800;
 }
 
 .zoom-controls{
-    position:absolute;
-    top:13px;
-    right:13px;
-    z-index:20;
     display:none;
+    position:absolute;
+    z-index:20;
+    top:12px;
+    right:12px;
     align-items:center;
-    gap:4px;
+    gap:3px;
     padding:4px;
     background:rgba(0,0,0,.58);
-    border:1px solid rgba(255,255,255,.14);
+    border:1px solid rgba(255,255,255,.12);
     border-radius:30px;
-    backdrop-filter:blur(12px);
+    backdrop-filter:blur(10px);
 }
 
 .zoom-controls.visible{
@@ -391,14 +374,13 @@ body::after{
 }
 
 .zoom-btn{
+    min-width:38px;
+    height:29px;
     border:0;
-    min-width:39px;
-    height:30px;
-    padding:0 7px;
-    border-radius:20px;
     background:transparent;
-    color:#b9c1ca;
-    font-size:.61rem;
+    color:#adb6c0;
+    border-radius:20px;
+    font-size:.58rem;
     font-weight:900;
 }
 
@@ -407,103 +389,22 @@ body::after{
     color:#fff;
 }
 
-.zoom-btn:active{
-    transform:scale(.92);
-}
-
-/* AI BUTTON */
-
-.ai-fallback{
-    position:absolute;
-    left:50%;
-    bottom:15px;
-    transform:translateX(-50%);
-    z-index:30;
-    display:none;
-    border:1px solid rgba(0,170,255,.3);
-    background:rgba(0,10,20,.82);
-    color:#fff;
-    padding:9px 17px;
-    border-radius:30px;
-    font-size:.65rem;
-    font-weight:900;
-    backdrop-filter:blur(12px);
-    box-shadow:0 8px 25px rgba(0,0,0,.4);
-}
-
-.ai-fallback.show{
-    display:block;
-}
-
-.ai-fallback:active{
-    transform:translateX(-50%) scale(.95);
-}
-
-/* SEARCH */
-
-.search-box{
-    width:100%;
-    display:none;
-    align-items:center;
-    gap:5px;
-    padding:5px 6px 5px 9px;
-    margin-top:10px;
-    background:#0c0f13;
-    border:1px solid rgba(255,255,255,.06);
-    border-radius:18px;
-}
-
-.search-icon{
-    font-size:.9rem;
-    opacity:.45;
-    padding:0 4px;
-}
-
-.manual-input{
-    min-width:0;
-    flex:1;
-    border:0;
-    outline:none;
-    background:transparent;
-    color:#fff;
-    font-size:.72rem;
-    padding:9px 4px;
-    direction:ltr;
-    text-align:left;
-    transform:translateZ(0);
-}
-
-.manual-input::placeholder{
-    color:#555e69;
-}
-
-.search-btn{
-    border:0;
-    background:#111820;
-    color:#00aaff;
-    border-radius:13px;
-    padding:8px 14px;
-    font-size:.68rem;
-    font-weight:900;
-}
-
 /* ACTIONS */
 
 .quick-actions{
     display:flex;
-    justify-content:space-between;
-    gap:8px;
+    gap:7px;
     margin-top:10px;
 }
 
 .quick-btn{
     flex:1;
-    background:#090c10;
     border:1px solid rgba(255,255,255,.05);
-    color:#7f8994;
+    background:#090c10;
+    color:#808a95;
     border-radius:14px;
-    padding:8px;
-    font-size:.61rem;
+    padding:8px 4px;
+    font-size:.58rem;
     font-weight:700;
 }
 
@@ -513,128 +414,198 @@ body::after{
     margin-bottom:2px;
 }
 
+/* MANUAL */
+
+.search-box{
+    display:none;
+    align-items:center;
+    gap:5px;
+    margin-top:9px;
+    padding:5px 6px 5px 9px;
+    background:#0c0f13;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:17px;
+}
+
+.search-icon{
+    opacity:.5;
+}
+
+.manual-input{
+    flex:1;
+    min-width:0;
+    border:0;
+    outline:none;
+    background:transparent;
+    color:#fff;
+    direction:ltr;
+    text-align:left;
+    font-size:.7rem;
+    padding:8px 3px;
+}
+
+.search-btn{
+    border:0;
+    background:#111820;
+    color:#00aaff;
+    border-radius:12px;
+    padding:8px 13px;
+    font-size:.64rem;
+    font-weight:900;
+}
+
+/* AI */
+
+.ai-box{
+    display:none;
+    margin-top:10px;
+    padding:13px;
+    background:linear-gradient(
+        135deg,
+        rgba(0,122,255,.09),
+        rgba(0,200,255,.03)
+    );
+    border:1px solid rgba(0,122,255,.18);
+    border-radius:18px;
+    text-align:center;
+}
+
+.ai-title{
+    font-size:.7rem;
+    font-weight:900;
+    margin-bottom:3px;
+}
+
+.ai-desc{
+    color:#6d7782;
+    font-size:.58rem;
+    margin-bottom:9px;
+}
+
+.ai-btn{
+    border:0;
+    background:linear-gradient(135deg,#007aff,#00bfff);
+    color:#fff;
+    border-radius:13px;
+    padding:9px 16px;
+    font-size:.62rem;
+    font-weight:900;
+}
+
+.ai-btn:disabled{
+    opacity:.55;
+}
+
 /* RESULT */
 
 .result{
     display:none;
-    animation:resultIn .4s ease;
+    animation:resultIn .35s ease;
 }
 
 @keyframes resultIn{
-
     from{
         opacity:0;
-        transform:translateY(15px) scale(.98);
+        transform:translateY(12px);
     }
-
     to{
         opacity:1;
         transform:none;
     }
-
 }
 
 .result-card{
+    margin-top:10px;
+    padding:20px 16px 16px;
+    text-align:center;
     background:#0c1015;
     border:1px solid rgba(0,122,255,.2);
-    border-radius:26px;
-    padding:22px 17px 17px;
-    text-align:center;
+    border-radius:25px;
     box-shadow:0 20px 50px rgba(0,0,0,.55);
 }
 
 .result-status{
     display:inline-flex;
     align-items:center;
-    gap:6px;
+    gap:5px;
+    padding:5px 10px;
+    border-radius:30px;
     background:rgba(0,122,255,.08);
     border:1px solid rgba(0,122,255,.15);
     color:#00aaff;
-    padding:5px 10px;
-    border-radius:30px;
-    font-size:.61rem;
+    font-size:.58rem;
     font-weight:800;
-    margin-bottom:13px;
 }
 
 .result-icon{
     font-size:2rem;
-    margin-bottom:5px;
+    margin:8px 0 3px;
 }
 
 .item-name{
-    font-size:1.08rem;
+    font-size:1.05rem;
     font-weight:900;
     line-height:1.45;
-    margin-bottom:16px;
+    margin-bottom:14px;
 }
 
 .price-box{
     background:#070a0e;
-    border-radius:19px;
-    padding:13px;
-    border:1px solid rgba(0,122,255,.16);
+    border-radius:18px;
+    padding:12px;
+    border:1px solid rgba(0,122,255,.15);
 }
 
 .price-label{
     color:#68727e;
-    font-size:.63rem;
-    font-weight:700;
+    font-size:.6rem;
 }
 
 .price{
     color:#00aaff;
     font-size:2.25rem;
     font-weight:900;
-    line-height:1.25;
 }
 
 .currency{
     color:#6d7783;
-    font-size:.68rem;
-    font-weight:700;
+    font-size:.65rem;
 }
 
 .barcode-display{
-    margin-top:10px;
+    margin-top:9px;
     color:#59636e;
-    font-size:.58rem;
+    font-size:.57rem;
     direction:ltr;
 }
 
 .reset-btn{
     width:100%;
-    border:0;
-    background:linear-gradient(135deg,#007aff,#00bfff);
-    color:#fff;
-    border-radius:16px;
-    padding:12px;
-    margin-top:12px;
-    font-size:.74rem;
-    font-weight:900;
+    margin-top:11px;
+    border-radius:15px;
 }
 
 /* RECENT */
 
 .recent-section{
-    margin-top:16px;
+    margin-top:15px;
 }
 
 .section-head{
     display:flex;
-    align-items:center;
     justify-content:space-between;
-    margin-bottom:8px;
+    align-items:center;
+    margin-bottom:7px;
 }
 
 .section-title{
-    font-size:.72rem;
+    font-size:.7rem;
     font-weight:800;
 }
 
 .clear-recent{
-    color:#4c5864;
-    font-size:.58rem;
+    color:#4e5863;
+    font-size:.57rem;
 }
 
 .recent-list{
@@ -647,31 +618,31 @@ body::after{
     display:flex;
     align-items:center;
     justify-content:space-between;
+    padding:8px 10px;
     background:#090c10;
     border:1px solid rgba(255,255,255,.035);
     border-radius:13px;
-    padding:8px 10px;
 }
 
 .recent-name{
-    font-size:.62rem;
-    font-weight:700;
+    max-width:65%;
     overflow:hidden;
     white-space:nowrap;
     text-overflow:ellipsis;
-    max-width:65%;
+    font-size:.61rem;
+    font-weight:700;
 }
 
 .recent-price{
     color:#00aaff;
-    font-size:.63rem;
+    font-size:.61rem;
     font-weight:900;
 }
 
 .empty-recent{
     text-align:center;
     color:#4c555f;
-    font-size:.6rem;
+    font-size:.58rem;
     padding:10px;
 }
 
@@ -679,21 +650,20 @@ body::after{
 
 .toast{
     position:fixed;
-    z-index:100;
+    z-index:1000;
     left:50%;
     bottom:22px;
     transform:translate(-50%,20px);
+    opacity:0;
+    pointer-events:none;
     background:#11161c;
     border:1px solid rgba(255,255,255,.08);
     border-radius:14px;
     padding:10px 15px;
-    font-size:.65rem;
-    font-weight:700;
     color:#fff;
-    opacity:0;
-    pointer-events:none;
+    font-size:.62rem;
+    font-weight:700;
     transition:.3s;
-    box-shadow:0 12px 35px rgba(0,0,0,.6);
     white-space:nowrap;
 }
 
@@ -707,13 +677,13 @@ body::after{
 .loader{
     position:fixed;
     inset:0;
-    z-index:200;
+    z-index:5000;
     background:#030405;
     display:flex;
-    align-items:center;
-    justify-content:center;
     flex-direction:column;
-    transition:.45s;
+    justify-content:center;
+    align-items:center;
+    transition:.4s;
 }
 
 .loader.hide{
@@ -722,11 +692,11 @@ body::after{
 }
 
 .loader-logo{
-    width:78px;
-    height:78px;
-    background:#fff;
+    width:75px;
+    height:75px;
     padding:7px;
-    border-radius:24px;
+    background:#fff;
+    border-radius:23px;
     border:1px solid var(--blue);
 }
 
@@ -739,60 +709,48 @@ body::after{
 .loader-text{
     margin-top:13px;
     color:#6d7680;
-    font-size:.68rem;
-    font-weight:700;
+    font-size:.65rem;
 }
 
 .loader-line{
     width:90px;
     height:2px;
-    background:#151b21;
     margin-top:10px;
+    background:#151b21;
     overflow:hidden;
 }
 
-.loader-line::after{
+.loader-line:after{
     content:"";
     display:block;
     width:35%;
     height:100%;
     background:#008cff;
-    animation:loadLine 1s infinite;
+    animation:load 1s infinite;
 }
 
-@keyframes loadLine{
-
-    from{
-        transform:translateX(-300%);
-    }
-
-    to{
-        transform:translateX(300%);
-    }
-
+@keyframes load{
+    from{transform:translateX(-300%)}
+    to{transform:translateX(300%)}
 }
 
 @media(max-height:700px){
-
     .app{
-        padding-top:13px;
-    }
-
-    .hero{
-        margin-bottom:13px;
+        padding-top:12px;
     }
 
     .scanner-card{
         height:230px;
     }
 
+    .hero{
+        margin-bottom:12px;
+    }
 }
-
-</style></head><body><!-- LOADER --><div class="loader" id="loader"><div class="loader-logo">
-
-    <img src="https://lh3.googleusercontent.com/d/109H2w4zxFrJzi5EgQse4u1Ka6KoZyupo"
-         alt="A2Z">
-
+</style></head><body><div class="loader" id="loader"><div class="loader-logo">
+    <img
+        src="https://lh3.googleusercontent.com/d/109H2w4zxFrJzi5EgQse4u1Ka6KoZyupo"
+        alt="A2Z">
 </div>
 
 <div class="loader-text">
@@ -801,25 +759,17 @@ body::after{
 
 <div class="loader-line"></div>
 
-</div><div class="app"><!-- HEADER --><header class="header"><div class="brand">
+</div><div class="app"><header class="header"><div class="brand">
 
     <div class="logo">
-
-        <img src="https://lh3.googleusercontent.com/d/109H2w4zxFrJzi5EgQse4u1Ka6KoZyupo"
-             alt="A2Z Hypermarket">
-
+        <img
+            src="https://lh3.googleusercontent.com/d/109H2w4zxFrJzi5EgQse4u1Ka6KoZyupo"
+            alt="A2Z">
     </div>
 
     <div>
-
-        <div class="brand-name">
-            A2Z
-        </div>
-
-        <div class="brand-sub">
-            HYPERMARKET
-        </div>
-
+        <div class="brand-name">A2Z</div>
+        <div class="brand-sub">HYPERMARKET</div>
     </div>
 
 </div>
@@ -834,54 +784,45 @@ body::after{
 
 </div>
 
-</header><!-- HERO --><section class="hero"><h1>
-    <span>خاص  الى محمد</span>
+</header><section class="hero"><h1>
+    <span>فحص الأسعار</span>
 </h1>
 
 <p>
-    امسح الباركود لمعرفة السعر 
+    امسح الباركود لمعرفة السعر فوراً
 </p>
 
-</section><!-- SCANNER --><section class="scanner-card" id="scanner-card"><button id="torch-btn"
-        onclick="toggleTorch()">
+</section><section class="scanner-card" id="scanner-card"><button id="torch-btn" onclick="toggleTorch()">
     ⚡ الفلاش
 </button>
 
+<div class="zoom-controls" id="zoom-controls">
 
-<div id="zoom-controls"
-     class="zoom-controls">
-
-    <button class="zoom-btn active"
-            data-zoom="1">
+    <button class="zoom-btn active" data-zoom="1">
         1×
     </button>
 
-    <button class="zoom-btn"
-            data-zoom="1.5">
+    <button class="zoom-btn" data-zoom="1.5">
         1.5×
     </button>
 
-    <button class="zoom-btn"
-            data-zoom="2">
+    <button class="zoom-btn" data-zoom="2">
         2×
     </button>
 
-    <button class="zoom-btn"
-            data-zoom="3">
+    <button class="zoom-btn" data-zoom="3">
         3×
     </button>
 
 </div>
 
-
-<video id="webcam-video"
-       playsinline
-       muted>
+<video
+    id="webcam-video"
+    playsinline
+    muted>
 </video>
 
-
-<div class="camera-overlay"
-     id="camera-overlay">
+<div class="camera-overlay" id="camera-overlay">
 
     <div class="scan-area">
 
@@ -900,20 +841,7 @@ body::after{
 
 </div>
 
-
-<!-- AI FALLBACK -->
-
-<button class="ai-fallback"
-        id="ai-fallback"
-        onclick="useAI()">
-
-    🤖 مساعدة AI لقراءة الباركود
-
-</button>
-
-
-<div class="start-screen"
-     id="start-screen">
+<div class="start-screen" id="start-screen">
 
     <div class="camera-icon">
         📷
@@ -927,93 +855,79 @@ body::after{
         وجّه كاميرا الهاتف نحو الباركود
     </div>
 
-    <button class="primary-btn"
-            onclick="initScanner()">
-
+    <button class="primary-btn" onclick="initScanner()">
         بدء المسح
-
     </button>
 
 </div>
 
-</section><!-- ACTIONS --><div class="quick-actions"
-     id="quick-actions"><button class="quick-btn"
-        onclick="initScanner()">
-
+</section><div class="quick-actions" id="quick-actions"><button class="quick-btn" onclick="initScanner()">
     <span>📷</span>
     فتح الكاميرا
-
 </button>
 
-
-<button class="quick-btn"
-        onclick="refreshPrices()">
-
+<button class="quick-btn" onclick="refreshPrices()">
     <span>↻</span>
     تحديث الأسعار
-
 </button>
 
-
-<button class="quick-btn"
-        onclick="showManualSearch()">
-
+<button class="quick-btn" onclick="showManualSearch()">
     <span>⌨️</span>
     بحث يدوي
-
 </button>
 
-</div><!-- MANUAL --><div class="search-box"
-     id="manual-box"><div class="search-icon">
+</div><div class="search-box" id="manual-box"><div class="search-icon">
     🔎
 </div>
 
-<input type="text"
-       id="manual-barcode-input"
-       class="manual-input"
-       inputmode="numeric"
-       autocomplete="off"
-       autocorrect="off"
-       autocapitalize="off"
-       spellcheck="false"
-       placeholder="أدخل رقم الباركود...">
+<input
+    id="manual-barcode-input"
+    class="manual-input"
+    type="text"
+    inputmode="numeric"
+    autocomplete="off"
+    autocorrect="off"
+    autocapitalize="off"
+    spellcheck="false"
+    placeholder="أدخل رقم الباركود...">
 
-<button class="search-btn"
-        onclick="searchManualBarcode()">
-
+<button
+    class="search-btn"
+    onclick="searchManualBarcode()">
     بحث
-
 </button>
 
-</div><!-- RESULT --><section class="result"
-         id="result-container"><div class="result-card">
+</div><div class="ai-box" id="ai-box"><div class="ai-title">
+    🤖 لم يتم التعرف على الباركود
+</div>
+
+<div class="ai-desc">
+    تقدر تخلي الذكاء الاصطناعي يحاول قراءة الباركود من الكاميرا
+</div>
+
+<button
+    class="ai-btn"
+    id="ai-button"
+    onclick="scanWithAI()">
+    🤖 محاولة باستخدام AI
+</button>
+
+</div><section class="result" id="result-container"><div class="result-card">
 
     <div class="result-status">
-
         <span>●</span>
-
         <span id="result-status-text">
             تم العثور على المادة
         </span>
-
     </div>
 
-
-    <div class="result-icon"
-         id="result-icon">
-
+    <div class="result-icon" id="result-icon">
         ✅
-
     </div>
 
-
-    <div class="item-name"
-         id="item-name">
-
+    <div class="item-name" id="item-name">
         ---
-
     </div>
-
 
     <div class="price-box">
 
@@ -1022,11 +936,7 @@ body::after{
         </div>
 
         <div class="price">
-
-            <span id="item-price">
-                ---
-            </span>
-
+            <span id="item-price">---</span>
         </div>
 
         <div class="currency">
@@ -1035,43 +945,29 @@ body::after{
 
     </div>
 
-
-    <div class="barcode-display"
-         id="barcode-display">
-
+    <div class="barcode-display" id="barcode-display">
         ---
-
     </div>
 
-
-    <button class="reset-btn"
-            onclick="resetScanner()">
-
+    <button class="reset-btn" onclick="resetScanner()">
         📷 فحص مادة أخرى
-
     </button>
 
 </div>
 
-</section><!-- RECENT --><section class="recent-section"
-         id="recent-section"><div class="section-head">
+</section><section class="recent-section" id="recent-section"><div class="section-head">
 
     <div class="section-title">
         آخر المواد المفحوصة
     </div>
 
-    <div class="clear-recent"
-         onclick="clearRecent()">
-
+    <div class="clear-recent" onclick="clearRecent()">
         مسح السجل
-
     </div>
 
 </div>
 
-
-<div class="recent-list"
-     id="recent-list">
+<div class="recent-list" id="recent-list">
 
     <div class="empty-recent">
         لا توجد عمليات فحص بعد
@@ -1079,21 +975,25 @@ body::after{
 
 </div>
 
-</section></div><div class="toast"
-     id="toast">
-</div><script>
+</section></div><div class="toast" id="toast"></div><script>
 
-/* =====================================================
-   الإعدادات الأساسية
-===================================================== */
+/* =========================================================
+   إعدادات النظام
+========================================================= */
+
+const GOOGLE_SCRIPT_URL =
+"https://script.google.com/macros/s/AKfycbx02ACO5WZgvJ01DIUWeOuuJmlo7nRSzl3SVN7bfBs-CS6covbQ913bTcJU6PbTm_ehKA/exec";
+
+const AI_WORKER_URL =
+"https://ahmed.hyperahd079.workers.dev/";
 
 let codeReader = null;
 
-let securedDataStore = new Map();
-
-let canScan = true;
+let priceData = new Map();
 
 let scannerRunning = false;
+
+let canScan = true;
 
 let scanLocked = false;
 
@@ -1101,36 +1001,22 @@ let videoTrack = null;
 
 let torchOn = false;
 
-let currentZoom = 1;
-
 let zoomSupported = false;
 
 let minZoom = 1;
 
 let maxZoom = 1;
 
-let zoomStep = 0.5;
+let zoomStep = .1;
+
+let currentZoom = 1;
+
+let aiBusy = false;
 
 
-/* =====================================================
-   GOOGLE APPS SCRIPT
-===================================================== */
-
-const GOOGLE_SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbx02ACO5WZgvJ01DIUWeOuuJmlo7nRSzl3SVN7bfBs-CS6covbQ913bTcJU6PbTm_ehKA/exec";
-
-
-/* =====================================================
-   CLOUDFLARE AI WORKER
-===================================================== */
-
-const AI_WORKER_URL =
-"https://ahmed.hyperahd079.workers.dev/";
-
-
-/* =====================================================
-   بداية الصفحة
-===================================================== */
+/* =========================================================
+   عند تشغيل الصفحة
+========================================================= */
 
 window.addEventListener("load",function(){
 
@@ -1142,17 +1028,16 @@ window.addEventListener("load",function(){
 
         document
             .getElementById("loader")
-            .classList
-            .add("hide");
+            .classList.add("hide");
 
-    },900);
+    },800);
 
 });
 
 
-/* =====================================================
+/* =========================================================
    تحميل الأسعار من Google Apps Script
-===================================================== */
+========================================================= */
 
 function loadPriceData(){
 
@@ -1161,114 +1046,76 @@ function loadPriceData(){
         "loading"
     );
 
-
     const callbackName =
-        "a2z_jsonp_" +
+        "a2zCallback_" +
         Date.now() +
         "_" +
         Math.floor(Math.random()*10000);
 
+    window[callbackName] = function(data){
 
-    window[callbackName] =
-        function(rawData){
+        try{
 
-            try{
-
-                if(
-                    !rawData ||
-                    typeof rawData !== "object"
-                ){
-
-                    throw new Error(
-                        "بيانات Google Sheets غير صحيحة"
-                    );
-
-                }
-
-
-                securedDataStore.clear();
-
-
-                for(
-                    const [barcode,info]
-                    of Object.entries(rawData)
-                ){
-
-                    const cleanBarcode =
-                        String(barcode)
-                        .trim()
-                        .replace(/\s+/g,"");
-
-
-                    if(cleanBarcode){
-
-                        securedDataStore.set(
-                            cleanBarcode,
-                            info
-                        );
-
-                    }
-
-                }
-
-
-                setSystemStatus(
-                    "النظام متصل",
-                    "online"
-                );
-
-
-                showToast(
-                    "تم تحميل الأسعار ✓"
-                );
-
-
-            }catch(error){
-
-                console.error(
-                    "Google data error:",
-                    error
-                );
-
-
-                setSystemStatus(
-                    "خطأ بالبيانات",
-                    "error"
-                );
-
-
-                showToast(
-                    "بيانات الأسعار غير صحيحة"
-                );
-
+            if(!data || typeof data !== "object"){
+                throw new Error("Invalid price data");
             }
 
+            priceData.clear();
 
-            delete window[callbackName];
+            Object.entries(data).forEach(function(entry){
 
+                const barcode = String(entry[0]).trim();
 
-            const oldScript =
-                document.getElementById(
-                    callbackName
-                );
+                const item = entry[1];
 
+                if(barcode){
+                    priceData.set(barcode,item);
+                }
 
-            if(oldScript){
+            });
 
-                oldScript.remove();
+            setSystemStatus(
+                "النظام متصل",
+                "online"
+            );
 
-            }
+            showToast(
+                "تم تحميل الأسعار ✓"
+            );
 
-        };
+        }catch(error){
 
+            console.error(
+                "Google data error:",
+                error
+            );
+
+            setSystemStatus(
+                "خطأ بالبيانات",
+                "error"
+            );
+
+            showToast(
+                "وصلت البيانات بصيغة غير صحيحة"
+            );
+
+        }
+
+        delete window[callbackName];
+
+        const oldScript =
+            document.getElementById(callbackName);
+
+        if(oldScript){
+            oldScript.remove();
+        }
+
+    };
 
     const script =
         document.createElement("script");
 
-
-    script.id =
-        callbackName;
-
+    script.id = callbackName;
 
     script.src =
         GOOGLE_SCRIPT_URL +
@@ -1277,191 +1124,111 @@ function loadPriceData(){
         "&t=" +
         Date.now();
 
+    script.onerror = function(){
 
-    script.onerror =
-        function(){
+        setSystemStatus(
+            "تعذر الاتصال بالأسعار",
+            "error"
+        );
 
-            setSystemStatus(
-                "تعذر الاتصال بالأسعار",
-                "error"
-            );
+        showToast(
+            "تعذر تحميل الأسعار"
+        );
 
+        delete window[callbackName];
 
-            showToast(
-                "Google Sheets لا يستجيب"
-            );
+        script.remove();
 
-        };
-
+    };
 
     document.body.appendChild(script);
 
 }
 
 
-/* =====================================================
+/* =========================================================
    حالة النظام
-===================================================== */
+========================================================= */
 
 function setSystemStatus(text,state){
 
     const status =
-        document.getElementById(
-            "system-status"
-        );
-
+        document.getElementById("system-status");
 
     const textElement =
-        document.getElementById(
-            "status-text"
-        );
+        document.getElementById("status-text");
 
-
-    textElement.innerText =
-        text;
-
+    textElement.innerText = text;
 
     status.classList.remove(
         "online",
         "error"
     );
 
-
     if(state === "online"){
-
         status.classList.add("online");
-
     }
-
 
     if(state === "error"){
-
         status.classList.add("error");
-
     }
 
 }
 
 
-/* =====================================================
-   صوت
-===================================================== */
+/* =========================================================
+   إنشاء قارئ الباركود
+========================================================= */
 
-function playCashierBeep(){
+function createBarcodeReader(){
 
-    try{
+    if(codeReader){
+        return;
+    }
 
-        const AudioContext =
-            window.AudioContext ||
-            window.webkitAudioContext;
+    const hints = new Map();
 
+    const formats = [
 
-        if(!AudioContext){
+        ZXing.BarcodeFormat.EAN_13,
+        ZXing.BarcodeFormat.EAN_8,
+        ZXing.BarcodeFormat.UPC_A,
+        ZXing.BarcodeFormat.UPC_E,
+        ZXing.BarcodeFormat.CODE_128,
+        ZXing.BarcodeFormat.CODE_39,
+        ZXing.BarcodeFormat.CODE_93,
+        ZXing.BarcodeFormat.ITF,
+        ZXing.BarcodeFormat.CODABAR,
+        ZXing.BarcodeFormat.QR_CODE,
+        ZXing.BarcodeFormat.DATA_MATRIX,
+        ZXing.BarcodeFormat.RSS_14,
+        ZXing.BarcodeFormat.RSS_EXPANDED
 
-            return;
+    ];
 
-        }
+    hints.set(
+        ZXing.DecodeHintType.POSSIBLE_FORMATS,
+        formats
+    );
 
+    hints.set(
+        ZXing.DecodeHintType.TRY_HARDER,
+        true
+    );
 
-        const audio =
-            new AudioContext();
-
-
-        const oscillator =
-            audio.createOscillator();
-
-
-        const gain =
-            audio.createGain();
-
-
-        oscillator.type =
-            "square";
-
-
-        oscillator.frequency.setValueAtTime(
-            2200,
-            audio.currentTime
+    codeReader =
+        new ZXing.BrowserMultiFormatReader(
+            hints
         );
-
-
-        gain.gain.setValueAtTime(
-            .12,
-            audio.currentTime
-        );
-
-
-        gain.gain.exponentialRampToValueAtTime(
-            .001,
-            audio.currentTime + .09
-        );
-
-
-        oscillator.connect(gain);
-
-        gain.connect(audio.destination);
-
-        oscillator.start();
-
-        oscillator.stop(
-            audio.currentTime + .09
-        );
-
-    }catch(error){}
 
 }
 
 
-/* =====================================================
-   البحث اليدوي
-===================================================== */
+/* =========================================================
+   فتح الكاميرا
+========================================================= */
 
-function showManualSearch(){
-
-    const box =
-        document.getElementById(
-            "manual-box"
-        );
-
-
-    const input =
-        document.getElementById(
-            "manual-barcode-input"
-        );
-
-
-    box.style.display =
-        "flex";
-
-
-    requestAnimationFrame(function(){
-
-        input.focus();
-
-    });
-
-}
-
-
-function hideManualSearch(){
-
-    const box =
-        document.getElementById(
-            "manual-box"
-        );
-
-
-    box.style.display =
-        "none";
-
-}
-
-
-/* =====================================================
-   تشغيل الكاميرا
-===================================================== */
-
-function initScanner(){
+async function initScanner(){
 
     if(scannerRunning){
 
@@ -1471,139 +1238,62 @@ function initScanner(){
 
     }
 
+    hideAI();
 
-    const startScreen =
-        document.getElementById(
-            "start-screen"
-        );
+    createBarcodeReader();
 
+    const start =
+        document.getElementById("start-screen");
 
     const video =
-        document.getElementById(
-            "webcam-video"
-        );
-
+        document.getElementById("webcam-video");
 
     const overlay =
-        document.getElementById(
-            "camera-overlay"
-        );
+        document.getElementById("camera-overlay");
 
+    start.style.display = "none";
 
-    const aiButton =
-        document.getElementById(
-            "ai-fallback"
-        );
+    video.style.display = "block";
 
+    overlay.style.display = "block";
 
-    startScreen.style.display =
-        "none";
+    canScan = true;
 
+    scanLocked = false;
 
-    video.style.display =
-        "block";
+    scannerRunning = true;
 
+    try{
 
-    overlay.style.display =
-        "block";
+        await codeReader.decodeFromConstraints(
 
+            {
+                audio:false,
 
-    aiButton.classList.remove(
-        "show"
-    );
+                video:{
+                    facingMode:{
+                        ideal:"environment"
+                    },
 
+                    width:{
+                        ideal:1280,
+                        min:640
+                    },
 
-    if(!codeReader){
+                    height:{
+                        ideal:720,
+                        min:480
+                    },
 
-        const hints =
-            new Map();
-
-
-        const formats = [
-
-            ZXing.BarcodeFormat.EAN_13,
-            ZXing.BarcodeFormat.EAN_8,
-            ZXing.BarcodeFormat.UPC_A,
-            ZXing.BarcodeFormat.UPC_E,
-            ZXing.BarcodeFormat.CODE_128,
-            ZXing.BarcodeFormat.CODE_39,
-            ZXing.BarcodeFormat.CODE_93,
-            ZXing.BarcodeFormat.ITF,
-            ZXing.BarcodeFormat.CODABAR,
-            ZXing.BarcodeFormat.QR_CODE,
-            ZXing.BarcodeFormat.DATA_MATRIX,
-            ZXing.BarcodeFormat.RSS_14,
-            ZXing.BarcodeFormat.RSS_EXPANDED
-
-        ];
-
-
-        hints.set(
-            ZXing.DecodeHintType.POSSIBLE_FORMATS,
-            formats
-        );
-
-
-        hints.set(
-            ZXing.DecodeHintType.TRY_HARDER,
-            true
-        );
-
-
-        codeReader =
-            new ZXing.BrowserMultiFormatReader(
-                hints
-            );
-
-    }
-
-
-    canScan =
-        true;
-
-
-    scanLocked =
-        false;
-
-
-    scannerRunning =
-        true;
-
-
-    const constraints = {
-
-        audio:false,
-
-        video:{
-
-            facingMode:{
-                ideal:"environment"
+                    frameRate:{
+                        ideal:30,
+                        max:30
+                    }
+                }
             },
 
-            width:{
-                ideal:1280,
-                min:640
-            },
-
-            height:{
-                ideal:720,
-                min:480
-            },
-
-            frameRate:{
-                ideal:30,
-                max:30
-            }
-
-        }
-
-    };
-
-
-    codeReader
-        .decodeFromConstraints(
-            constraints,
             "webcam-video",
+
             function(result,error){
 
                 if(
@@ -1613,503 +1303,149 @@ function initScanner(){
                     !scanLocked
                 ){
 
-                    scanLocked =
-                        true;
+                    scanLocked = true;
 
-                    canScan =
-                        false;
-
+                    canScan = false;
 
                     handleResult(
-                        result.text
+                        result.text,
+                        "camera"
                     );
 
                 }
 
             }
-        )
-        .then(function(){
 
-            setTimeout(function(){
-
-                detectTorch();
-
-                detectZoom();
-
-            },800);
-
-
-            /*
-               بعد عدة ثوانٍ يظهر خيار AI
-               فقط إذا لم تتم قراءة الباركود.
-            */
-
-            setTimeout(function(){
-
-                if(
-                    scannerRunning &&
-                    !scanLocked
-                ){
-
-                    document
-                        .getElementById(
-                            "ai-fallback"
-                        )
-                        .classList
-                        .add("show");
-
-                }
-
-            },4500);
-
-        })
-        .catch(function(error){
-
-            console.error(
-                "Camera error:",
-                error
-            );
-
-
-            scannerRunning =
-                false;
-
-
-            video.style.display =
-                "none";
-
-
-            overlay.style.display =
-                "none";
-
-
-            startScreen.style.display =
-                "flex";
-
-
-            showToast(
-                "يرجى السماح للمتصفح باستخدام الكاميرا"
-            );
-
-        });
-
-}
-
-
-/* =====================================================
-   AI BARCODE FALLBACK
-===================================================== */
-
-async function useAI(){
-
-    if(!scannerRunning){
-
-        return;
-
-    }
-
-
-    const video =
-        document.getElementById(
-            "webcam-video"
         );
 
+        setTimeout(function(){
 
-    if(
-        !video ||
-        !video.videoWidth ||
-        !video.videoHeight
-    ){
+            detectTorch();
 
-        showToast(
-            "الكاميرا غير جاهزة"
-        );
+            detectZoom();
 
-        return;
-
-    }
-
-
-    const aiButton =
-        document.getElementById(
-            "ai-fallback"
-        );
-
-
-    aiButton.disabled =
-        true;
-
-
-    aiButton.innerText =
-        "🤖 جاري قراءة الباركود...";
-
-
-    try{
-
-        /*
-           نصور الفريم الحالي من الكاميرا
-        */
-
-        const canvas =
-            document.createElement(
-                "canvas"
-            );
-
-
-        /*
-           نقلل الحجم حتى لا نرسل صورة ضخمة
-        */
-
-        const maxWidth =
-            1000;
-
-
-        const scale =
-            Math.min(
-                1,
-                maxWidth / video.videoWidth
-            );
-
-
-        canvas.width =
-            Math.round(
-                video.videoWidth * scale
-            );
-
-
-        canvas.height =
-            Math.round(
-                video.videoHeight * scale
-            );
-
-
-        const ctx =
-            canvas.getContext(
-                "2d",
-                {
-                    alpha:false
-                }
-            );
-
-
-        ctx.drawImage(
-            video,
-            0,
-            0,
-            canvas.width,
-            canvas.height
-        );
-
-
-        /*
-           JPEG مضغوط
-        */
-
-        const image =
-            canvas.toDataURL(
-                "image/jpeg",
-                0.78
-            );
-
-
-        const response =
-            await fetch(
-                AI_WORKER_URL,
-                {
-
-                    method:"POST",
-
-                    headers:{
-                        "Content-Type":
-                            "application/json"
-                    },
-
-                    body:JSON.stringify({
-                        image:image
-                    })
-
-                }
-            );
-
-
-        if(!response.ok){
-
-            throw new Error(
-                "AI Worker HTTP " +
-                response.status
-            );
-
-        }
-
-
-        const data =
-            await response.json();
-
-
-        console.log(
-            "AI result:",
-            data
-        );
-
-
-        if(
-            data &&
-            data.ok &&
-            data.found &&
-            data.barcode
-        ){
-
-            handleResult(
-                String(
-                    data.barcode
-                ).trim()
-            );
-
-
-            return;
-
-        }
-
-
-        showToast(
-            "AI لم يستطع قراءة الباركود، قرّب الكاميرا"
-        );
-
+        },700);
 
     }catch(error){
 
         console.error(
-            "AI error:",
+            "Camera error:",
             error
         );
 
+        scannerRunning = false;
+
+        video.style.display = "none";
+
+        overlay.style.display = "none";
+
+        start.style.display = "flex";
 
         showToast(
-            "تعذر الاتصال بخدمة AI"
+            "يرجى السماح للمتصفح باستخدام الكاميرا"
         );
-
-    }finally{
-
-        aiButton.disabled =
-            false;
-
-
-        aiButton.innerText =
-            "🤖 مساعدة AI لقراءة الباركود";
 
     }
 
 }
 
 
-/* =====================================================
-   FLASH
-===================================================== */
+/* =========================================================
+   اكتشاف الفلاش
+========================================================= */
 
 function detectTorch(){
 
     const video =
-        document.getElementById(
-            "webcam-video"
-        );
-
+        document.getElementById("webcam-video");
 
     if(!video.srcObject){
-
         return;
-
     }
-
 
     const tracks =
         video.srcObject.getVideoTracks();
 
-
     if(!tracks.length){
-
         return;
-
     }
 
-
-    videoTrack =
-        tracks[0];
-
+    videoTrack = tracks[0];
 
     if(!videoTrack.getCapabilities){
-
         return;
-
     }
 
-
-    const capabilities =
+    const caps =
         videoTrack.getCapabilities();
 
-
-    if(capabilities.torch){
+    if(caps.torch){
 
         document
-            .getElementById(
-                "torch-btn"
-            )
-            .style.display =
-            "block";
+            .getElementById("torch-btn")
+            .style.display = "block";
 
     }
 
 }
 
 
-async function toggleTorch(){
-
-    if(!videoTrack){
-
-        return;
-
-    }
-
-
-    try{
-
-        torchOn =
-            !torchOn;
-
-
-        await videoTrack.applyConstraints({
-
-            advanced:[
-                {
-                    torch:torchOn
-                }
-            ]
-
-        });
-
-
-        const button =
-            document.getElementById(
-                "torch-btn"
-            );
-
-
-        button.style.background =
-            torchOn
-            ? "#007aff"
-            : "rgba(0,0,0,.55)";
-
-
-        button.innerText =
-            torchOn
-            ? "⚡ الفلاش يعمل"
-            : "⚡ الفلاش";
-
-
-    }catch(error){
-
-        showToast(
-            "الفلاش غير مدعوم بهذا الجهاز"
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   ZOOM
-===================================================== */
+/* =========================================================
+   اكتشاف الزوم
+========================================================= */
 
 function detectZoom(){
 
     const video =
-        document.getElementById(
-            "webcam-video"
-        );
+        document.getElementById("webcam-video");
 
+    const controls =
+        document.getElementById("zoom-controls");
 
-    if(
-        !video ||
-        !video.srcObject
-    ){
-
+    if(!video.srcObject){
         return;
-
     }
-
 
     const tracks =
         video.srcObject.getVideoTracks();
 
-
     if(!tracks.length){
-
         return;
-
     }
 
+    videoTrack = tracks[0];
 
-    const track =
-        tracks[0];
-
-
-    videoTrack =
-        track;
-
-
-    if(!track.getCapabilities){
-
+    if(!videoTrack.getCapabilities){
         return;
-
     }
 
+    const caps =
+        videoTrack.getCapabilities();
 
-    const capabilities =
-        track.getCapabilities();
-
-
-    if(!capabilities.zoom){
-
+    if(!caps.zoom){
+        controls.classList.remove("visible");
         return;
-
     }
 
-
-    zoomSupported =
-        true;
-
+    zoomSupported = true;
 
     minZoom =
-        Number(
-            capabilities.zoom.min || 1
-        );
-
+        Number(caps.zoom.min || 1);
 
     maxZoom =
-        Number(
-            capabilities.zoom.max || 1
-        );
-
+        Number(caps.zoom.max || 1);
 
     zoomStep =
-        Number(
-            capabilities.zoom.step || .1
-        );
-
+        Number(caps.zoom.step || .1);
 
     document
-        .querySelectorAll(
-            ".zoom-btn"
-        )
-        .forEach(function(button){
+        .querySelectorAll(".zoom-btn")
+        .forEach(function(btn){
 
             const value =
-                Number(
-                    button.dataset.zoom
-                );
+                Number(btn.dataset.zoom);
 
-
-            button.style.display =
+            btn.style.display =
                 value >= minZoom &&
                 value <= maxZoom
                 ? "block"
@@ -2117,20 +1453,16 @@ function detectZoom(){
 
         });
 
-
     if(maxZoom > minZoom){
-
-        document
-            .getElementById(
-                "zoom-controls"
-            )
-            .classList
-            .add("visible");
-
+        controls.classList.add("visible");
     }
 
 }
 
+
+/* =========================================================
+   الزوم
+========================================================= */
 
 async function setCameraZoom(value){
 
@@ -2138,21 +1470,14 @@ async function setCameraZoom(value){
         !videoTrack ||
         !zoomSupported
     ){
-
         return;
-
     }
-
 
     let zoom =
         Math.max(
             minZoom,
-            Math.min(
-                value,
-                maxZoom
-            )
+            Math.min(value,maxZoom)
         );
-
 
     if(zoomStep > 0){
 
@@ -2162,7 +1487,6 @@ async function setCameraZoom(value){
             ) * zoomStep;
 
     }
-
 
     try{
 
@@ -2176,33 +1500,25 @@ async function setCameraZoom(value){
 
         });
 
-
-        currentZoom =
-            zoom;
-
+        currentZoom = zoom;
 
         document
-            .querySelectorAll(
-                ".zoom-btn"
-            )
-            .forEach(function(button){
+            .querySelectorAll(".zoom-btn")
+            .forEach(function(btn){
 
                 const buttonZoom =
-                    Number(
-                        button.dataset.zoom
-                    );
+                    Number(btn.dataset.zoom);
 
-
-                button.classList.toggle(
+                btn.classList.toggle(
                     "active",
-                    Math.abs(
-                        buttonZoom - zoom
-                    ) < .15
+                    Math.abs(buttonZoom-zoom)<.15
                 );
 
             });
 
     }catch(error){
+
+        console.log(error);
 
         showToast(
             "الزوم غير مدعوم بهذا الجهاز"
@@ -2214,9 +1530,7 @@ async function setCameraZoom(value){
 
 
 document
-    .querySelectorAll(
-        ".zoom-btn"
-    )
+    .querySelectorAll(".zoom-btn")
     .forEach(function(button){
 
         button.addEventListener(
@@ -2224,9 +1538,7 @@ document
             function(){
 
                 setCameraZoom(
-                    Number(
-                        this.dataset.zoom
-                    )
+                    Number(this.dataset.zoom)
                 );
 
             }
@@ -2235,178 +1547,184 @@ document
     });
 
 
-/* =====================================================
-   نتيجة الباركود
-===================================================== */
+/* =========================================================
+   الفلاش
+========================================================= */
 
-function handleResult(barcode){
+async function toggleTorch(){
+
+    if(!videoTrack){
+        return;
+    }
+
+    try{
+
+        torchOn = !torchOn;
+
+        await videoTrack.applyConstraints({
+
+            advanced:[
+                {
+                    torch:torchOn
+                }
+            ]
+
+        });
+
+        const button =
+            document.getElementById("torch-btn");
+
+        button.innerText =
+            torchOn
+            ? "⚡ الفلاش يعمل"
+            : "⚡ الفلاش";
+
+        button.style.background =
+            torchOn
+            ? "#007aff"
+            : "rgba(0,0,0,.58)";
+
+    }catch(error){
+
+        torchOn = false;
+
+        showToast(
+            "الفلاش غير مدعوم بهذا الجهاز"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   نتيجة الكاميرا
+========================================================= */
+
+function handleResult(barcode,source){
 
     if(!barcode){
-
         return;
-
     }
 
-
-    const cleanBarcode =
+    const clean =
         String(barcode)
-        .trim()
-        .replace(/\s+/g,"");
+            .replace(/\s+/g,"")
+            .trim();
 
-
-    if(!cleanBarcode){
-
+    if(!clean){
         return;
-
     }
-
 
     if(navigator.vibrate){
 
         navigator.vibrate([
-            80,
+            70,
             40,
-            80
+            70
         ]);
 
     }
 
-
-    playCashierBeep();
-
+    playBeep();
 
     stopCamera();
 
+    hideAI();
+
+    showResult(
+        clean,
+        source || "camera"
+    );
+
+}
+
+
+/* =========================================================
+   عرض السعر
+========================================================= */
+
+function showResult(barcode,source){
 
     const item =
-        securedDataStore.get(
-            cleanBarcode
-        );
-
+        priceData.get(barcode);
 
     document
-        .getElementById(
-            "scanner-card"
-        )
-        .style.display =
-        "none";
-
+        .getElementById("scanner-card")
+        .style.display = "none";
 
     document
-        .getElementById(
-            "quick-actions"
-        )
-        .style.display =
-        "none";
-
-
-    hideManualSearch();
-
+        .getElementById("quick-actions")
+        .style.display = "none";
 
     document
-        .getElementById(
-            "recent-section"
-        )
-        .style.display =
-        "none";
-
+        .getElementById("manual-box")
+        .style.display = "none";
 
     document
-        .getElementById(
-            "result-container"
-        )
-        .style.display =
-        "block";
-
+        .getElementById("recent-section")
+        .style.display = "none";
 
     document
-        .getElementById(
-            "barcode-display"
-        )
-        .innerText =
-        cleanBarcode;
+        .getElementById("result-container")
+        .style.display = "block";
 
+    document
+        .getElementById("barcode-display")
+        .innerText = barcode;
 
     if(item){
 
         document
-            .getElementById(
-                "result-icon"
-            )
-            .innerText =
-            "✅";
-
+            .getElementById("result-icon")
+            .innerText = "✅";
 
         document
-            .getElementById(
-                "result-status-text"
-            )
+            .getElementById("result-status-text")
             .innerText =
-            "تم العثور على المادة";
-
+            source === "ai"
+            ? "تم العثور عليها بواسطة AI"
+            : "تم العثور على المادة";
 
         document
-            .getElementById(
-                "item-name"
-            )
+            .getElementById("item-name")
             .innerText =
-            item.n ||
-            "مادة بدون اسم";
-
+            item.n || "مادة بدون اسم";
 
         const price =
             Number(item.p);
 
-
         document
-            .getElementById(
-                "item-price"
-            )
+            .getElementById("item-price")
             .innerText =
-            isNaN(price)
+            Number.isNaN(price)
             ? item.p
-            : price.toLocaleString(
-                "en-US"
-            );
-
+            : price.toLocaleString("en-US");
 
         saveRecent(
-            cleanBarcode,
+            barcode,
             item.n || "مادة",
-            price
+            item.p
         );
-
 
     }else{
 
         document
-            .getElementById(
-                "result-icon"
-            )
-            .innerText =
-            "❌";
-
+            .getElementById("result-icon")
+            .innerText = "❌";
 
         document
-            .getElementById(
-                "result-status-text"
-            )
+            .getElementById("result-status-text")
             .innerText =
-            "المادة غير موجودة";
-
+            "الباركود غير موجود";
 
         document
-            .getElementById(
-                "item-name"
-            )
+            .getElementById("item-name")
             .innerText =
-            "غير موجود في النظام";
-
+            "المادة غير موجودة في الأسعار";
 
         document
-            .getElementById(
-                "item-price"
-            )
+            .getElementById("item-price")
             .innerText =
             "---";
 
@@ -2415,9 +1733,301 @@ function handleResult(barcode){
 }
 
 
-/* =====================================================
+/* =========================================================
+   إظهار مساعدة AI بعد فشل القراءة
+========================================================= */
+
+function showAI(){
+
+    if(!scannerRunning){
+        return;
+    }
+
+    document
+        .getElementById("ai-box")
+        .style.display = "block";
+
+}
+
+
+/* =========================================================
+   إخفاء AI
+========================================================= */
+
+function hideAI(){
+
+    document
+        .getElementById("ai-box")
+        .style.display = "none";
+
+}
+
+
+/* =========================================================
+   تصوير إطار من الكاميرا
+========================================================= */
+
+function captureCameraFrame(){
+
+    const video =
+        document.getElementById("webcam-video");
+
+    if(
+        !video ||
+        video.readyState < 2 ||
+        !video.videoWidth
+    ){
+        throw new Error(
+            "Camera frame unavailable"
+        );
+    }
+
+    const canvas =
+        document.createElement("canvas");
+
+    const maxWidth = 1280;
+
+    let width =
+        video.videoWidth;
+
+    let height =
+        video.videoHeight;
+
+    if(width > maxWidth){
+
+        const ratio =
+            maxWidth / width;
+
+        width =
+            Math.round(width * ratio);
+
+        height =
+            Math.round(height * ratio);
+
+    }
+
+    canvas.width = width;
+    canvas.height = height;
+
+    const ctx =
+        canvas.getContext("2d");
+
+    ctx.drawImage(
+        video,
+        0,
+        0,
+        width,
+        height
+    );
+
+    return canvas.toDataURL(
+        "image/jpeg",
+        .78
+    );
+
+}
+
+
+/* =========================================================
+   إرسال الصورة إلى AI Worker
+========================================================= */
+
+async function scanWithAI(){
+
+    if(aiBusy){
+        return;
+    }
+
+    const button =
+        document.getElementById("ai-button");
+
+    aiBusy = true;
+
+    button.disabled = true;
+
+    button.innerText =
+        "🤖 جاري تحليل الصورة...";
+
+    try{
+
+        const image =
+            captureCameraFrame();
+
+        const response =
+            await fetch(
+                AI_WORKER_URL,
+                {
+                    method:"POST",
+
+                    headers:{
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:JSON.stringify({
+                        image:image
+                    })
+                }
+            );
+
+        if(!response.ok){
+
+            throw new Error(
+                "AI HTTP " +
+                response.status
+            );
+
+        }
+
+        const data =
+            await response.json();
+
+        console.log(
+            "AI response:",
+            data
+        );
+
+        if(
+            !data ||
+            !data.ok
+        ){
+
+            throw new Error(
+                data?.error ||
+                "AI failed"
+            );
+
+        }
+
+        if(
+            !data.found ||
+            !data.barcode
+        ){
+
+            button.innerText =
+                "🤖 لم أتمكن من قراءة الباركود";
+
+            showToast(
+                "AI لم يستطع قراءة الرقم بوضوح"
+            );
+
+            setTimeout(function(){
+
+                button.innerText =
+                    "🤖 محاولة باستخدام AI";
+
+            },1800);
+
+            return;
+
+        }
+
+        const barcode =
+            String(data.barcode)
+                .replace(/\D/g,"")
+                .trim();
+
+        if(
+            barcode.length < 6 ||
+            barcode.length > 14
+        ){
+
+            throw new Error(
+                "Invalid barcode"
+            );
+
+        }
+
+        playBeep();
+
+        stopCamera();
+
+        hideAI();
+
+        showResult(
+            barcode,
+            "ai"
+        );
+
+    }catch(error){
+
+        console.error(
+            "AI error:",
+            error
+        );
+
+        showToast(
+            "تعذر الاتصال بـ AI"
+        );
+
+        button.innerText =
+            "🤖 حاول مرة ثانية";
+
+    }finally{
+
+        aiBusy = false;
+
+        button.disabled = false;
+
+        if(
+            button.innerText ===
+            "🤖 جاري تحليل الصورة..."
+        ){
+
+            button.innerText =
+                "🤖 محاولة باستخدام AI";
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
    البحث اليدوي
-===================================================== */
+========================================================= */
+
+function showManualSearch(){
+
+    const box =
+        document.getElementById("manual-box");
+
+    const input =
+        document.getElementById(
+            "manual-barcode-input"
+        );
+
+    box.style.display = "flex";
+
+    input.focus();
+
+    box.scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+    });
+
+}
+
+
+function hideManualSearch(){
+
+    const box =
+        document.getElementById("manual-box");
+
+    const input =
+        document.getElementById(
+            "manual-barcode-input"
+        );
+
+    input.value = "";
+
+    input.blur();
+
+    box.style.display = "none";
+
+}
+
 
 function searchManualBarcode(){
 
@@ -2426,12 +2036,10 @@ function searchManualBarcode(){
             "manual-barcode-input"
         );
 
-
     const barcode =
         input.value
-        .trim()
-        .replace(/\s+/g,"");
-
+            .replace(/\s+/g,"")
+            .trim();
 
     if(!barcode){
 
@@ -2445,18 +2053,13 @@ function searchManualBarcode(){
 
     }
 
-
-    handleResult(
-        barcode
+    showResult(
+        barcode,
+        "manual"
     );
 
 }
 
-
-/*
-   Enter فقط.
-   لا يوجد بحث أثناء الكتابة.
-*/
 
 document
     .getElementById(
@@ -2466,9 +2069,7 @@ document
         "keydown",
         function(event){
 
-            if(
-                event.key === "Enter"
-            ){
+            if(event.key === "Enter"){
 
                 event.preventDefault();
 
@@ -2480,147 +2081,83 @@ document
     );
 
 
-/* =====================================================
+/* =========================================================
    إعادة الفحص
-===================================================== */
+========================================================= */
 
 function resetScanner(){
 
     stopCamera();
 
+    document
+        .getElementById("result-container")
+        .style.display = "none";
 
     document
-        .getElementById(
-            "result-container"
-        )
-        .style.display =
-        "none";
-
+        .getElementById("scanner-card")
+        .style.display = "block";
 
     document
-        .getElementById(
-            "scanner-card"
-        )
-        .style.display =
-        "block";
-
+        .getElementById("quick-actions")
+        .style.display = "flex";
 
     document
-        .getElementById(
-            "quick-actions"
-        )
-        .style.display =
-        "flex";
-
+        .getElementById("recent-section")
+        .style.display = "block";
 
     document
-        .getElementById(
-            "recent-section"
-        )
-        .style.display =
-        "block";
-
+        .getElementById("start-screen")
+        .style.display = "flex";
 
     document
-        .getElementById(
-            "start-screen"
-        )
-        .style.display =
-        "flex";
-
+        .getElementById("webcam-video")
+        .style.display = "none";
 
     document
-        .getElementById(
-            "webcam-video"
-        )
-        .style.display =
-        "none";
+        .getElementById("camera-overlay")
+        .style.display = "none";
 
+    hideManualSearch();
 
-    document
-        .getElementById(
-            "camera-overlay"
-        )
-        .style.display =
-        "none";
+    hideAI();
 
+    canScan = true;
 
-    document
-        .getElementById(
-            "ai-fallback"
-        )
-        .classList
-        .remove("show");
+    scanLocked = false;
 
+    scannerRunning = false;
 
-    document
-        .getElementById(
-            "manual-barcode-input"
-        )
-        .value =
-        "";
+    videoTrack = null;
 
+    torchOn = false;
 
-    document
-        .getElementById(
-            "manual-box"
-        )
-        .style.display =
-        "none";
+    zoomSupported = false;
 
-
-    canScan =
-        true;
-
-
-    scannerRunning =
-        false;
-
-
-    scanLocked =
-        false;
-
-
-    torchOn =
-        false;
-
-
-    videoTrack =
-        null;
-
-
-    currentZoom =
-        1;
-
-
-    zoomSupported =
-        false;
+    currentZoom = 1;
 
 }
 
 
-/* =====================================================
+/* =========================================================
    إيقاف الكاميرا
-===================================================== */
+========================================================= */
 
 function stopCamera(){
 
     try{
 
         if(codeReader){
-
             codeReader.reset();
-
         }
 
-    }catch(error){}
+    }catch(error){
 
+        console.log(error);
+
+    }
 
     const video =
-        document.getElementById(
-            "webcam-video"
-        );
-
+        document.getElementById("webcam-video");
 
     if(video.srcObject){
 
@@ -2632,62 +2169,63 @@ function stopCamera(){
 
             });
 
-
-        video.srcObject =
-            null;
+        video.srcObject = null;
 
     }
 
+    scannerRunning = false;
 
-    scannerRunning =
-        false;
+    canScan = false;
 
+    scanLocked = false;
 
-    canScan =
-        false;
+    videoTrack = null;
 
-
-    scanLocked =
-        false;
-
-
-    videoTrack =
-        null;
-
-
-    torchOn =
-        false;
-
+    torchOn = false;
 
     document
-        .getElementById(
-            "torch-btn"
-        )
-        .style.display =
-        "none";
-
+        .getElementById("torch-btn")
+        .style.display = "none";
 
     document
-        .getElementById(
-            "zoom-controls"
-        )
+        .getElementById("zoom-controls")
         .classList
         .remove("visible");
-
-
-    document
-        .getElementById(
-            "ai-fallback"
-        )
-        .classList
-        .remove("show");
 
 }
 
 
-/* =====================================================
-   تحديث الأسعار
-===================================================== */
+/* =========================================================
+   محاولة تلقائية لإظهار AI
+   بعد فترة إذا لم تتم القراءة
+========================================================= */
+
+let aiTimer = null;
+
+function startAIFallbackTimer(){
+
+    clearTimeout(aiTimer);
+
+    aiTimer =
+        setTimeout(function(){
+
+            if(
+                scannerRunning &&
+                canScan
+            ){
+
+                showAI();
+
+            }
+
+        },7000);
+
+}
+
+
+/* =========================================================
+   إعادة تحميل الأسعار
+========================================================= */
 
 function refreshPrices(){
 
@@ -2695,35 +2233,82 @@ function refreshPrices(){
         "جاري تحديث الأسعار..."
     );
 
-
     loadPriceData();
 
 }
 
 
-/* =====================================================
-   التركيز على الكاميرا
-===================================================== */
+/* =========================================================
+   التركيز
+========================================================= */
 
 function focusScanner(){
 
     document
-        .getElementById(
-            "scanner-card"
-        )
+        .getElementById("scanner-card")
         .scrollIntoView({
-
             behavior:"smooth",
             block:"center"
-
         });
 
 }
 
 
-/* =====================================================
+/* =========================================================
+   صوت
+========================================================= */
+
+function playBeep(){
+
+    try{
+
+        const AudioContext =
+            window.AudioContext ||
+            window.webkitAudioContext;
+
+        if(!AudioContext){
+            return;
+        }
+
+        const audio =
+            new AudioContext();
+
+        const oscillator =
+            audio.createOscillator();
+
+        const gain =
+            audio.createGain();
+
+        oscillator.type = "square";
+
+        oscillator.frequency.value =
+            2200;
+
+        gain.gain.value = .12;
+
+        gain.gain.exponentialRampToValueAtTime(
+            .001,
+            audio.currentTime+.09
+        );
+
+        oscillator.connect(gain);
+
+        gain.connect(audio.destination);
+
+        oscillator.start();
+
+        oscillator.stop(
+            audio.currentTime+.09
+        );
+
+    }catch(error){}
+
+}
+
+
+/* =========================================================
    السجل
-===================================================== */
+========================================================= */
 
 function saveRecent(
     barcode,
@@ -2733,18 +2318,16 @@ function saveRecent(
 
     let recent =
         JSON.parse(
-            localStorage.getItem(
-                "a2z_recent"
-            ) || "[]"
+            localStorage.getItem("a2z_recent") ||
+            "[]"
         );
-
 
     recent =
-        recent.filter(
-            item =>
-                item.barcode !== barcode
-        );
+        recent.filter(function(item){
 
+            return item.barcode !== barcode;
+
+        });
 
     recent.unshift({
 
@@ -2755,16 +2338,13 @@ function saveRecent(
 
     });
 
-
     recent =
         recent.slice(0,5);
-
 
     localStorage.setItem(
         "a2z_recent",
         JSON.stringify(recent)
     );
-
 
     renderRecent();
 
@@ -2772,27 +2352,20 @@ function saveRecent(
 
 
 function loadRecent(){
-
     renderRecent();
-
 }
 
 
 function renderRecent(){
 
     const container =
-        document.getElementById(
-            "recent-list"
-        );
-
+        document.getElementById("recent-list");
 
     let recent =
         JSON.parse(
-            localStorage.getItem(
-                "a2z_recent"
-            ) || "[]"
+            localStorage.getItem("a2z_recent") ||
+            "[]"
         );
-
 
     if(!recent.length){
 
@@ -2803,70 +2376,48 @@ function renderRecent(){
 
     }
 
-
-    container.innerHTML =
-        "";
-
+    container.innerHTML = "";
 
     recent.forEach(function(item){
 
         const row =
-            document.createElement(
-                "div"
-            );
-
+            document.createElement("div");
 
         row.className =
             "recent-item";
 
+        row.onclick = function(){
 
-        row.onclick =
-            function(){
-
-                handleResult(
-                    item.barcode
-                );
-
-            };
-
-
-        const name =
-            document.createElement(
-                "div"
+            showResult(
+                item.barcode,
+                "recent"
             );
 
+        };
+
+        const name =
+            document.createElement("div");
 
         name.className =
             "recent-name";
 
-
         name.innerText =
             item.name;
 
-
         const price =
-            document.createElement(
-                "div"
-            );
-
+            document.createElement("div");
 
         price.className =
             "recent-price";
 
-
-        const numericPrice =
-            Number(
-                item.price
-            );
-
+        const numeric =
+            Number(item.price);
 
         price.innerText =
-            isNaN(numericPrice)
+            Number.isNaN(numeric)
             ? item.price
-            : numericPrice.toLocaleString(
-                "en-US"
-            ) + " د.ع";
-
+            : numeric.toLocaleString("en-US") +
+              " د.ع";
 
         row.appendChild(name);
 
@@ -2885,9 +2436,7 @@ function clearRecent(){
         "a2z_recent"
     );
 
-
     renderRecent();
-
 
     showToast(
         "تم مسح سجل الفحص"
@@ -2896,44 +2445,29 @@ function clearRecent(){
 }
 
 
-/* =====================================================
-   TOAST
-===================================================== */
+/* =========================================================
+   Toast
+========================================================= */
 
-let toastTimer =
-    null;
-
+let toastTimer = null;
 
 function showToast(message){
 
     const toast =
-        document.getElementById(
-            "toast"
-        );
+        document.getElementById("toast");
 
+    toast.innerText = message;
 
-    toast.innerText =
-        message;
+    toast.classList.add("show");
 
-
-    toast.classList.add(
-        "show"
-    );
-
-
-    clearTimeout(
-        toastTimer
-    );
-
+    clearTimeout(toastTimer);
 
     toastTimer =
         setTimeout(function(){
 
-            toast.classList.remove(
-                "show"
-            );
+            toast.classList.remove("show");
 
-        },2500);
+        },2300);
 
 }
 
