@@ -1,85 +1,109 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
+
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<title>A2Z HYPERMARKET | فحص الأسعار</title>
+<meta name="viewport"
+content="width=device-width,
+initial-scale=1.0,
+maximum-scale=1.0,
+user-scalable=no">
 
+<title>A2Z Hypermarket - Price Checker</title>
+
+<!-- ZXing -->
 <script src="https://unpkg.com/@zxing/library@latest"></script>
 
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<!-- Cairo -->
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap"
+rel="stylesheet">
 
 <style>
+
+/* =====================================================
+   BASE
+===================================================== */
+
 *{
     box-sizing:border-box;
     -webkit-tap-highlight-color:transparent;
-    font-family:'Cairo',sans-serif;
 }
 
-html,body{
+html,
+body{
     margin:0;
+    padding:0;
     width:100%;
     min-height:100%;
 }
 
 body{
-    background:
-        radial-gradient(circle at 50% -10%,rgba(24,120,75,.16),transparent 38%),
-        linear-gradient(180deg,#f7faf8 0%,#eef4f0 100%);
-    color:#17231d;
-    overflow-x:hidden;
+    font-family:'Cairo',sans-serif;
+    background:#f5f7fa;
+    color:#17212b;
 }
 
-/* =========================
+button,
+input{
+    font-family:'Cairo',sans-serif;
+}
+
+
+/* =====================================================
    APP
-========================= */
+===================================================== */
 
 .app{
     width:100%;
     max-width:520px;
     min-height:100vh;
     margin:auto;
-    padding:20px 18px 28px;
+    background:#f5f7fa;
+    padding-bottom:30px;
 }
 
-/* =========================
+
+/* =====================================================
    HEADER
-========================= */
+===================================================== */
 
 .header{
+    height:76px;
+    background:#ffffff;
+    border-bottom:1px solid #e7ebef;
+
     display:flex;
     align-items:center;
     justify-content:space-between;
-    margin-bottom:22px;
+
+    padding:0 18px;
 }
+
+
+/* BRAND */
 
 .brand{
     display:flex;
     align-items:center;
-    gap:12px;
+    gap:11px;
 }
 
 .logo{
-    width:58px;
-    height:58px;
-    border-radius:17px;
-    background:white;
-    padding:5px;
-    box-shadow:
-        0 8px 25px rgba(0,0,0,.08),
-        0 0 0 1px rgba(21,103,65,.08);
-    position:relative;
-    overflow:hidden;
-}
+    width:46px;
+    height:46px;
 
-.logo::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    border-radius:17px;
-    border:2px solid rgba(20,125,72,.14);
-    pointer-events:none;
+    background:#ffffff;
+
+    border:1px solid #e1e6eb;
+
+    border-radius:12px;
+
+    padding:4px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
 .logo img{
@@ -88,674 +112,1082 @@ body{
     object-fit:contain;
 }
 
-.brand-text h1{
-    margin:0;
-    font-size:17px;
-    font-weight:900;
-    letter-spacing:.3px;
-    color:#123b28;
+.brand-info{
+    display:flex;
+    flex-direction:column;
 }
 
-.brand-text p{
-    margin:2px 0 0;
-    font-size:11px;
-    color:#718078;
-    font-weight:600;
+.brand-name{
+    font-size:15px;
+    line-height:1.3;
+    font-weight:800;
+    color:#123d68;
 }
 
-.status{
+.brand-subtitle{
+    font-size:9px;
+    color:#7c8792;
+    font-weight:500;
+}
+
+
+/* STATUS */
+
+.system-status{
     display:flex;
     align-items:center;
     gap:6px;
-    background:#fff;
-    border:1px solid #e1e9e4;
-    padding:7px 10px;
-    border-radius:30px;
-    font-size:10px;
-    color:#527062;
-    box-shadow:0 5px 15px rgba(0,0,0,.04);
+
+    color:#697580;
+
+    font-size:9px;
+    font-weight:600;
 }
 
 .status-dot{
     width:7px;
     height:7px;
-    background:#20b26b;
+
+    background:#25a56a;
+
     border-radius:50%;
-    box-shadow:0 0 0 4px rgba(32,178,107,.10);
 }
 
-/* =========================
-   HERO
-========================= */
 
-.hero{
-    margin-bottom:18px;
+/* =====================================================
+   CONTENT
+===================================================== */
+
+.content{
+    padding:22px 17px 0;
 }
 
-.hero h2{
-    font-size:27px;
-    line-height:1.25;
-    margin:0 0 7px;
-    font-weight:900;
-    color:#14251c;
+
+/* TITLE */
+
+.page-title{
+    margin-bottom:19px;
 }
 
-.hero h2 span{
-    color:#16834c;
+.page-title h1{
+    margin:0 0 5px;
+
+    font-size:23px;
+    line-height:1.4;
+
+    color:#18242f;
+
+    font-weight:800;
 }
 
-.hero p{
+.page-title p{
     margin:0;
-    color:#718078;
-    font-size:13px;
-    line-height:1.7;
+
+    font-size:11px;
+
+    line-height:1.8;
+
+    color:#7a858f;
+
     font-weight:500;
 }
 
-/* =========================
-   SCANNER CARD
-========================= */
 
-.scanner-card{
+/* =====================================================
+   CAMERA
+===================================================== */
+
+.camera-card{
+
     position:relative;
+
     width:100%;
-    height:315px;
-    background:#111815;
-    border-radius:27px;
+    height:300px;
+
+    background:#101820;
+
+    border-radius:16px;
+
     overflow:hidden;
+
+    border:1px solid #dce2e7;
+
     box-shadow:
-        0 20px 45px rgba(12,35,24,.18),
-        0 3px 8px rgba(0,0,0,.08);
-    border:5px solid white;
+        0 7px 20px rgba(21,39,55,.08);
 }
+
+
+/* VIDEO */
 
 #webcam-video{
+
     width:100%;
     height:100%;
+
     object-fit:cover;
+
     display:none;
 }
 
-/* Camera overlay */
 
-.camera-overlay{
+/* =====================================================
+   CAMERA START
+===================================================== */
+
+.camera-start{
+
     position:absolute;
+
     inset:0;
-    pointer-events:none;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:25px;
+
+    text-align:center;
+
+    background:#101820;
+}
+
+.camera-symbol{
+
+    width:58px;
+    height:58px;
+
+    border-radius:14px;
+
+    background:#1c5d91;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    margin-bottom:14px;
+
+    color:#ffffff;
+
+    font-size:25px;
+}
+
+.camera-start h2{
+
+    margin:0 0 5px;
+
+    color:#ffffff;
+
+    font-size:16px;
+
+    font-weight:700;
+}
+
+.camera-start p{
+
+    margin:0 0 18px;
+
+    color:#aab5bf;
+
+    font-size:10px;
+
+    line-height:1.8;
+
+    max-width:260px;
+}
+
+
+/* START BUTTON */
+
+.start-button{
+
+    border:0;
+
+    background:#17649b;
+
+    color:#ffffff;
+
+    padding:11px 24px;
+
+    border-radius:8px;
+
+    font-size:11px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.15s;
+}
+
+.start-button:active{
+
+    transform:scale(.97);
+}
+
+
+/* =====================================================
+   SCANNER OVERLAY
+===================================================== */
+
+.scanner-overlay{
+
+    position:absolute;
+
+    inset:0;
+
     display:none;
+
+    pointer-events:none;
 }
 
-.scan-area{
+
+/* DARK OVERLAY */
+
+.scanner-overlay::before{
+
+    content:"";
+
     position:absolute;
+
+    inset:0;
+
+    background:rgba(0,0,0,.18);
+}
+
+
+/* SCAN BOX */
+
+.scan-box{
+
+    position:absolute;
+
     width:78%;
+
     height:105px;
-    left:11%;
+
     top:50%;
+    left:11%;
+
     transform:translateY(-50%);
-    border:2px solid rgba(255,255,255,.75);
-    border-radius:18px;
+
+    border:1px solid rgba(255,255,255,.8);
+
+    border-radius:8px;
+
     box-shadow:
-        0 0 0 999px rgba(0,0,0,.30),
-        0 0 25px rgba(255,255,255,.18);
+        0 0 0 999px rgba(0,0,0,.20);
 }
 
-.corner{
+
+/* CORNERS */
+
+.scan-corner{
+
     position:absolute;
-    width:25px;
-    height:25px;
-    border-color:#f5c84b;
+
+    width:18px;
+    height:18px;
+
+    border-color:#3db5e8;
+
     border-style:solid;
 }
 
-.corner.tl{
+.scan-corner.tl{
     top:-2px;
     left:-2px;
-    border-width:4px 0 0 4px;
-    border-radius:12px 0 0 0;
+    border-width:3px 0 0 3px;
 }
 
-.corner.tr{
+.scan-corner.tr{
     top:-2px;
     right:-2px;
-    border-width:4px 4px 0 0;
-    border-radius:0 12px 0 0;
+    border-width:3px 3px 0 0;
 }
 
-.corner.bl{
+.scan-corner.bl{
     bottom:-2px;
     left:-2px;
-    border-width:0 0 4px 4px;
-    border-radius:0 0 0 12px;
+    border-width:0 0 3px 3px;
 }
 
-.corner.br{
+.scan-corner.br{
     bottom:-2px;
     right:-2px;
-    border-width:0 4px 4px 0;
-    border-radius:0 0 12px 0;
+    border-width:0 3px 3px 0;
 }
+
+
+/* SCAN LINE */
 
 .scan-line{
+
     position:absolute;
-    width:92%;
-    height:2px;
+
     left:4%;
-    top:10px;
-    background:linear-gradient(
-        90deg,
-        transparent,
-        #23dc87,
-        #fff,
-        #23dc87,
-        transparent
-    );
+
+    width:92%;
+
+    height:1px;
+
+    top:5px;
+
+    background:#45c1ed;
+
     box-shadow:
-        0 0 8px #23dc87,
-        0 0 18px rgba(35,220,135,.8);
-    animation:scanMove 2s ease-in-out infinite;
+        0 0 5px rgba(69,193,237,.8);
+
+    animation:
+        scannerMove 2s
+        ease-in-out
+        infinite;
 }
 
-@keyframes scanMove{
-    0%,100%{top:10px}
-    50%{top:90px}
+@keyframes scannerMove{
+
+    0%{
+        top:7px;
+    }
+
+    50%{
+        top:94px;
+    }
+
+    100%{
+        top:7px;
+    }
 }
 
-.scan-text{
+
+/* SCAN LABEL */
+
+.scan-label{
+
     position:absolute;
+
+    bottom:18px;
+
     width:100%;
+
     text-align:center;
-    bottom:28px;
-    color:white;
-    font-size:11px;
-    font-weight:700;
-    text-shadow:0 2px 5px #000;
+
+    color:#ffffff;
+
+    font-size:9px;
+
+    font-weight:600;
+
+    text-shadow:0 1px 3px #000;
 }
 
-/* =========================
-   START SCREEN
-========================= */
 
-.start-screen{
-    position:absolute;
-    inset:0;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding:25px;
-    background:
-        radial-gradient(circle at center,rgba(30,145,85,.18),transparent 55%),
-        #111815;
-}
-
-.camera-icon{
-    width:68px;
-    height:68px;
-    border-radius:22px;
-    background:linear-gradient(145deg,#1ca964,#117141);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:30px;
-    box-shadow:
-        0 12px 30px rgba(20,150,80,.25);
-    margin-bottom:15px;
-}
-
-.start-screen h3{
-    margin:0 0 5px;
-    color:white;
-    font-size:17px;
-    font-weight:800;
-}
-
-.start-screen p{
-    margin:0 0 18px;
-    color:#aebdb5;
-    font-size:11px;
-    line-height:1.7;
-}
-
-#start-cam-btn{
-    border:0;
-    color:white;
-    background:linear-gradient(135deg,#1ca964,#117141);
-    border-radius:14px;
-    padding:12px 22px;
-    font-size:13px;
-    font-weight:800;
-    cursor:pointer;
-    box-shadow:0 9px 22px rgba(21,144,78,.3);
-    transition:.2s;
-}
-
-#start-cam-btn:active{
-    transform:scale(.96);
-}
-
-/* =========================
+/* =====================================================
    CAMERA CONTROLS
-========================= */
+===================================================== */
 
-.camera-controls{
+.camera-tools{
+
     position:absolute;
-    top:13px;
-    left:13px;
-    right:13px;
+
+    top:12px;
+
+    left:12px;
+    right:12px;
+
     display:none;
+
     justify-content:space-between;
-    z-index:20;
+
+    z-index:10;
 }
 
-.cam-btn{
-    border:1px solid rgba(255,255,255,.18);
-    background:rgba(0,0,0,.48);
-    color:white;
-    backdrop-filter:blur(12px);
-    padding:7px 12px;
-    border-radius:30px;
+.camera-tool{
+
+    border:1px solid rgba(255,255,255,.22);
+
+    background:rgba(15,23,30,.68);
+
+    color:#ffffff;
+
+    border-radius:7px;
+
+    padding:6px 10px;
+
+    font-size:9px;
+
+    font-weight:600;
+
+    backdrop-filter:blur(8px);
+}
+
+
+/* =====================================================
+   MANUAL SEARCH
+===================================================== */
+
+.manual-section{
+
+    margin-top:20px;
+}
+
+.manual-title{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    margin-bottom:7px;
+}
+
+.manual-title strong{
+
     font-size:11px;
+
+    color:#35424e;
+
     font-weight:700;
 }
 
-/* =========================
-   MANUAL SEARCH
-========================= */
+.manual-title span{
 
-.section-title{
+    font-size:9px;
+
+    color:#929ba3;
+}
+
+
+.manual-search{
+
     display:flex;
+
     align-items:center;
-    justify-content:space-between;
-    margin:20px 2px 8px;
+
+    gap:6px;
+
+    background:#ffffff;
+
+    border:1px solid #dfe5ea;
+
+    border-radius:10px;
+
+    padding:5px;
+
+    box-shadow:
+        0 5px 15px rgba(21,39,55,.04);
 }
 
-.section-title span:first-child{
-    font-size:12px;
-    color:#31443a;
-    font-weight:800;
-}
-
-.section-title span:last-child{
-    font-size:10px;
-    color:#89958f;
-}
-
-.manual-box{
-    width:100%;
-    display:flex;
-    align-items:center;
-    gap:7px;
-    padding:6px;
-    background:white;
-    border:1px solid #e1e9e4;
-    border-radius:17px;
-    box-shadow:0 8px 24px rgba(20,50,35,.06);
-}
-
-.manual-icon{
-    width:39px;
-    height:39px;
-    border-radius:12px;
-    background:#edf7f1;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:#16834c;
-    font-size:17px;
-}
 
 .manual-input{
-    min-width:0;
+
     flex:1;
+
+    min-width:0;
+
+    height:38px;
+
     border:0;
-    outline:0;
+
+    outline:none;
+
     background:transparent;
-    color:#17231d;
-    font-size:12px;
+
+    padding:0 9px;
+
+    color:#25313c;
+
+    font-size:11px;
+
     font-weight:600;
-    direction:rtl;
 }
 
 .manual-input::placeholder{
-    color:#a2aca7;
+
+    color:#a4adb5;
 }
 
-.manual-btn{
+
+.manual-button{
+
+    height:38px;
+
     border:0;
-    background:#16834c;
-    color:white;
-    padding:10px 17px;
-    border-radius:12px;
-    font-size:11px;
-    font-weight:800;
+
+    border-radius:7px;
+
+    padding:0 16px;
+
+    background:#17649b;
+
+    color:#ffffff;
+
+    font-size:10px;
+
+    font-weight:700;
+
     cursor:pointer;
 }
 
-/* =========================
+
+/* =====================================================
    RESULT
-========================= */
+===================================================== */
 
 #result-container{
+
     display:none;
-    margin-top:18px;
-    width:100%;
-    background:white;
-    border:1px solid #e1e9e4;
-    border-radius:24px;
-    padding:21px 17px 17px;
+
+    margin-top:20px;
+
+    background:#ffffff;
+
+    border:1px solid #dfe5ea;
+
+    border-radius:14px;
+
+    padding:20px 16px;
+
     text-align:center;
-    box-shadow:0 15px 35px rgba(15,50,30,.10);
-    animation:resultIn .4s ease;
+
+    box-shadow:
+        0 8px 22px rgba(21,39,55,.07);
 }
 
-@keyframes resultIn{
-    from{
-        opacity:0;
-        transform:translateY(15px) scale(.98);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0) scale(1);
-    }
-}
+
+/* RESULT ICON */
 
 .result-icon{
-    width:52px;
-    height:52px;
+
+    width:48px;
+    height:48px;
+
     margin:0 auto 10px;
-    border-radius:17px;
+
     display:flex;
+
     align-items:center;
     justify-content:center;
-    background:#edf8f2;
-    font-size:23px;
+
+    border-radius:12px;
+
+    background:#edf6fb;
+
+    color:#17649b;
+
+    font-size:22px;
+
+    font-weight:800;
 }
+
+
+/* ITEM NAME */
 
 .item-name{
-    color:#17231d;
-    font-size:18px;
-    font-weight:900;
-    line-height:1.4;
+
+    font-size:17px;
+
+    line-height:1.5;
+
+    font-weight:800;
+
+    color:#1c2934;
+
     margin-bottom:14px;
 }
 
+
+/* PRICE */
+
 .price-box{
-    background:#f6f9f7;
-    border:1px solid #e5ece8;
-    border-radius:18px;
-    padding:12px;
-    margin-bottom:14px;
+
+    background:#f6f8fa;
+
+    border:1px solid #e4e9ed;
+
+    border-radius:10px;
+
+    padding:10px;
+
+    margin-bottom:13px;
 }
 
 .price-label{
-    color:#84918b;
-    font-size:10px;
-    font-weight:700;
+
+    color:#8a949d;
+
+    font-size:9px;
+
+    font-weight:600;
 }
 
 .price-tag{
-    color:#15834b;
-    font-size:29px;
-    font-weight:900;
-    line-height:1.4;
+
+    color:#17649b;
+
+    font-size:27px;
+
+    font-weight:800;
+
+    line-height:1.5;
 }
 
-.action-btn{
+
+/* RESET */
+
+.action-button{
+
     width:100%;
-    border:0;
-    border-radius:14px;
-    padding:12px;
-    background:#17231d;
-    color:white;
-    font-size:12px;
-    font-weight:800;
+
+    height:43px;
+
+    border:1px solid #17649b;
+
+    border-radius:8px;
+
+    background:#17649b;
+
+    color:#ffffff;
+
+    font-size:10px;
+
+    font-weight:700;
+
     cursor:pointer;
 }
 
-/* =========================
+
+/* =====================================================
    LOADING
-========================= */
+===================================================== */
 
 .loading{
+
     position:absolute;
+
     inset:0;
+
     display:none;
+
     align-items:center;
+
     justify-content:center;
-    background:rgba(8,16,12,.82);
+
+    flex-direction:column;
+
+    gap:10px;
+
+    background:#101820;
+
+    color:#ffffff;
+
     z-index:30;
-    color:white;
-    font-size:12px;
-    font-weight:700;
+
+    font-size:10px;
+
+    font-weight:600;
 }
 
 .loader{
-    width:25px;
-    height:25px;
-    border:3px solid rgba(255,255,255,.25);
-    border-top-color:#22c978;
+
+    width:24px;
+    height:24px;
+
+    border:2px solid rgba(255,255,255,.2);
+
+    border-top-color:#43b6e5;
+
     border-radius:50%;
+
     animation:spin .7s linear infinite;
-    margin-left:9px;
 }
 
 @keyframes spin{
-    to{transform:rotate(360deg)}
+
+    to{
+        transform:rotate(360deg);
+    }
 }
 
-/* =========================
+
+/* =====================================================
    FOOTER
-========================= */
+===================================================== */
 
 .footer{
+
     text-align:center;
-    margin-top:20px;
-    color:#9aa49f;
-    font-size:9px;
+
+    padding-top:23px;
+
+    color:#a1aab2;
+
+    font-size:8px;
+
+    font-weight:500;
 }
 
-@media(max-height:700px){
-    .app{
-        padding-top:12px;
+
+/* =====================================================
+   SMALL SCREENS
+===================================================== */
+
+@media(max-height:680px){
+
+    .header{
+        height:65px;
     }
 
-    .hero{
-        margin-bottom:12px;
+    .content{
+        padding-top:15px;
     }
 
-    .hero h2{
-        font-size:23px;
+    .page-title{
+        margin-bottom:13px;
     }
 
-    .scanner-card{
-        height:270px;
+    .page-title h1{
+        font-size:20px;
     }
 
-    .section-title{
-        margin-top:13px;
+    .camera-card{
+        height:255px;
     }
+
 }
+
 </style>
 </head>
 
+
 <body>
+
 
 <div class="app">
 
-    <!-- HEADER -->
+
+    <!-- ============================================
+         HEADER
+    ============================================= -->
+
     <header class="header">
 
         <div class="brand">
 
             <div class="logo">
-                <img src="https://lh3.googleusercontent.com/d/109H2w4zxFrJzi5EgQse4u1Ka6KoZyupo"
-                     alt="A2Z Hypermarket">
+
+                <img
+                src="https://lh3.googleusercontent.com/d/109H2w4zxFrJzi5EgQse4u1Ka6KoZyupo"
+                alt="A2Z Hypermarket">
+
             </div>
 
-            <div class="brand-text">
-                <h1>A2Z HYPERMARKET</h1>
-                <p>نظام فحص الأسعار</p>
+
+            <div class="brand-info">
+
+                <div class="brand-name">
+                    A2Z HYPERMARKET
+                </div>
+
+                <div class="brand-subtitle">
+                    نظام فحص الأسعار
+                </div>
+
             </div>
 
         </div>
 
-        <div class="status">
+
+        <div class="system-status">
+
             <span class="status-dot"></span>
-            النظام يعمل
+
+            متصل
+
         </div>
 
     </header>
 
 
-    <!-- HERO -->
-    <section class="hero">
-        <h2>افحص السعر <span>بسرعة</span></h2>
-        <p>
-            وجّه الكاميرا نحو الباركود وسيظهر اسم المادة
-            والسعر مباشرة.
-        </p>
-    </section>
+
+    <!-- ============================================
+         CONTENT
+    ============================================= -->
+
+    <main class="content">
 
 
-    <!-- CAMERA -->
-    <div class="scanner-card" id="camera-box">
+        <!-- TITLE -->
 
-        <div class="start-screen" id="start-card">
+        <section class="page-title">
 
-            <div class="camera-icon">📷</div>
-
-            <h3>ماسح الباركود</h3>
+            <h1>
+                فحص سعر المنتج
+            </h1>
 
             <p>
-                يدعم مجموعة واسعة من الباركود
-                ويستخدم الكاميرا الخلفية للمسح السريع.
+                استخدم الكاميرا لمسح الباركود
+                والحصول على السعر مباشرة.
             </p>
 
-            <button id="start-cam-btn" onclick="initScanner()">
-                فتح الكاميرا
-            </button>
-
-        </div>
+        </section>
 
 
-        <video id="webcam-video"
-               playsinline
-               muted
-               autoplay>
-        </video>
+
+        <!-- ========================================
+             CAMERA
+        ========================================= -->
+
+        <section
+        class="camera-card"
+        id="camera-box">
 
 
-        <div class="camera-overlay" id="camera-overlay">
+            <!-- START -->
 
-            <div class="scan-area">
+            <div
+            class="camera-start"
+            id="start-card">
 
-                <div class="corner tl"></div>
-                <div class="corner tr"></div>
-                <div class="corner bl"></div>
-                <div class="corner br"></div>
 
-                <div class="scan-line"></div>
+                <div class="camera-symbol">
+                    ▣
+                </div>
+
+
+                <h2>
+                    ماسح الباركود
+                </h2>
+
+
+                <p>
+                    ضع الباركود أمام الكاميرا
+                    وسيتم التعرف عليه تلقائياً.
+                </p>
+
+
+                <button
+                class="start-button"
+                id="start-cam-btn"
+                onclick="initScanner()">
+
+                    فتح الكاميرا
+
+                </button>
 
             </div>
 
-            <div class="scan-text">
-                ضع الباركود داخل الإطار
+
+
+            <!-- VIDEO -->
+
+            <video
+            id="webcam-video"
+            playsinline
+            muted
+            autoplay>
+            </video>
+
+
+
+            <!-- SCANNER -->
+
+            <div
+            class="scanner-overlay"
+            id="camera-overlay">
+
+
+                <div class="scan-box">
+
+                    <div class="scan-corner tl"></div>
+
+                    <div class="scan-corner tr"></div>
+
+                    <div class="scan-corner bl"></div>
+
+                    <div class="scan-corner br"></div>
+
+                    <div class="scan-line"></div>
+
+                </div>
+
+
+                <div class="scan-label">
+                    ضع الباركود داخل الإطار
+                </div>
+
             </div>
 
-        </div>
 
 
-        <div class="camera-controls" id="camera-controls">
+            <!-- CAMERA BUTTONS -->
 
-            <button class="cam-btn"
-                    id="torch-btn"
-                    onclick="toggleTorch()">
-                ⚡ فلاش
-            </button>
-
-            <button class="cam-btn"
-                    onclick="stopScanner()">
-                ✕ إغلاق
-            </button>
-
-        </div>
+            <div
+            class="camera-tools"
+            id="camera-controls">
 
 
-        <div class="loading" id="loading">
-            <div class="loader"></div>
-            جاري تشغيل الكاميرا...
-        </div>
+                <button
+                class="camera-tool"
+                id="torch-btn"
+                onclick="toggleTorch()">
 
-    </div>
+                    فلاش
+
+                </button>
 
 
-    <!-- MANUAL -->
-    <div class="section-title">
-        <span>البحث اليدوي</span>
-        <span>رقم الباركود</span>
-    </div>
+                <button
+                class="camera-tool"
+                onclick="stopScanner()">
 
-    <div class="manual-box">
+                    إغلاق
 
-        <div class="manual-icon">⌕</div>
+                </button>
 
-        <input
-            type="text"
-            id="manual-barcode-input"
-            class="manual-input"
-            inputmode="numeric"
-            autocomplete="off"
-            placeholder="اكتب رقم الباركود هنا..."
-        >
+            </div>
 
-        <button class="manual-btn"
+
+
+            <!-- LOADING -->
+
+            <div
+            class="loading"
+            id="loading">
+
+                <div class="loader"></div>
+
+                جاري تشغيل الكاميرا...
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ========================================
+             MANUAL
+        ========================================= -->
+
+        <section
+        class="manual-section"
+        id="manual-section">
+
+
+            <div class="manual-title">
+
+                <strong>
+                    البحث برقم الباركود
+                </strong>
+
+                <span>
+                    إدخال يدوي
+                </span>
+
+            </div>
+
+
+            <div class="manual-search">
+
+
+                <input
+                type="text"
+                id="manual-barcode-input"
+                class="manual-input"
+                inputmode="numeric"
+                autocomplete="off"
+                placeholder="أدخل رقم الباركود...">
+
+
+                <button
+                class="manual-button"
                 onclick="searchManualBarcode()">
-            بحث
-        </button>
 
-    </div>
+                    بحث
+
+                </button>
 
 
-    <!-- RESULT -->
-    <div id="result-container">
-
-        <div class="result-icon"
-             id="result-icon">
-            🏷️
-        </div>
-
-        <div class="item-name"
-             id="item-name">
-            ---
-        </div>
-
-        <div class="price-box">
-
-            <div class="price-label">
-                السعر الإجمالي
             </div>
 
-            <div class="price-tag"
-                 id="item-price">
+        </section>
+
+
+
+        <!-- ========================================
+             RESULT
+        ========================================= -->
+
+        <section
+        id="result-container">
+
+
+            <div
+            class="result-icon"
+            id="result-icon">
+
+                ✓
+
+            </div>
+
+
+            <div
+            class="item-name"
+            id="item-name">
+
                 ---
+
             </div>
+
+
+            <div class="price-box">
+
+                <div class="price-label">
+                    السعر الإجمالي
+                </div>
+
+                <div
+                class="price-tag"
+                id="item-price">
+
+                    ---
+
+                </div>
+
+            </div>
+
+
+            <button
+            class="action-button"
+            onclick="resetScanner()">
+
+                فحص منتج آخر
+
+            </button>
+
+
+        </section>
+
+
+
+        <div class="footer">
+
+            A2Z Hypermarket
+            •
+            Price Checker
 
         </div>
 
-        <button class="action-btn"
-                onclick="resetScanner()">
-            🔄 فحص مادة أخرى
-        </button>
 
-    </div>
-
-
-    <div class="footer">
-        A2Z HYPERMARKET • Smart Price Checker
-    </div>
+    </main>
 
 </div>
+
 
 
 <script>
@@ -795,6 +1227,7 @@ window.onload = function(){
         "jsonp_init_" +
         Math.round(Math.random()*1000000);
 
+
     window[cbName] = function(rawData){
 
         if(typeof rawData === "object"){
@@ -812,6 +1245,7 @@ window.onload = function(){
             }
 
         }
+
 
         delete window[cbName];
 
@@ -845,33 +1279,43 @@ function playCashierBeep(){
             window.AudioContext ||
             window.webkitAudioContext;
 
+
         if(!AudioContext) return;
+
 
         const audioCtx =
             new AudioContext();
 
+
         const oscillator =
             audioCtx.createOscillator();
+
 
         const gainNode =
             audioCtx.createGain();
 
-        oscillator.type = "square";
+
+        oscillator.type =
+            "square";
+
 
         oscillator.frequency.setValueAtTime(
             2400,
             audioCtx.currentTime
         );
 
+
         gainNode.gain.setValueAtTime(
-            .13,
+            .12,
             audioCtx.currentTime
         );
+
 
         gainNode.gain.exponentialRampToValueAtTime(
             .001,
             audioCtx.currentTime + .08
         );
+
 
         oscillator.connect(gainNode);
 
@@ -879,15 +1323,17 @@ function playCashierBeep(){
             audioCtx.destination
         );
 
+
         oscillator.start();
 
         oscillator.stop(
             audioCtx.currentTime + .08
         );
 
+
     }catch(e){
 
-        console.log("Audio error",e);
+        console.log(e);
 
     }
 
@@ -895,82 +1341,101 @@ function playCashierBeep(){
 
 
 /* =====================================================
-   SCANNER
+   CAMERA
 ===================================================== */
 
 async function initScanner(){
 
     if(!window.ZXing){
 
-        alert("جاري تحميل نظام المسح، حاول مرة ثانية.");
+        alert(
+            "نظام المسح لم يكتمل تحميله."
+        );
 
         return;
+
     }
 
 
-    const videoElem =
-        document.getElementById("webcam-video");
+    const video =
+        document.getElementById(
+            "webcam-video"
+        );
+
 
     const startCard =
-        document.getElementById("start-card");
+        document.getElementById(
+            "start-card"
+        );
+
 
     const overlay =
-        document.getElementById("camera-overlay");
+        document.getElementById(
+            "camera-overlay"
+        );
+
 
     const controls =
-        document.getElementById("camera-controls");
+        document.getElementById(
+            "camera-controls"
+        );
+
 
     const loading =
-        document.getElementById("loading");
+        document.getElementById(
+            "loading"
+        );
 
 
-    loading.style.display = "flex";
+    loading.style.display =
+        "flex";
 
 
-    startCard.style.display = "none";
+    startCard.style.display =
+        "none";
 
-    videoElem.style.display = "block";
+
+    video.style.display =
+        "block";
 
 
-    /* ===============================================
-       SUPPORTED FORMATS
-    =============================================== */
+    /* -----------------------------------------------
+       BARCODE FORMATS
+    ------------------------------------------------ */
 
-    const hints = new Map();
+    const hints =
+        new Map();
+
 
     const formats = [
 
-        /* Retail barcodes */
-
         ZXing.BarcodeFormat.EAN_13,
+
         ZXing.BarcodeFormat.EAN_8,
 
         ZXing.BarcodeFormat.UPC_A,
+
         ZXing.BarcodeFormat.UPC_E,
 
-        /* Industrial */
-
         ZXing.BarcodeFormat.CODE_128,
+
         ZXing.BarcodeFormat.CODE_39,
+
         ZXing.BarcodeFormat.CODE_93,
 
-        /* ITF */
-
         ZXing.BarcodeFormat.ITF,
+
         ZXing.BarcodeFormat.ITF_14,
 
-        /* GS1 */
-
         ZXing.BarcodeFormat.RSS_14,
+
         ZXing.BarcodeFormat.RSS_EXPANDED,
 
-        /* 2D */
-
         ZXing.BarcodeFormat.QR_CODE,
-        ZXing.BarcodeFormat.DATA_MATRIX,
-        ZXing.BarcodeFormat.AZTEC,
 
-        /* Shipping */
+        ZXing.BarcodeFormat.DATA_MATRIX,
+
+        ZXing.BarcodeFormat.AZTEC,
 
         ZXing.BarcodeFormat.PDF_417
 
@@ -989,9 +1454,9 @@ async function initScanner(){
     );
 
 
-    /* ===============================================
-       CREATE READER
-    =============================================== */
+    /* -----------------------------------------------
+       READER
+    ------------------------------------------------ */
 
     try{
 
@@ -1014,9 +1479,9 @@ async function initScanner(){
         canScan = true;
 
 
-        /* ===========================================
-           CAMERA SETTINGS
-        =========================================== */
+        /* -------------------------------------------
+           CAMERA
+        ------------------------------------------- */
 
         const constraints = {
 
@@ -1074,24 +1539,27 @@ async function initScanner(){
         );
 
 
-        /* ===========================================
+        /* -------------------------------------------
            STREAM
-        =========================================== */
+        ------------------------------------------- */
 
         currentStream =
-            videoElem.srcObject;
+            video.srcObject;
+
 
         if(currentStream){
 
             const tracks =
                 currentStream.getVideoTracks();
 
+
             if(tracks.length){
 
                 videoTrack =
                     tracks[0];
 
-                improveCameraFocus(
+
+                optimizeCamera(
                     videoTrack
                 );
 
@@ -1100,16 +1568,19 @@ async function initScanner(){
         }
 
 
-        loading.style.display = "none";
-
-        overlay.style.display = "block";
-
-        controls.style.display = "flex";
+        loading.style.display =
+            "none";
 
 
-        /* ===========================================
-           FLASH
-        =========================================== */
+        overlay.style.display =
+            "block";
+
+
+        controls.style.display =
+            "flex";
+
+
+        /* FLASH */
 
         if(
             videoTrack &&
@@ -1119,11 +1590,13 @@ async function initScanner(){
             const capabilities =
                 videoTrack.getCapabilities();
 
+
             if(capabilities.torch){
 
                 document.getElementById(
                     "torch-btn"
-                ).style.display = "block";
+                ).style.display =
+                    "block";
 
             }
 
@@ -1132,20 +1605,27 @@ async function initScanner(){
 
     }catch(error){
 
-        console.error(
-            "Camera error:",
-            error
-        );
+        console.error(error);
 
-        loading.style.display = "none";
 
-        videoElem.style.display = "none";
+        loading.style.display =
+            "none";
 
-        overlay.style.display = "none";
 
-        controls.style.display = "none";
+        video.style.display =
+            "none";
 
-        startCard.style.display = "flex";
+
+        overlay.style.display =
+            "none";
+
+
+        controls.style.display =
+            "none";
+
+
+        startCard.style.display =
+            "flex";
 
 
         alert(
@@ -1159,10 +1639,10 @@ async function initScanner(){
 
 
 /* =====================================================
-   IMPROVE CAMERA
+   CAMERA OPTIMIZATION
 ===================================================== */
 
-async function improveCameraFocus(track){
+async function optimizeCamera(track){
 
     if(!track) return;
 
@@ -1172,10 +1652,9 @@ async function improveCameraFocus(track){
         const capabilities =
             track.getCapabilities();
 
+
         const advanced = {};
 
-
-        /* Continuous autofocus */
 
         if(capabilities.focusMode){
 
@@ -1192,45 +1671,47 @@ async function improveCameraFocus(track){
         }
 
 
-        /* Slight optical/digital zoom */
-
         if(capabilities.zoom){
 
             const min =
                 capabilities.zoom.min ?? 1;
 
+
             const max =
                 capabilities.zoom.max ?? 1;
 
+
             if(max > min){
 
-                const preferred =
+                advanced.zoom =
                     Math.min(
-                        min + (max-min)*.15,
+                        min + (max-min)*.10,
                         max
                     );
-
-                advanced.zoom =
-                    preferred;
 
             }
 
         }
 
 
-        if(Object.keys(advanced).length){
+        if(
+            Object.keys(advanced).length
+        ){
 
             await track.applyConstraints({
-                advanced:[advanced]
+
+                advanced:[
+                    advanced
+                ]
+
             });
 
         }
 
-    }catch(error){
+    }catch(e){
 
         console.log(
-            "Camera optimization unavailable",
-            error
+            "Camera optimization unavailable"
         );
 
     }
@@ -1239,7 +1720,7 @@ async function improveCameraFocus(track){
 
 
 /* =====================================================
-   TORCH
+   FLASH
 ===================================================== */
 
 async function toggleTorch(){
@@ -1249,7 +1730,8 @@ async function toggleTorch(){
 
     try{
 
-        torchOn = !torchOn;
+        torchOn =
+            !torchOn;
 
 
         await videoTrack.applyConstraints({
@@ -1260,7 +1742,7 @@ async function toggleTorch(){
                 }
             ]
 
-        });
+        };
 
 
         const btn =
@@ -1271,21 +1753,16 @@ async function toggleTorch(){
 
         btn.innerText =
             torchOn
-            ? "⚡ الفلاش يعمل"
-            : "⚡ فلاش";
+            ? "الفلاش يعمل"
+            : "فلاش";
 
 
-    }catch(error){
-
-        console.log(
-            "Torch unavailable",
-            error
-        );
+    }catch(e){
 
         torchOn = false;
 
         alert(
-            "الفلاش غير مدعوم في كاميرا جهازك."
+            "الفلاش غير مدعوم على هذا الجهاز."
         );
 
     }
@@ -1304,7 +1781,7 @@ function handleResult(barcode){
 
     if(navigator.vibrate){
 
-        navigator.vibrate(120);
+        navigator.vibrate(100);
 
     }
 
@@ -1312,7 +1789,7 @@ function handleResult(barcode){
     playCashierBeep();
 
 
-    /* Turn off flash */
+    /* FLASH OFF */
 
     if(
         torchOn &&
@@ -1321,15 +1798,16 @@ function handleResult(barcode){
 
         torchOn = false;
 
-        videoTrack
-            .applyConstraints({
-                advanced:[
-                    {
-                        torch:false
-                    }
-                ]
-            })
-            .catch(()=>{});
+
+        videoTrack.applyConstraints({
+
+            advanced:[
+                {
+                    torch:false
+                }
+            ]
+
+        }).catch(()=>{});
 
     }
 
@@ -1339,32 +1817,24 @@ function handleResult(barcode){
 
     document.getElementById(
         "camera-box"
-    ).style.display = "none";
+    ).style.display =
+        "none";
 
 
-    document.querySelector(
-        ".manual-box"
-    ).style.display = "none";
+    document.getElementById(
+        "manual-section"
+    ).style.display =
+        "none";
 
 
-    document.querySelector(
-        ".section-title"
-    ).style.display = "none";
-
-
-    const resultContainer =
-        document.getElementById(
-            "result-container"
-        );
-
-
-    resultContainer.style.display =
+    document.getElementById(
+        "result-container"
+    ).style.display =
         "block";
 
 
     const cleanBarcode =
-        String(barcode)
-        .trim();
+        String(barcode).trim();
 
 
     const item =
@@ -1377,7 +1847,8 @@ function handleResult(barcode){
 
         document.getElementById(
             "result-icon"
-        ).innerText = "✓";
+        ).innerText =
+            "✓";
 
 
         document.getElementById(
@@ -1390,20 +1861,22 @@ function handleResult(barcode){
             "item-price"
         ).innerText =
             Number(item.p)
-            .toLocaleString("ar-IQ") +
-            " د.ع";
+            .toLocaleString("ar-IQ")
+            + " د.ع";
+
 
     }else{
 
         document.getElementById(
             "result-icon"
-        ).innerText = "×";
+        ).innerText =
+            "—";
 
 
         document.getElementById(
             "item-name"
         ).innerText =
-            "غير موجود في النظام";
+            "المنتج غير موجود";
 
 
         document.getElementById(
@@ -1450,7 +1923,7 @@ function searchManualBarcode(){
 
 
 /* =====================================================
-   ENTER SEARCH
+   ENTER
 ===================================================== */
 
 document.addEventListener(
@@ -1465,13 +1938,11 @@ document.addEventListener(
 
         input.addEventListener(
             "keydown",
-            function(event){
+            function(e){
 
-                if(
-                    event.key === "Enter"
-                ){
+                if(e.key === "Enter"){
 
-                    event.preventDefault();
+                    e.preventDefault();
 
                     searchManualBarcode();
 
@@ -1485,7 +1956,7 @@ document.addEventListener(
 
 
 /* =====================================================
-   STOP CAMERA
+   STOP
 ===================================================== */
 
 function stopScanner(){
@@ -1507,10 +1978,10 @@ function stopScanner(){
     if(currentStream){
 
         currentStream
-            .getTracks()
-            .forEach(track=>{
-                track.stop();
-            });
+        .getTracks()
+        .forEach(
+            track => track.stop()
+        );
 
     }
 
@@ -1521,27 +1992,36 @@ function stopScanner(){
         );
 
 
-    video.srcObject = null;
+    video.srcObject =
+        null;
 
 
-    video.style.display = "none";
+    video.style.display =
+        "none";
 
 
     document.getElementById(
         "camera-overlay"
-    ).style.display = "none";
+    ).style.display =
+        "none";
 
 
     document.getElementById(
         "camera-controls"
-    ).style.display = "none";
+    ).style.display =
+        "none";
 
 
-    videoTrack = null;
+    videoTrack =
+        null;
 
-    currentStream = null;
 
-    torchOn = false;
+    currentStream =
+        null;
+
+
+    torchOn =
+        false;
 
 }
 
@@ -1554,41 +2034,42 @@ function resetScanner(){
 
     document.getElementById(
         "result-container"
-    ).style.display = "none";
+    ).style.display =
+        "none";
 
 
     document.getElementById(
         "camera-box"
-    ).style.display = "block";
+    ).style.display =
+        "block";
 
 
-    document.querySelector(
-        ".manual-box"
-    ).style.display = "flex";
-
-
-    document.querySelector(
-        ".section-title"
-    ).style.display = "flex";
+    document.getElementById(
+        "manual-section"
+    ).style.display =
+        "block";
 
 
     document.getElementById(
         "start-card"
-    ).style.display = "flex";
+    ).style.display =
+        "flex";
 
 
     document.getElementById(
         "manual-barcode-input"
-    ).value = "";
+    ).value =
+        "";
 
 
-    canScan = true;
+    canScan =
+        true;
 
 }
 
 
 /* =====================================================
-   PAGE CLEANUP
+   CLEANUP
 ===================================================== */
 
 window.addEventListener(
