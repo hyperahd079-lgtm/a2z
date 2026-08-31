@@ -1,87 +1,97 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-
 <head>
+
 <meta charset="UTF-8">
 
 <meta name="viewport"
-content="width=device-width,
-initial-scale=1.0,
-maximum-scale=1.0,
-user-scalable=no">
+content="width=device-width, initial-scale=1.0,
+maximum-scale=1.0,user-scalable=no">
 
-<title>A2Z Hypermarket - Price Checker</title>
+<title>A2Z HYPERMARKET - خاص الى محمد احمد</title>
 
-<!-- ZXing -->
 <script src="https://unpkg.com/@zxing/library@latest"></script>
 
-<!-- Cairo -->
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap"
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap"
 rel="stylesheet">
 
-<style>
 
-/* =====================================================
-   BASE
-===================================================== */
+<style>
 
 *{
     box-sizing:border-box;
     -webkit-tap-highlight-color:transparent;
+    font-family:'Cairo',sans-serif;
 }
 
-html,
-body{
+:root{
+    --blue:#007aff;
+    --cyan:#00c8ff;
+    --dark:#050608;
+    --card:#0d1015;
+    --border:rgba(0,122,255,.22);
+    --text:#fff;
+    --muted:#89919d;
+}
+
+html,body{
     margin:0;
-    padding:0;
     width:100%;
     min-height:100%;
+    background:#000;
 }
 
 body{
-    font-family:'Cairo',sans-serif;
-    background:#f5f7fa;
-    color:#17212b;
+    color:#fff;
+    overflow-x:hidden;
+    overflow-y:auto;
 }
 
-button,
-input{
-    font-family:'Cairo',sans-serif;
+body::before{
+    content:"";
+    position:fixed;
+    width:280px;
+    height:280px;
+    top:-150px;
+    right:-120px;
+    background:rgba(0,122,255,.13);
+    filter:blur(80px);
+    border-radius:50%;
+    pointer-events:none;
 }
 
-
-/* =====================================================
-   APP
-===================================================== */
+body::after{
+    content:"";
+    position:fixed;
+    width:220px;
+    height:220px;
+    bottom:-130px;
+    left:-100px;
+    background:rgba(0,170,255,.08);
+    filter:blur(70px);
+    border-radius:50%;
+    pointer-events:none;
+}
 
 .app{
     width:100%;
-    max-width:520px;
+    max-width:430px;
     min-height:100vh;
     margin:auto;
-    background:#f5f7fa;
-    padding-bottom:30px;
+    padding:20px 16px 25px;
+    position:relative;
+    z-index:2;
 }
 
 
-/* =====================================================
-   HEADER
-===================================================== */
+/* ================= HEADER ================= */
 
 .header{
-    height:76px;
-    background:#ffffff;
-    border-bottom:1px solid #e7ebef;
-
     display:flex;
     align-items:center;
     justify-content:space-between;
-
-    padding:0 18px;
+    margin-bottom:22px;
 }
-
-
-/* BRAND */
 
 .brand{
     display:flex;
@@ -90,20 +100,13 @@ input{
 }
 
 .logo{
-    width:46px;
-    height:46px;
-
-    background:#ffffff;
-
-    border:1px solid #e1e6eb;
-
-    border-radius:12px;
-
-    padding:4px;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
+    width:48px;
+    height:48px;
+    border-radius:15px;
+    background:#fff;
+    padding:5px;
+    border:1px solid rgba(0,122,255,.6);
+    box-shadow:0 0 20px rgba(0,122,255,.22);
 }
 
 .logo img{
@@ -112,750 +115,682 @@ input{
     object-fit:contain;
 }
 
-.brand-info{
-    display:flex;
-    flex-direction:column;
+.brand-text{
+    line-height:1.15;
 }
 
 .brand-name{
-    font-size:15px;
-    line-height:1.3;
-    font-weight:800;
-    color:#123d68;
+    font-size:1.05rem;
+    font-weight:900;
 }
 
-.brand-subtitle{
-    font-size:9px;
-    color:#7c8792;
-    font-weight:500;
+.brand-sub{
+    color:#6e7885;
+    font-size:.62rem;
+    font-weight:700;
+    letter-spacing:1.5px;
+    margin-top:4px;
 }
 
-
-/* STATUS */
-
-.system-status{
+.status{
     display:flex;
     align-items:center;
     gap:6px;
-
-    color:#697580;
-
-    font-size:9px;
-    font-weight:600;
+    background:#0c1116;
+    border:1px solid rgba(0,255,150,.13);
+    padding:7px 10px;
+    border-radius:30px;
+    font-size:.62rem;
+    color:#9ca5af;
 }
 
 .status-dot{
     width:7px;
     height:7px;
+    border-radius:50%;
+    background:#ffc107;
+    box-shadow:0 0 8px #ffc107;
+}
 
-    background:#25a56a;
+.status.online .status-dot{
+    background:#00e676;
+    box-shadow:0 0 8px #00e676;
+}
 
+.status.error .status-dot{
+    background:#ff4545;
+    box-shadow:0 0 8px #ff4545;
+}
+
+
+/* ================= HERO ================= */
+
+.hero{
+    text-align:center;
+    margin:8px 0 20px;
+}
+
+.hero h1{
+    font-size:1.55rem;
+    font-weight:900;
+    margin:0;
+}
+
+.hero h1 span{
+    background:linear-gradient(90deg,#fff,#00aaff);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+}
+
+.hero p{
+    margin:5px 0 0;
+    color:#747d89;
+    font-size:.72rem;
+    font-weight:600;
+}
+
+
+/* ================= SCANNER ================= */
+
+.scanner-card{
+    position:relative;
+    width:100%;
+    height:275px;
+    border-radius:28px;
+    overflow:hidden;
+    background:#080b0f;
+    border:1px solid rgba(0,122,255,.27);
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.7),
+        inset 0 0 35px rgba(0,122,255,.025);
+}
+
+#webcam-video{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:none;
+    background:#000;
+}
+
+.camera-overlay{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    display:none;
+}
+
+.camera-overlay::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(
+        to bottom,
+        rgba(0,0,0,.2),
+        transparent 30%,
+        transparent 70%,
+        rgba(0,0,0,.3)
+    );
+}
+
+.scan-area{
+    position:absolute;
+    width:78%;
+    height:105px;
+    top:50%;
+    left:11%;
+    transform:translateY(-50%);
+}
+
+.corner{
+    position:absolute;
+    width:27px;
+    height:27px;
+    border-color:#00aaff;
+    filter:drop-shadow(0 0 5px rgba(0,170,255,.8));
+}
+
+.corner.tl{
+    top:0;
+    left:0;
+    border-top:3px solid;
+    border-left:3px solid;
+    border-radius:9px 0 0 0;
+}
+
+.corner.tr{
+    top:0;
+    right:0;
+    border-top:3px solid;
+    border-right:3px solid;
+    border-radius:0 9px 0 0;
+}
+
+.corner.bl{
+    bottom:0;
+    left:0;
+    border-bottom:3px solid;
+    border-left:3px solid;
+    border-radius:0 0 0 9px;
+}
+
+.corner.br{
+    bottom:0;
+    right:0;
+    border-bottom:3px solid;
+    border-right:3px solid;
+    border-radius:0 0 9px 0;
+}
+
+.laser{
+    position:absolute;
+    width:92%;
+    height:2px;
+    left:4%;
+    top:4%;
+    background:#00baff;
+    box-shadow:
+        0 0 7px #00aaff,
+        0 0 15px #00aaff,
+        0 0 30px rgba(0,170,255,.5);
+    animation:laserMove 2.1s ease-in-out infinite;
     border-radius:50%;
 }
 
-
-/* =====================================================
-   CONTENT
-===================================================== */
-
-.content{
-    padding:22px 17px 0;
-}
-
-
-/* TITLE */
-
-.page-title{
-    margin-bottom:19px;
-}
-
-.page-title h1{
-    margin:0 0 5px;
-
-    font-size:23px;
-    line-height:1.4;
-
-    color:#18242f;
-
-    font-weight:800;
-}
-
-.page-title p{
-    margin:0;
-
-    font-size:11px;
-
-    line-height:1.8;
-
-    color:#7a858f;
-
-    font-weight:500;
-}
-
-
-/* =====================================================
-   CAMERA
-===================================================== */
-
-.camera-card{
-
-    position:relative;
-
-    width:100%;
-    height:300px;
-
-    background:#101820;
-
-    border-radius:16px;
-
-    overflow:hidden;
-
-    border:1px solid #dce2e7;
-
-    box-shadow:
-        0 7px 20px rgba(21,39,55,.08);
-}
-
-
-/* VIDEO */
-
-#webcam-video{
-
-    width:100%;
-    height:100%;
-
-    object-fit:cover;
-
-    display:none;
-}
-
-
-/* =====================================================
-   CAMERA START
-===================================================== */
-
-.camera-start{
-
-    position:absolute;
-
-    inset:0;
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-
-    justify-content:center;
-
-    padding:25px;
-
-    text-align:center;
-
-    background:#101820;
-}
-
-.camera-symbol{
-
-    width:58px;
-    height:58px;
-
-    border-radius:14px;
-
-    background:#1c5d91;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    margin-bottom:14px;
-
-    color:#ffffff;
-
-    font-size:25px;
-}
-
-.camera-start h2{
-
-    margin:0 0 5px;
-
-    color:#ffffff;
-
-    font-size:16px;
-
-    font-weight:700;
-}
-
-.camera-start p{
-
-    margin:0 0 18px;
-
-    color:#aab5bf;
-
-    font-size:10px;
-
-    line-height:1.8;
-
-    max-width:260px;
-}
-
-
-/* START BUTTON */
-
-.start-button{
-
-    border:0;
-
-    background:#17649b;
-
-    color:#ffffff;
-
-    padding:11px 24px;
-
-    border-radius:8px;
-
-    font-size:11px;
-
-    font-weight:700;
-
-    cursor:pointer;
-
-    transition:.15s;
-}
-
-.start-button:active{
-
-    transform:scale(.97);
-}
-
-
-/* =====================================================
-   SCANNER OVERLAY
-===================================================== */
-
-.scanner-overlay{
-
-    position:absolute;
-
-    inset:0;
-
-    display:none;
-
-    pointer-events:none;
-}
-
-
-/* DARK OVERLAY */
-
-.scanner-overlay::before{
-
-    content:"";
-
-    position:absolute;
-
-    inset:0;
-
-    background:rgba(0,0,0,.18);
-}
-
-
-/* SCAN BOX */
-
-.scan-box{
-
-    position:absolute;
-
-    width:78%;
-
-    height:105px;
-
-    top:50%;
-    left:11%;
-
-    transform:translateY(-50%);
-
-    border:1px solid rgba(255,255,255,.8);
-
-    border-radius:8px;
-
-    box-shadow:
-        0 0 0 999px rgba(0,0,0,.20);
-}
-
-
-/* CORNERS */
-
-.scan-corner{
-
-    position:absolute;
-
-    width:18px;
-    height:18px;
-
-    border-color:#3db5e8;
-
-    border-style:solid;
-}
-
-.scan-corner.tl{
-    top:-2px;
-    left:-2px;
-    border-width:3px 0 0 3px;
-}
-
-.scan-corner.tr{
-    top:-2px;
-    right:-2px;
-    border-width:3px 3px 0 0;
-}
-
-.scan-corner.bl{
-    bottom:-2px;
-    left:-2px;
-    border-width:0 0 3px 3px;
-}
-
-.scan-corner.br{
-    bottom:-2px;
-    right:-2px;
-    border-width:0 3px 3px 0;
-}
-
-
-/* SCAN LINE */
-
-.scan-line{
-
-    position:absolute;
-
-    left:4%;
-
-    width:92%;
-
-    height:1px;
-
-    top:5px;
-
-    background:#45c1ed;
-
-    box-shadow:
-        0 0 5px rgba(69,193,237,.8);
-
-    animation:
-        scannerMove 2s
-        ease-in-out
-        infinite;
-}
-
-@keyframes scannerMove{
-
-    0%{
-        top:7px;
+@keyframes laserMove{
+    0%,100%{
+        top:7%;
     }
 
     50%{
-        top:94px;
-    }
-
-    100%{
-        top:7px;
+        top:91%;
     }
 }
-
-
-/* SCAN LABEL */
 
 .scan-label{
-
     position:absolute;
-
-    bottom:18px;
-
+    bottom:-43px;
     width:100%;
-
     text-align:center;
-
-    color:#ffffff;
-
-    font-size:9px;
-
-    font-weight:600;
-
-    text-shadow:0 1px 3px #000;
+    color:#fff;
+    font-size:.68rem;
+    font-weight:700;
+    text-shadow:0 1px 5px #000;
 }
 
 
-/* =====================================================
-   CAMERA CONTROLS
-===================================================== */
+/* ================= FLASH ================= */
 
-.camera-tools{
-
+#torch-btn{
+    display:none;
     position:absolute;
-
-    top:12px;
-
-    left:12px;
-    right:12px;
-
-    display:none;
-
-    justify-content:space-between;
-
-    z-index:10;
-}
-
-.camera-tool{
-
-    border:1px solid rgba(255,255,255,.22);
-
-    background:rgba(15,23,30,.68);
-
-    color:#ffffff;
-
-    border-radius:7px;
-
-    padding:6px 10px;
-
-    font-size:9px;
-
-    font-weight:600;
-
-    backdrop-filter:blur(8px);
+    top:13px;
+    left:13px;
+    z-index:20;
+    border:1px solid rgba(255,255,255,.15);
+    background:rgba(0,0,0,.55);
+    color:#fff;
+    backdrop-filter:blur(12px);
+    border-radius:30px;
+    padding:7px 13px;
+    font-size:.68rem;
+    font-weight:800;
 }
 
 
-/* =====================================================
-   MANUAL SEARCH
-===================================================== */
+/* ================= START ================= */
 
-.manual-section{
-
-    margin-top:20px;
-}
-
-.manual-title{
-
+.start-screen{
+    position:absolute;
+    inset:0;
     display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
-    margin-bottom:7px;
-}
-
-.manual-title strong{
-
-    font-size:11px;
-
-    color:#35424e;
-
-    font-weight:700;
-}
-
-.manual-title span{
-
-    font-size:9px;
-
-    color:#929ba3;
-}
-
-
-.manual-search{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:6px;
-
-    background:#ffffff;
-
-    border:1px solid #dfe5ea;
-
-    border-radius:10px;
-
-    padding:5px;
-
-    box-shadow:
-        0 5px 15px rgba(21,39,55,.04);
-}
-
-
-.manual-input{
-
-    flex:1;
-
-    min-width:0;
-
-    height:38px;
-
-    border:0;
-
-    outline:none;
-
-    background:transparent;
-
-    padding:0 9px;
-
-    color:#25313c;
-
-    font-size:11px;
-
-    font-weight:600;
-}
-
-.manual-input::placeholder{
-
-    color:#a4adb5;
-}
-
-
-.manual-button{
-
-    height:38px;
-
-    border:0;
-
-    border-radius:7px;
-
-    padding:0 16px;
-
-    background:#17649b;
-
-    color:#ffffff;
-
-    font-size:10px;
-
-    font-weight:700;
-
-    cursor:pointer;
-}
-
-
-/* =====================================================
-   RESULT
-===================================================== */
-
-#result-container{
-
-    display:none;
-
-    margin-top:20px;
-
-    background:#ffffff;
-
-    border:1px solid #dfe5ea;
-
-    border-radius:14px;
-
-    padding:20px 16px;
-
-    text-align:center;
-
-    box-shadow:
-        0 8px 22px rgba(21,39,55,.07);
-}
-
-
-/* RESULT ICON */
-
-.result-icon{
-
-    width:48px;
-    height:48px;
-
-    margin:0 auto 10px;
-
-    display:flex;
-
+    flex-direction:column;
     align-items:center;
     justify-content:center;
-
-    border-radius:12px;
-
-    background:#edf6fb;
-
-    color:#17649b;
-
-    font-size:22px;
-
-    font-weight:800;
+    padding:25px;
 }
 
-
-/* ITEM NAME */
-
-.item-name{
-
-    font-size:17px;
-
-    line-height:1.5;
-
-    font-weight:800;
-
-    color:#1c2934;
-
+.camera-icon{
+    width:62px;
+    height:62px;
+    border-radius:21px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:linear-gradient(
+        145deg,
+        rgba(0,122,255,.16),
+        rgba(0,210,255,.05)
+    );
+    border:1px solid rgba(0,122,255,.25);
+    font-size:1.8rem;
     margin-bottom:14px;
 }
 
+.start-title{
+    font-size:.92rem;
+    font-weight:800;
+    margin-bottom:5px;
+}
 
-/* PRICE */
+.start-desc{
+    color:#707985;
+    font-size:.68rem;
+    text-align:center;
+    margin-bottom:17px;
+}
 
-.price-box{
+.primary-btn{
+    border:0;
+    color:#fff;
+    background:linear-gradient(135deg,#007aff,#00bfff);
+    border-radius:50px;
+    padding:11px 22px;
+    font-size:.78rem;
+    font-weight:900;
+    box-shadow:0 8px 25px rgba(0,122,255,.25);
+    cursor:pointer;
+}
 
-    background:#f6f8fa;
+.primary-btn:active{
+    transform:scale(.96);
+}
 
-    border:1px solid #e4e9ed;
 
-    border-radius:10px;
+/* ================= ACTIONS ================= */
 
-    padding:10px;
+.quick-actions{
+    display:flex;
+    justify-content:space-between;
+    gap:8px;
+    margin-top:12px;
+}
 
+.quick-btn{
+    flex:1;
+    background:#090c10;
+    border:1px solid rgba(255,255,255,.05);
+    color:#7f8994;
+    border-radius:14px;
+    padding:9px 5px;
+    font-size:.61rem;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.quick-btn:active{
+    transform:scale(.97);
+}
+
+.quick-btn span{
+    display:block;
+    font-size:.9rem;
+    margin-bottom:2px;
+}
+
+
+/* ================= MANUAL SEARCH ================= */
+
+.manual-search{
+    display:none;
+    margin-top:10px;
+    animation:searchIn .25s ease;
+}
+
+.manual-search.show{
+    display:flex;
+}
+
+@keyframes searchIn{
+    from{
+        opacity:0;
+        transform:translateY(-6px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.search-box{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:5px;
+    padding:5px 6px 5px 9px;
+    background:#0c0f13;
+    border:1px solid rgba(0,122,255,.25);
+    border-radius:18px;
+    box-shadow:0 10px 30px rgba(0,0,0,.35);
+}
+
+.search-icon{
+    font-size:.9rem;
+    opacity:.45;
+    padding:0 4px;
+}
+
+.manual-input{
+    min-width:0;
+    flex:1;
+    border:0;
+    outline:none;
+    background:transparent;
+    color:#fff;
+    font-size:.72rem;
+    padding:9px 4px;
+    direction:ltr;
+}
+
+.manual-input::placeholder{
+    color:#555e69;
+}
+
+.search-btn{
+    border:0;
+    background:#111820;
+    color:#00aaff;
+    border-radius:13px;
+    padding:8px 14px;
+    font-size:.68rem;
+    font-weight:900;
+    cursor:pointer;
+}
+
+.search-btn:active{
+    transform:scale(.95);
+}
+
+
+/* ================= RESULT ================= */
+
+.result{
+    display:none;
+    animation:resultIn .4s ease;
+}
+
+@keyframes resultIn{
+    from{
+        opacity:0;
+        transform:translateY(15px) scale(.98);
+    }
+
+    to{
+        opacity:1;
+        transform:none;
+    }
+}
+
+.result-card{
+    background:#0c1015;
+    border:1px solid rgba(0,122,255,.2);
+    border-radius:26px;
+    padding:22px 17px 17px;
+    text-align:center;
+    box-shadow:0 20px 50px rgba(0,0,0,.55);
+}
+
+.result-status{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    background:rgba(0,122,255,.08);
+    border:1px solid rgba(0,122,255,.15);
+    color:#00aaff;
+    padding:5px 10px;
+    border-radius:30px;
+    font-size:.61rem;
+    font-weight:800;
     margin-bottom:13px;
 }
 
+.result-icon{
+    font-size:2rem;
+    margin-bottom:5px;
+}
+
+.item-name{
+    font-size:1.08rem;
+    font-weight:900;
+    line-height:1.45;
+    margin-bottom:16px;
+}
+
+.price-box{
+    background:#070a0e;
+    border-radius:19px;
+    padding:13px;
+    border:1px solid rgba(0,122,255,.16);
+}
+
 .price-label{
-
-    color:#8a949d;
-
-    font-size:9px;
-
-    font-weight:600;
-}
-
-.price-tag{
-
-    color:#17649b;
-
-    font-size:27px;
-
-    font-weight:800;
-
-    line-height:1.5;
-}
-
-
-/* RESET */
-
-.action-button{
-
-    width:100%;
-
-    height:43px;
-
-    border:1px solid #17649b;
-
-    border-radius:8px;
-
-    background:#17649b;
-
-    color:#ffffff;
-
-    font-size:10px;
-
+    color:#68727e;
+    font-size:.63rem;
     font-weight:700;
+}
 
+.price{
+    color:#00aaff;
+    font-size:2.25rem;
+    font-weight:900;
+    line-height:1.25;
+}
+
+.currency{
+    color:#6d7783;
+    font-size:.68rem;
+    font-weight:700;
+}
+
+.barcode-display{
+    margin-top:10px;
+    color:#59636e;
+    font-size:.58rem;
+    direction:ltr;
+}
+
+.reset-btn{
+    width:100%;
+    border:0;
+    background:linear-gradient(135deg,#007aff,#00bfff);
+    color:#fff;
+    border-radius:16px;
+    padding:12px;
+    margin-top:12px;
+    font-size:.74rem;
+    font-weight:900;
     cursor:pointer;
 }
 
 
-/* =====================================================
-   LOADING
-===================================================== */
+/* ================= RECENT ================= */
 
-.loading{
-
-    position:absolute;
-
-    inset:0;
-
-    display:none;
-
-    align-items:center;
-
-    justify-content:center;
-
-    flex-direction:column;
-
-    gap:10px;
-
-    background:#101820;
-
-    color:#ffffff;
-
-    z-index:30;
-
-    font-size:10px;
-
-    font-weight:600;
+.recent-section{
+    margin-top:16px;
 }
+
+.section-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:8px;
+}
+
+.section-title{
+    font-size:.72rem;
+    font-weight:800;
+}
+
+.clear-recent{
+    color:#4c5864;
+    font-size:.58rem;
+    cursor:pointer;
+}
+
+.recent-list{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+}
+
+.recent-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:#090c10;
+    border:1px solid rgba(255,255,255,.035);
+    border-radius:13px;
+    padding:8px 10px;
+    cursor:pointer;
+}
+
+.recent-name{
+    font-size:.62rem;
+    font-weight:700;
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+    max-width:65%;
+}
+
+.recent-price{
+    color:#00aaff;
+    font-size:.63rem;
+    font-weight:900;
+}
+
+.empty-recent{
+    text-align:center;
+    color:#4c555f;
+    font-size:.6rem;
+    padding:10px;
+}
+
+
+/* ================= TOAST ================= */
+
+.toast{
+    position:fixed;
+    z-index:100;
+    left:50%;
+    bottom:22px;
+    transform:translate(-50%,20px);
+    background:#11161c;
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:14px;
+    padding:10px 15px;
+    font-size:.65rem;
+    font-weight:700;
+    color:#fff;
+    opacity:0;
+    pointer-events:none;
+    transition:.3s;
+    white-space:nowrap;
+}
+
+.toast.show{
+    opacity:1;
+    transform:translate(-50%,0);
+}
+
+
+/* ================= LOADER ================= */
 
 .loader{
-
-    width:24px;
-    height:24px;
-
-    border:2px solid rgba(255,255,255,.2);
-
-    border-top-color:#43b6e5;
-
-    border-radius:50%;
-
-    animation:spin .7s linear infinite;
+    position:fixed;
+    inset:0;
+    z-index:200;
+    background:#030405;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    transition:.45s;
 }
 
-@keyframes spin{
+.loader.hide{
+    opacity:0;
+    visibility:hidden;
+}
+
+.loader-logo{
+    width:78px;
+    height:78px;
+    background:#fff;
+    padding:7px;
+    border-radius:24px;
+    border:1px solid var(--blue);
+    box-shadow:0 0 30px rgba(0,122,255,.25);
+    animation:logoPulse 1.5s infinite;
+}
+
+.loader-logo img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+}
+
+.loader-text{
+    margin-top:13px;
+    color:#6d7680;
+    font-size:.68rem;
+    font-weight:700;
+}
+
+.loader-line{
+    width:90px;
+    height:2px;
+    background:#151b21;
+    margin-top:10px;
+    overflow:hidden;
+    border-radius:5px;
+}
+
+.loader-line::after{
+    content:"";
+    display:block;
+    width:35%;
+    height:100%;
+    background:#008cff;
+    animation:loadLine 1s infinite;
+}
+
+@keyframes logoPulse{
+    50%{
+        transform:scale(1.04);
+    }
+}
+
+@keyframes loadLine{
+    from{
+        transform:translateX(-300%);
+    }
 
     to{
-        transform:rotate(360deg);
+        transform:translateX(300%);
     }
 }
 
 
-/* =====================================================
-   FOOTER
-===================================================== */
+/* ================= MOBILE ================= */
 
-.footer{
+@media(max-height:700px){
 
-    text-align:center;
-
-    padding-top:23px;
-
-    color:#a1aab2;
-
-    font-size:8px;
-
-    font-weight:500;
-}
-
-
-/* =====================================================
-   SMALL SCREENS
-===================================================== */
-
-@media(max-height:680px){
-
-    .header{
-        height:65px;
+    .app{
+        padding-top:13px;
     }
 
-    .content{
-        padding-top:15px;
-    }
-
-    .page-title{
+    .hero{
         margin-bottom:13px;
     }
 
-    .page-title h1{
-        font-size:20px;
+    .scanner-card{
+        height:230px;
     }
 
-    .camera-card{
-        height:255px;
+    .recent-section{
+        margin-top:10px;
     }
 
 }
@@ -867,330 +802,376 @@ input{
 <body>
 
 
+<!-- ================= LOADER ================= -->
+
+<div class="loader" id="loader">
+
+    <div class="loader-logo">
+
+        <img
+            src="https://lh3.googleusercontent.com/d/109H2w4zxFrJzi5EgQse4u1Ka6KoZyupo"
+            alt="A2Z"
+        >
+
+    </div>
+
+    <div class="loader-text">
+        جاري تجهيز فاحص الأسعار...
+    </div>
+
+    <div class="loader-line"></div>
+
+</div>
+
+
 <div class="app">
 
 
-    <!-- ============================================
-         HEADER
-    ============================================= -->
+<!-- ================= HEADER ================= -->
 
-    <header class="header">
+<header class="header">
 
-        <div class="brand">
+    <div class="brand">
 
-            <div class="logo">
+        <div class="logo">
 
-                <img
+            <img
                 src="https://lh3.googleusercontent.com/d/109H2w4zxFrJzi5EgQse4u1Ka6KoZyupo"
-                alt="A2Z Hypermarket">
+                alt="A2Z Hypermarket"
+            >
 
+        </div>
+
+        <div class="brand-text">
+
+            <div class="brand-name">
+                A2Z
             </div>
 
-
-            <div class="brand-info">
-
-                <div class="brand-name">
-                    A2Z HYPERMARKET
-                </div>
-
-                <div class="brand-subtitle">
-                    نظام فحص الأسعار
-                </div>
-
+            <div class="brand-sub">
+                HYPERMARKET
             </div>
 
         </div>
 
+    </div>
 
-        <div class="system-status">
 
-            <span class="status-dot"></span>
+    <div class="status" id="system-status">
 
-            متصل
+        <span class="status-dot"></span>
+
+        <span id="status-text">
+            جاري الاتصال
+        </span>
+
+    </div>
+
+</header>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero">
+
+    <h1>
+        <span>خاص الى حمودي ❤️</span>
+    </h1>
+
+    <p>
+        امسح الباركود لمعرفة السعر
+    </p>
+
+</section>
+
+
+<!-- ================= SCANNER ================= -->
+
+<section
+    class="scanner-card"
+    id="scanner-card"
+>
+
+    <button
+        id="torch-btn"
+        onclick="toggleTorch()"
+    >
+        ⚡ الفلاش
+    </button>
+
+
+    <video
+        id="webcam-video"
+        playsinline
+        muted
+    ></video>
+
+
+    <div
+        class="camera-overlay"
+        id="camera-overlay"
+    >
+
+        <div class="scan-area">
+
+            <div class="corner tl"></div>
+            <div class="corner tr"></div>
+            <div class="corner bl"></div>
+            <div class="corner br"></div>
+
+            <div class="laser"></div>
+
+            <div class="scan-label">
+                حرّك الباركود داخل الإطار
+            </div>
 
         </div>
 
-    </header>
+    </div>
 
 
+    <div
+        class="start-screen"
+        id="start-screen"
+    >
 
-    <!-- ============================================
-         CONTENT
-    ============================================= -->
+        <div class="camera-icon">
+            📷
+        </div>
 
-    <main class="content">
+        <div class="start-title">
+            جاهز لفحص المادة؟
+        </div>
 
+        <div class="start-desc">
+            وجّه كاميرا الهاتف نحو الباركود
+        </div>
 
-        <!-- TITLE -->
+        <button
+            class="primary-btn"
+            onclick="initScanner()"
+        >
+            بدء المسح
+        </button>
 
-        <section class="page-title">
+    </div>
 
-            <h1>
-                فحص سعر المنتج
-            </h1>
-
-            <p>
-                استخدم الكاميرا لمسح الباركود
-                والحصول على السعر مباشرة.
-            </p>
-
-        </section>
-
-
-
-        <!-- ========================================
-             CAMERA
-        ========================================= -->
-
-        <section
-        class="camera-card"
-        id="camera-box">
+</section>
 
 
-            <!-- START -->
+<!-- ================= QUICK ACTIONS ================= -->
 
-            <div
-            class="camera-start"
-            id="start-card">
+<div
+    class="quick-actions"
+    id="quick-actions"
+>
 
+    <button
+        class="quick-btn"
+        onclick="initScanner()"
+    >
 
-                <div class="camera-symbol">
-                    ▣
-                </div>
+        <span>📷</span>
 
+        فتح الكاميرا
 
-                <h2>
-                    ماسح الباركود
-                </h2>
-
-
-                <p>
-                    ضع الباركود أمام الكاميرا
-                    وسيتم التعرف عليه تلقائياً.
-                </p>
+    </button>
 
 
-                <button
-                class="start-button"
-                id="start-cam-btn"
-                onclick="initScanner()">
+    <button
+        class="quick-btn"
+        onclick="refreshPrices()"
+    >
 
-                    فتح الكاميرا
+        <span>↻</span>
 
-                </button>
+        تحديث الأسعار
 
+    </button>
+
+
+    <button
+        class="quick-btn"
+        onclick="openManualSearch()"
+    >
+
+        <span>⌨️</span>
+
+        بحث يدوي
+
+    </button>
+
+</div>
+
+
+<!-- ================= HIDDEN MANUAL SEARCH ================= -->
+
+<div
+    class="manual-search"
+    id="manual-search"
+>
+
+    <div class="search-box">
+
+        <div class="search-icon">
+            🔎
+        </div>
+
+
+        <input
+            type="text"
+            id="manual-barcode-input"
+            class="manual-input"
+            inputmode="numeric"
+            autocomplete="off"
+            placeholder="أدخل رقم الباركود..."
+        >
+
+
+        <button
+            class="search-btn"
+            onclick="searchManualBarcode()"
+        >
+            بحث
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ================= RESULT ================= -->
+
+<section
+    class="result"
+    id="result-container"
+>
+
+    <div class="result-card">
+
+        <div
+            class="result-status"
+            id="result-status"
+        >
+
+            <span>●</span>
+
+            <span id="result-status-text">
+                تم العثور على المادة
+            </span>
+
+        </div>
+
+
+        <div
+            class="result-icon"
+            id="result-icon"
+        >
+            ✅
+        </div>
+
+
+        <div
+            class="item-name"
+            id="item-name"
+        >
+            ---
+        </div>
+
+
+        <div class="price-box">
+
+            <div class="price-label">
+                السعر الإجمالي
             </div>
 
 
+            <div class="price">
 
-            <!-- VIDEO -->
-
-            <video
-            id="webcam-video"
-            playsinline
-            muted
-            autoplay>
-            </video>
-
-
-
-            <!-- SCANNER -->
-
-            <div
-            class="scanner-overlay"
-            id="camera-overlay">
-
-
-                <div class="scan-box">
-
-                    <div class="scan-corner tl"></div>
-
-                    <div class="scan-corner tr"></div>
-
-                    <div class="scan-corner bl"></div>
-
-                    <div class="scan-corner br"></div>
-
-                    <div class="scan-line"></div>
-
-                </div>
-
-
-                <div class="scan-label">
-                    ضع الباركود داخل الإطار
-                </div>
-
-            </div>
-
-
-
-            <!-- CAMERA BUTTONS -->
-
-            <div
-            class="camera-tools"
-            id="camera-controls">
-
-
-                <button
-                class="camera-tool"
-                id="torch-btn"
-                onclick="toggleTorch()">
-
-                    فلاش
-
-                </button>
-
-
-                <button
-                class="camera-tool"
-                onclick="stopScanner()">
-
-                    إغلاق
-
-                </button>
-
-            </div>
-
-
-
-            <!-- LOADING -->
-
-            <div
-            class="loading"
-            id="loading">
-
-                <div class="loader"></div>
-
-                جاري تشغيل الكاميرا...
-
-            </div>
-
-
-        </section>
-
-
-
-        <!-- ========================================
-             MANUAL
-        ========================================= -->
-
-        <section
-        class="manual-section"
-        id="manual-section">
-
-
-            <div class="manual-title">
-
-                <strong>
-                    البحث برقم الباركود
-                </strong>
-
-                <span>
-                    إدخال يدوي
+                <span id="item-price">
+                    ---
                 </span>
 
             </div>
 
 
-            <div class="manual-search">
-
-
-                <input
-                type="text"
-                id="manual-barcode-input"
-                class="manual-input"
-                inputmode="numeric"
-                autocomplete="off"
-                placeholder="أدخل رقم الباركود...">
-
-
-                <button
-                class="manual-button"
-                onclick="searchManualBarcode()">
-
-                    بحث
-
-                </button>
-
-
+            <div class="currency">
+                دينار عراقي
             </div>
-
-        </section>
-
-
-
-        <!-- ========================================
-             RESULT
-        ========================================= -->
-
-        <section
-        id="result-container">
-
-
-            <div
-            class="result-icon"
-            id="result-icon">
-
-                ✓
-
-            </div>
-
-
-            <div
-            class="item-name"
-            id="item-name">
-
-                ---
-
-            </div>
-
-
-            <div class="price-box">
-
-                <div class="price-label">
-                    السعر الإجمالي
-                </div>
-
-                <div
-                class="price-tag"
-                id="item-price">
-
-                    ---
-
-                </div>
-
-            </div>
-
-
-            <button
-            class="action-button"
-            onclick="resetScanner()">
-
-                فحص منتج آخر
-
-            </button>
-
-
-        </section>
-
-
-
-        <div class="footer">
-
-            A2Z Hypermarket
-            •
-            Price Checker
 
         </div>
 
 
-    </main>
+        <div
+            class="barcode-display"
+            id="barcode-display"
+        >
+            ---
+        </div>
+
+
+        <button
+            class="reset-btn"
+            onclick="resetScanner()"
+        >
+            📷 فحص مادة أخرى
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================= RECENT ================= -->
+
+<section
+    class="recent-section"
+    id="recent-section"
+>
+
+    <div class="section-head">
+
+        <div class="section-title">
+            آخر المواد المفحوصة
+        </div>
+
+        <div
+            class="clear-recent"
+            onclick="clearRecent()"
+        >
+            مسح السجل
+        </div>
+
+    </div>
+
+
+    <div
+        class="recent-list"
+        id="recent-list"
+    >
+
+        <div class="empty-recent">
+            لا توجد عمليات فحص بعد
+        </div>
+
+    </div>
+
+</section>
+
 
 </div>
 
 
+<!-- ================= TOAST ================= -->
+
+<div
+    class="toast"
+    id="toast"
+></div>
+
 
 <script>
+
 
 /* =====================================================
    VARIABLES
@@ -1206,7 +1187,9 @@ let torchOn = false;
 
 let videoTrack = null;
 
-let currentStream = null;
+let scannerRunning = false;
+
+let toastTimer = null;
 
 
 /* =====================================================
@@ -1218,53 +1201,191 @@ const GOOGLE_SCRIPT_URL =
 
 
 /* =====================================================
-   LOAD PRODUCTS
+   PAGE LOAD
 ===================================================== */
 
-window.onload = function(){
+window.addEventListener(
+    "load",
+    function(){
 
-    const cbName =
-        "jsonp_init_" +
-        Math.round(Math.random()*1000000);
+        loadRecent();
+
+        loadPriceData();
+
+        setTimeout(
+            function(){
+
+                document
+                    .getElementById("loader")
+                    .classList
+                    .add("hide");
+
+            },
+            900
+        );
+
+    }
+);
 
 
-    window[cbName] = function(rawData){
+/* =====================================================
+   LOAD PRICES
+===================================================== */
 
-        if(typeof rawData === "object"){
+function loadPriceData(){
 
-            for(
-                const [barcode,info]
-                of Object.entries(rawData)
-            ){
+    setSystemStatus(
+        "جاري تحميل الأسعار",
+        "loading"
+    );
 
-                securedDataStore.set(
-                    String(barcode).trim(),
-                    info
+
+    const callbackName =
+        "jsonp_" +
+        Date.now() +
+        "_" +
+        Math.floor(
+            Math.random() * 1000
+        );
+
+
+    window[callbackName] =
+        function(rawData){
+
+            try{
+
+                if(
+                    rawData &&
+                    typeof rawData === "object"
+                ){
+
+                    securedDataStore.clear();
+
+
+                    for(
+                        const [barcode,info]
+                        of Object.entries(rawData)
+                    ){
+
+                        securedDataStore.set(
+                            String(barcode).trim(),
+                            info
+                        );
+
+                    }
+
+                }
+
+
+                setSystemStatus(
+                    "النظام متصل",
+                    "online"
+                );
+
+
+            }catch(error){
+
+                console.error(error);
+
+                setSystemStatus(
+                    "خطأ بالبيانات",
+                    "error"
                 );
 
             }
 
-        }
+
+            delete window[callbackName];
 
 
-        delete window[cbName];
+            const oldScript =
+                document.getElementById(
+                    callbackName
+                );
 
-        document.getElementById(cbName)?.remove();
 
-    };
+            if(oldScript){
+                oldScript.remove();
+            }
+
+        };
 
 
     const script =
         document.createElement("script");
 
-    script.id = cbName;
+
+    script.id =
+        callbackName;
+
 
     script.src =
-        `${GOOGLE_SCRIPT_URL}?callback=${cbName}`;
+        GOOGLE_SCRIPT_URL +
+        "?callback=" +
+        callbackName +
+        "&t=" +
+        Date.now();
 
-    document.body.appendChild(script);
 
-};
+    script.onerror =
+        function(){
+
+            setSystemStatus(
+                "تعذر الاتصال",
+                "error"
+            );
+
+            showToast(
+                "تعذر تحميل الأسعار"
+            );
+
+        };
+
+
+    document.body.appendChild(
+        script
+    );
+
+}
+
+
+/* =====================================================
+   SYSTEM STATUS
+===================================================== */
+
+function setSystemStatus(
+    text,
+    state
+){
+
+    const status =
+        document.getElementById(
+            "system-status"
+        );
+
+
+    document.getElementById(
+        "status-text"
+    ).innerText =
+        text;
+
+
+    status.classList.remove(
+        "online",
+        "error"
+    );
+
+
+    if(state === "online"){
+        status.classList.add("online");
+    }
+
+
+    if(state === "error"){
+        status.classList.add("error");
+    }
+
+}
 
 
 /* =====================================================
@@ -1280,19 +1401,21 @@ function playCashierBeep(){
             window.webkitAudioContext;
 
 
-        if(!AudioContext) return;
+        if(!AudioContext){
+            return;
+        }
 
 
-        const audioCtx =
+        const audio =
             new AudioContext();
 
 
         const oscillator =
-            audioCtx.createOscillator();
+            audio.createOscillator();
 
 
-        const gainNode =
-            audioCtx.createGain();
+        const gain =
+            audio.createGain();
 
 
         oscillator.type =
@@ -1300,40 +1423,36 @@ function playCashierBeep(){
 
 
         oscillator.frequency.setValueAtTime(
-            2400,
-            audioCtx.currentTime
+            2200,
+            audio.currentTime
         );
 
 
-        gainNode.gain.setValueAtTime(
+        gain.gain.setValueAtTime(
             .12,
-            audioCtx.currentTime
+            audio.currentTime
         );
 
 
-        gainNode.gain.exponentialRampToValueAtTime(
+        gain.gain.exponentialRampToValueAtTime(
             .001,
-            audioCtx.currentTime + .08
+            audio.currentTime + .09
         );
 
 
-        oscillator.connect(gainNode);
+        oscillator.connect(gain);
 
-        gainNode.connect(
-            audioCtx.destination
-        );
-
+        gain.connect(audio.destination);
 
         oscillator.start();
 
         oscillator.stop(
-            audioCtx.currentTime + .08
+            audio.currentTime + .09
         );
 
+    }catch(error){
 
-    }catch(e){
-
-        console.log(e);
+        console.log(error);
 
     }
 
@@ -1346,26 +1465,24 @@ function playCashierBeep(){
 
 async function initScanner(){
 
-    if(!window.ZXing){
+    if(scannerRunning){
 
-        alert(
-            "نظام المسح لم يكتمل تحميله."
-        );
+        focusScanner();
 
         return;
 
     }
 
 
-    const video =
+    const startScreen =
         document.getElementById(
-            "webcam-video"
+            "start-screen"
         );
 
 
-    const startCard =
+    const video =
         document.getElementById(
-            "start-card"
+            "webcam-video"
         );
 
 
@@ -1375,158 +1492,146 @@ async function initScanner(){
         );
 
 
-    const controls =
-        document.getElementById(
-            "camera-controls"
-        );
-
-
-    const loading =
-        document.getElementById(
-            "loading"
-        );
-
-
-    loading.style.display =
-        "flex";
-
-
-    startCard.style.display =
-        "none";
-
-
-    video.style.display =
-        "block";
-
-
-    /* -----------------------------------------------
-       BARCODE FORMATS
-    ------------------------------------------------ */
-
-    const hints =
-        new Map();
-
-
-    const formats = [
-
-        ZXing.BarcodeFormat.EAN_13,
-
-        ZXing.BarcodeFormat.EAN_8,
-
-        ZXing.BarcodeFormat.UPC_A,
-
-        ZXing.BarcodeFormat.UPC_E,
-
-        ZXing.BarcodeFormat.CODE_128,
-
-        ZXing.BarcodeFormat.CODE_39,
-
-        ZXing.BarcodeFormat.CODE_93,
-
-        ZXing.BarcodeFormat.ITF,
-
-        ZXing.BarcodeFormat.ITF_14,
-
-        ZXing.BarcodeFormat.RSS_14,
-
-        ZXing.BarcodeFormat.RSS_EXPANDED,
-
-        ZXing.BarcodeFormat.QR_CODE,
-
-        ZXing.BarcodeFormat.DATA_MATRIX,
-
-        ZXing.BarcodeFormat.AZTEC,
-
-        ZXing.BarcodeFormat.PDF_417
-
-    ];
-
-
-    hints.set(
-        ZXing.DecodeHintType.POSSIBLE_FORMATS,
-        formats
-    );
-
-
-    hints.set(
-        ZXing.DecodeHintType.TRY_HARDER,
-        true
-    );
-
-
-    /* -----------------------------------------------
-       READER
-    ------------------------------------------------ */
-
     try{
 
-        if(codeReader){
+        if(
+            !navigator.mediaDevices ||
+            !navigator.mediaDevices.getUserMedia
+        ){
 
-            try{
-                codeReader.reset();
-            }catch(e){}
+            throw new Error(
+                "CAMERA_NOT_SUPPORTED"
+            );
 
         }
 
 
-        codeReader =
-            new ZXing.BrowserMultiFormatReader(
-                hints,
-                500
+        /* طلب إذن الكاميرا */
+
+        const permissionStream =
+            await navigator.mediaDevices.getUserMedia({
+
+                video:{
+                    facingMode:{
+                        ideal:"environment"
+                    }
+                },
+
+                audio:false
+
+            });
+
+
+        permissionStream
+            .getTracks()
+            .forEach(
+                track => track.stop()
             );
 
 
-        canScan = true;
+        startScreen.style.display =
+            "none";
+
+        video.style.display =
+            "block";
+
+        overlay.style.display =
+            "block";
 
 
-        /* -------------------------------------------
-           CAMERA
-        ------------------------------------------- */
+        if(!codeReader){
 
-        const constraints = {
+            const hints =
+                new Map();
 
-            audio:false,
 
-            video:{
+            const formats = [
 
-                facingMode:{
-                    ideal:"environment"
-                },
+                ZXing.BarcodeFormat.EAN_13,
 
-                width:{
-                    ideal:1920
-                },
+                ZXing.BarcodeFormat.EAN_8,
 
-                height:{
-                    ideal:1080
-                },
+                ZXing.BarcodeFormat.UPC_A,
 
-                frameRate:{
-                    ideal:30,
-                    max:60
-                },
+                ZXing.BarcodeFormat.UPC_E,
 
-                focusMode:"continuous"
+                ZXing.BarcodeFormat.CODE_128,
 
-            }
+                ZXing.BarcodeFormat.CODE_39,
 
-        };
+                ZXing.BarcodeFormat.ITF,
+
+                ZXing.BarcodeFormat.CODABAR,
+
+                ZXing.BarcodeFormat.QR_CODE
+
+            ];
+
+
+            hints.set(
+                ZXing.DecodeHintType.POSSIBLE_FORMATS,
+                formats
+            );
+
+
+            hints.set(
+                ZXing.DecodeHintType.TRY_HARDER,
+                true
+            );
+
+
+            codeReader =
+                new ZXing.BrowserMultiFormatReader(
+                    hints
+                );
+
+        }
+
+
+        canScan =
+            true;
+
+
+        scannerRunning =
+            true;
 
 
         await codeReader.decodeFromConstraints(
 
-            constraints,
+            {
+
+                video:{
+
+                    facingMode:{
+                        ideal:"environment"
+                    },
+
+                    width:{
+                        ideal:1920
+                    },
+
+                    height:{
+                        ideal:1080
+                    }
+
+                }
+
+            },
 
             "webcam-video",
 
-            (result,error)=>{
+            function(
+                result,
+                error
+            ){
 
                 if(
                     result &&
                     canScan
                 ){
 
-                    canScan = false;
+                    canScan =
+                        false;
 
                     handleResult(
                         result.text
@@ -1539,180 +1644,62 @@ async function initScanner(){
         );
 
 
-        /* -------------------------------------------
-           STREAM
-        ------------------------------------------- */
-
-        currentStream =
-            video.srcObject;
-
-
-        if(currentStream){
-
-            const tracks =
-                currentStream.getVideoTracks();
-
-
-            if(tracks.length){
-
-                videoTrack =
-                    tracks[0];
-
-
-                optimizeCamera(
-                    videoTrack
-                );
-
-            }
-
-        }
-
-
-        loading.style.display =
-            "none";
-
-
-        overlay.style.display =
-            "block";
-
-
-        controls.style.display =
-            "flex";
-
-
-        /* FLASH */
-
-        if(
-            videoTrack &&
-            videoTrack.getCapabilities
-        ){
-
-            const capabilities =
-                videoTrack.getCapabilities();
-
-
-            if(capabilities.torch){
-
-                document.getElementById(
-                    "torch-btn"
-                ).style.display =
-                    "block";
-
-            }
-
-        }
+        setTimeout(
+            detectTorch,
+            700
+        );
 
 
     }catch(error){
 
-        console.error(error);
+        console.error(
+            error
+        );
 
 
-        loading.style.display =
-            "none";
+        scannerRunning =
+            false;
 
 
         video.style.display =
             "none";
 
-
         overlay.style.display =
             "none";
 
-
-        controls.style.display =
-            "none";
-
-
-        startCard.style.display =
+        startScreen.style.display =
             "flex";
 
 
-        alert(
-            "تعذر تشغيل الكاميرا.\n\n" +
-            "تأكد من السماح للمتصفح باستخدام الكاميرا."
-        );
-
-    }
-
-}
-
-
-/* =====================================================
-   CAMERA OPTIMIZATION
-===================================================== */
-
-async function optimizeCamera(track){
-
-    if(!track) return;
-
-
-    try{
-
-        const capabilities =
-            track.getCapabilities();
-
-
-        const advanced = {};
-
-
-        if(capabilities.focusMode){
-
-            if(
-                capabilities.focusMode
-                .includes("continuous")
-            ){
-
-                advanced.focusMode =
-                    "continuous";
-
-            }
-
-        }
-
-
-        if(capabilities.zoom){
-
-            const min =
-                capabilities.zoom.min ?? 1;
-
-
-            const max =
-                capabilities.zoom.max ?? 1;
-
-
-            if(max > min){
-
-                advanced.zoom =
-                    Math.min(
-                        min + (max-min)*.10,
-                        max
-                    );
-
-            }
-
-        }
-
-
         if(
-            Object.keys(advanced).length
+            error.name ===
+            "NotAllowedError"
         ){
 
-            await track.applyConstraints({
-
-                advanced:[
-                    advanced
-                ]
-
-            });
+            showToast(
+                "تم رفض إذن الكاميرا. فعّل الكاميرا من إعدادات الموقع."
+            );
 
         }
 
-    }catch(e){
+        else if(
+            error.name ===
+            "NotFoundError"
+        ){
 
-        console.log(
-            "Camera optimization unavailable"
-        );
+            showToast(
+                "لم يتم العثور على كاميرا."
+            );
+
+        }
+
+        else{
+
+            showToast(
+                "تعذر تشغيل الكاميرا."
+            );
+
+        }
 
     }
 
@@ -1720,12 +1707,64 @@ async function optimizeCamera(track){
 
 
 /* =====================================================
-   FLASH
+   TORCH
 ===================================================== */
+
+function detectTorch(){
+
+    const video =
+        document.getElementById(
+            "webcam-video"
+        );
+
+
+    const stream =
+        video.srcObject;
+
+
+    if(!stream){
+        return;
+    }
+
+
+    const tracks =
+        stream.getVideoTracks();
+
+
+    if(!tracks.length){
+        return;
+    }
+
+
+    videoTrack =
+        tracks[0];
+
+
+    if(videoTrack.getCapabilities){
+
+        const capabilities =
+            videoTrack.getCapabilities();
+
+
+        if(capabilities.torch){
+
+            document.getElementById(
+                "torch-btn"
+            ).style.display =
+                "block";
+
+        }
+
+    }
+
+}
+
 
 async function toggleTorch(){
 
-    if(!videoTrack) return;
+    if(!videoTrack){
+        return;
+    }
 
 
     try{
@@ -1738,31 +1777,36 @@ async function toggleTorch(){
 
             advanced:[
                 {
-                    torch:torchOn
+                    torch:
+                        torchOn
                 }
             ]
 
-        };
+        });
 
 
-        const btn =
+        const button =
             document.getElementById(
                 "torch-btn"
             );
 
 
-        btn.innerText =
+        button.style.background =
             torchOn
-            ? "الفلاش يعمل"
-            : "فلاش";
+            ? "#007aff"
+            : "rgba(0,0,0,.55)";
 
 
-    }catch(e){
+        button.innerText =
+            torchOn
+            ? "⚡ الفلاش يعمل"
+            : "⚡ الفلاش";
 
-        torchOn = false;
 
-        alert(
-            "الفلاش غير مدعوم على هذا الجهاز."
+    }catch(error){
+
+        showToast(
+            "الفلاش غير مدعوم بهذا الجهاز"
         );
 
     }
@@ -1774,14 +1818,22 @@ async function toggleTorch(){
    RESULT
 ===================================================== */
 
-function handleResult(barcode){
+function handleResult(
+    barcode
+){
 
-    if(!barcode) return;
+    if(!barcode){
+        return;
+    }
 
 
     if(navigator.vibrate){
 
-        navigator.vibrate(100);
+        navigator.vibrate([
+            80,
+            40,
+            80
+        ]);
 
     }
 
@@ -1789,48 +1841,49 @@ function handleResult(barcode){
     playCashierBeep();
 
 
-    /* FLASH OFF */
-
     if(
         torchOn &&
         videoTrack
     ){
 
-        torchOn = false;
+        torchOn =
+            false;
 
 
-        videoTrack.applyConstraints({
+        videoTrack
+            .applyConstraints({
 
-            advanced:[
-                {
-                    torch:false
-                }
-            ]
+                advanced:[
+                    {
+                        torch:false
+                    }
+                ]
 
-        }).catch(()=>{});
+            })
+            .catch(
+                ()=>{}
+            );
 
     }
 
 
-    stopScanner();
-
-
     document.getElementById(
-        "camera-box"
+        "torch-btn"
     ).style.display =
         "none";
 
 
-    document.getElementById(
-        "manual-section"
-    ).style.display =
-        "none";
+    if(codeReader){
+
+        try{
+            codeReader.reset();
+        }catch(e){}
+
+    }
 
 
-    document.getElementById(
-        "result-container"
-    ).style.display =
-        "block";
+    scannerRunning =
+        false;
 
 
     const cleanBarcode =
@@ -1843,40 +1896,106 @@ function handleResult(barcode){
         );
 
 
+    document.getElementById(
+        "scanner-card"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "quick-actions"
+    ).style.display =
+        "none";
+
+
+    /* إخفاء البحث اليدوي بعد البحث */
+
+    document.getElementById(
+        "manual-search"
+    ).classList.remove(
+        "show"
+    );
+
+
+    document.getElementById(
+        "recent-section"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "result-container"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "barcode-display"
+    ).innerText =
+        cleanBarcode;
+
+
     if(item){
 
         document.getElementById(
             "result-icon"
         ).innerText =
-            "✓";
+            "✅";
+
+
+        document.getElementById(
+            "result-status-text"
+        ).innerText =
+            "تم العثور على المادة";
 
 
         document.getElementById(
             "item-name"
         ).innerText =
-            item.n || "مادة";
+            item.n ||
+            "مادة بدون اسم";
+
+
+        const price =
+            Number(item.p);
 
 
         document.getElementById(
             "item-price"
         ).innerText =
-            Number(item.p)
-            .toLocaleString("ar-IQ")
-            + " د.ع";
+            isNaN(price)
+            ? item.p
+            : price.toLocaleString(
+                "en-US"
+            );
 
 
-    }else{
+        saveRecent(
+            cleanBarcode,
+            item.n || "مادة",
+            price
+        );
+
+    }
+
+    else{
 
         document.getElementById(
             "result-icon"
         ).innerText =
-            "—";
+            "❌";
+
+
+        document.getElementById(
+            "result-status-text"
+        ).innerText =
+            "المادة غير موجودة";
 
 
         document.getElementById(
             "item-name"
         ).innerText =
-            "المنتج غير موجود";
+            "غير موجود في النظام";
 
 
         document.getElementById(
@@ -1885,6 +2004,46 @@ function handleResult(barcode){
             "---";
 
     }
+
+}
+
+
+/* =====================================================
+   OPEN MANUAL SEARCH
+===================================================== */
+
+function openManualSearch(){
+
+    const box =
+        document.getElementById(
+            "manual-search"
+        );
+
+
+    box.classList.add(
+        "show"
+    );
+
+
+    const input =
+        document.getElementById(
+            "manual-barcode-input"
+        );
+
+
+    setTimeout(
+        function(){
+
+            input.focus();
+
+            input.scrollIntoView({
+                behavior:"smooth",
+                block:"center"
+            });
+
+        },
+        100
+    );
 
 }
 
@@ -1907,6 +2066,10 @@ function searchManualBarcode(){
 
     if(!barcode){
 
+        showToast(
+            "أدخل رقم الباركود أولاً"
+        );
+
         input.focus();
 
         return;
@@ -1914,116 +2077,42 @@ function searchManualBarcode(){
     }
 
 
-    handleResult(barcode);
+    /* البحث */
+
+    handleResult(
+        barcode
+    );
 
 
-    input.value = "";
+    /* تفريغ الحقل */
+
+    input.value =
+        "";
 
 }
 
 
-/* =====================================================
-   ENTER
-===================================================== */
+/* Enter */
 
-document.addEventListener(
-    "DOMContentLoaded",
-    function(){
+document
+    .getElementById(
+        "manual-barcode-input"
+    )
+    .addEventListener(
+        "keydown",
+        function(event){
 
-        const input =
-            document.getElementById(
-                "manual-barcode-input"
-            );
+            if(
+                event.key ===
+                "Enter"
+            ){
 
-
-        input.addEventListener(
-            "keydown",
-            function(e){
-
-                if(e.key === "Enter"){
-
-                    e.preventDefault();
-
-                    searchManualBarcode();
-
-                }
+                searchManualBarcode();
 
             }
-        );
-
-    }
-);
-
-
-/* =====================================================
-   STOP
-===================================================== */
-
-function stopScanner(){
-
-    canScan = false;
-
-
-    try{
-
-        if(codeReader){
-
-            codeReader.reset();
 
         }
-
-    }catch(e){}
-
-
-    if(currentStream){
-
-        currentStream
-        .getTracks()
-        .forEach(
-            track => track.stop()
-        );
-
-    }
-
-
-    const video =
-        document.getElementById(
-            "webcam-video"
-        );
-
-
-    video.srcObject =
-        null;
-
-
-    video.style.display =
-        "none";
-
-
-    document.getElementById(
-        "camera-overlay"
-    ).style.display =
-        "none";
-
-
-    document.getElementById(
-        "camera-controls"
-    ).style.display =
-        "none";
-
-
-    videoTrack =
-        null;
-
-
-    currentStream =
-        null;
-
-
-    torchOn =
-        false;
-
-}
+    );
 
 
 /* =====================================================
@@ -2039,21 +2128,46 @@ function resetScanner(){
 
 
     document.getElementById(
-        "camera-box"
+        "scanner-card"
     ).style.display =
         "block";
 
 
     document.getElementById(
-        "manual-section"
-    ).style.display =
-        "block";
-
-
-    document.getElementById(
-        "start-card"
+        "quick-actions"
     ).style.display =
         "flex";
+
+
+    document.getElementById(
+        "recent-section"
+    ).style.display =
+        "block";
+
+
+    document.getElementById(
+        "manual-search"
+    ).classList.remove(
+        "show"
+    );
+
+
+    document.getElementById(
+        "start-screen"
+    ).style.display =
+        "flex";
+
+
+    document.getElementById(
+        "webcam-video"
+    ).style.display =
+        "none";
+
+
+    document.getElementById(
+        "camera-overlay"
+    ).style.display =
+        "none";
 
 
     document.getElementById(
@@ -2065,21 +2179,321 @@ function resetScanner(){
     canScan =
         true;
 
+
+    scannerRunning =
+        false;
+
+
+    videoTrack =
+        null;
+
+
+    torchOn =
+        false;
+
+
+    if(codeReader){
+
+        try{
+            codeReader.reset();
+        }catch(e){}
+
+    }
+
+
+    setTimeout(
+        initScanner,
+        150
+    );
+
 }
 
 
 /* =====================================================
-   CLEANUP
+   REFRESH
 ===================================================== */
 
-window.addEventListener(
-    "beforeunload",
-    function(){
+function refreshPrices(){
 
-        stopScanner();
+    showToast(
+        "جاري تحديث الأسعار..."
+    );
+
+
+    loadPriceData();
+
+}
+
+
+/* =====================================================
+   FOCUS CAMERA
+===================================================== */
+
+function focusScanner(){
+
+    document
+        .getElementById(
+            "scanner-card"
+        )
+        .scrollIntoView({
+
+            behavior:"smooth",
+
+            block:"center"
+
+        });
+
+}
+
+
+/* =====================================================
+   RECENT
+===================================================== */
+
+function saveRecent(
+    barcode,
+    name,
+    price
+){
+
+    let recent =
+        JSON.parse(
+            localStorage.getItem(
+                "a2z_recent"
+            ) || "[]"
+        );
+
+
+    recent =
+        recent.filter(
+            item =>
+                item.barcode !==
+                barcode
+        );
+
+
+    recent.unshift({
+
+        barcode:
+            barcode,
+
+        name:
+            name,
+
+        price:
+            price,
+
+        time:
+            Date.now()
+
+    });
+
+
+    recent =
+        recent.slice(
+            0,
+            5
+        );
+
+
+    localStorage.setItem(
+        "a2z_recent",
+        JSON.stringify(recent)
+    );
+
+
+    renderRecent();
+
+}
+
+
+function loadRecent(){
+
+    renderRecent();
+
+}
+
+
+function renderRecent(){
+
+    const container =
+        document.getElementById(
+            "recent-list"
+        );
+
+
+    let recent =
+        JSON.parse(
+            localStorage.getItem(
+                "a2z_recent"
+            ) || "[]"
+        );
+
+
+    if(!recent.length){
+
+        container.innerHTML =
+            '<div class="empty-recent">لا توجد عمليات فحص بعد</div>';
+
+        return;
 
     }
-);
+
+
+    container.innerHTML =
+        recent
+            .map(
+                function(item){
+
+                    const price =
+                        Number(
+                            item.price
+                        );
+
+
+                    const priceText =
+                        isNaN(price)
+
+                        ? item.price
+
+                        : price.toLocaleString(
+                            "en-US"
+                        ) + " د.ع";
+
+
+                    return `
+
+                        <div
+                            class="recent-item"
+                            onclick="searchRecent('${escapeHTML(item.barcode)}')"
+                        >
+
+                            <div class="recent-name">
+                                ${escapeHTML(item.name)}
+                            </div>
+
+                            <div class="recent-price">
+                                ${priceText}
+                            </div>
+
+                        </div>
+
+                    `;
+
+                }
+            )
+            .join("");
+
+}
+
+
+function searchRecent(
+    barcode
+){
+
+    handleResult(
+        barcode
+    );
+
+}
+
+
+function clearRecent(){
+
+    localStorage.removeItem(
+        "a2z_recent"
+    );
+
+
+    renderRecent();
+
+
+    showToast(
+        "تم مسح سجل الفحص"
+    );
+
+}
+
+
+/* =====================================================
+   ESCAPE
+===================================================== */
+
+function escapeHTML(
+    text
+){
+
+    return String(text)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+
+}
+
+
+/* =====================================================
+   TOAST
+===================================================== */
+
+function showToast(
+    message
+){
+
+    const toast =
+        document.getElementById(
+            "toast"
+        );
+
+
+    toast.innerText =
+        message;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    clearTimeout(
+        toastTimer
+    );
+
+
+    toastTimer =
+        setTimeout(
+            function(){
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            2200
+        );
+
+}
 
 </script>
 
