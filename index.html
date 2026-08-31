@@ -1,6 +1,22 @@
-<!DOCTYPE html><html lang="ar" dir="rtl"><head>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>A2Z HYPERMARKET - فحص الأسعار</title><script src="https://unpkg.com/@zxing/library@latest"></script><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"><style>
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<title>A2Z HYPERMARKET - فحص الأسعار</title>
+
+<script src="https://unpkg.com/@zxing/library@latest"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap"
+rel="stylesheet">
+
+<style>
+
 *{
     box-sizing:border-box;
     -webkit-tap-highlight-color:transparent;
@@ -12,7 +28,6 @@
     --cyan:#00c8ff;
     --bg:#050608;
     --card:#0d1015;
-    --border:rgba(0,122,255,.22);
     --text:#fff;
     --muted:#7d8792;
 }
@@ -508,6 +523,7 @@ body:after{
         opacity:0;
         transform:translateY(12px);
     }
+
     to{
         opacity:1;
         transform:none;
@@ -735,6 +751,7 @@ body:after{
 }
 
 @media(max-height:700px){
+
     .app{
         padding-top:12px;
     }
@@ -747,140 +764,242 @@ body:after{
         margin-bottom:12px;
     }
 }
-</style></head><body><div class="loader" id="loader"><div class="loader-logo">
-    <img
+
+</style>
+
+</head>
+
+<body>
+
+<!-- LOADER -->
+
+<div class="loader" id="loader">
+
+    <div class="loader-logo">
+
+        <img
         src="https://lh3.googleusercontent.com/d/109H2w4zxFrJzi5EgQse4u1Ka6KoZyupo"
         alt="A2Z">
+
+    </div>
+
+    <div class="loader-text">
+        جاري تجهيز فاحص الأسعار...
+    </div>
+
+    <div class="loader-line"></div>
+
 </div>
 
-<div class="loader-text">
-    جاري تجهيز فاحص الأسعار...
-</div>
 
-<div class="loader-line"></div>
+<div class="app">
 
-</div><div class="app"><header class="header"><div class="brand">
+<!-- HEADER -->
 
-    <div class="logo">
-        <img
+<header class="header">
+
+    <div class="brand">
+
+        <div class="logo">
+
+            <img
             src="https://lh3.googleusercontent.com/d/109H2w4zxFrJzi5EgQse4u1Ka6KoZyupo"
             alt="A2Z">
-    </div>
 
-    <div>
-        <div class="brand-name">A2Z</div>
-        <div class="brand-sub">HYPERMARKET</div>
-    </div>
+        </div>
 
-</div>
+        <div>
 
-<div class="status" id="system-status">
+            <div class="brand-name">
+                A2Z
+            </div>
 
-    <span class="status-dot"></span>
+            <div class="brand-sub">
+                HYPERMARKET
+            </div>
 
-    <span id="status-text">
-        جاري الاتصال
-    </span>
-
-</div>
-
-</header><section class="hero"><h1>
-    <span>فحص الأسعار</span>
-</h1>
-
-<p>
-    امسح الباركود لمعرفة السعر فوراً
-</p>
-
-</section><section class="scanner-card" id="scanner-card"><button id="torch-btn" onclick="toggleTorch()">
-    ⚡ الفلاش
-</button>
-
-<div class="zoom-controls" id="zoom-controls">
-
-    <button class="zoom-btn active" data-zoom="1">
-        1×
-    </button>
-
-    <button class="zoom-btn" data-zoom="1.5">
-        1.5×
-    </button>
-
-    <button class="zoom-btn" data-zoom="2">
-        2×
-    </button>
-
-    <button class="zoom-btn" data-zoom="3">
-        3×
-    </button>
-
-</div>
-
-<video
-    id="webcam-video"
-    playsinline
-    muted>
-</video>
-
-<div class="camera-overlay" id="camera-overlay">
-
-    <div class="scan-area">
-
-        <div class="corner tl"></div>
-        <div class="corner tr"></div>
-        <div class="corner bl"></div>
-        <div class="corner br"></div>
-
-        <div class="laser"></div>
-
-        <div class="scan-label">
-            حرّك الباركود داخل الإطار
         </div>
 
     </div>
 
-</div>
+    <div class="status" id="system-status">
 
-<div class="start-screen" id="start-screen">
+        <span class="status-dot"></span>
 
-    <div class="camera-icon">
-        📷
+        <span id="status-text">
+            جاري الاتصال
+        </span>
+
     </div>
 
-    <div class="start-title">
-        جاهز لفحص المادة؟
+</header>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <h1>
+        <span>فحص الأسعار</span>
+    </h1>
+
+    <p>
+        امسح الباركود لمعرفة السعر فوراً
+    </p>
+
+</section>
+
+
+<!-- SCANNER -->
+
+<section class="scanner-card" id="scanner-card">
+
+    <button
+    id="torch-btn"
+    onclick="toggleTorch()">
+        ⚡ الفلاش
+    </button>
+
+
+    <div
+    class="zoom-controls"
+    id="zoom-controls">
+
+        <button
+        class="zoom-btn active"
+        data-zoom="1">
+            1×
+        </button>
+
+        <button
+        class="zoom-btn"
+        data-zoom="1.5">
+            1.5×
+        </button>
+
+        <button
+        class="zoom-btn"
+        data-zoom="2">
+            2×
+        </button>
+
+        <button
+        class="zoom-btn"
+        data-zoom="3">
+            3×
+        </button>
+
     </div>
 
-    <div class="start-desc">
-        وجّه كاميرا الهاتف نحو الباركود
+
+    <video
+    id="webcam-video"
+    playsinline
+    muted>
+    </video>
+
+
+    <div
+    class="camera-overlay"
+    id="camera-overlay">
+
+        <div class="scan-area">
+
+            <div class="corner tl"></div>
+            <div class="corner tr"></div>
+            <div class="corner bl"></div>
+            <div class="corner br"></div>
+
+            <div class="laser"></div>
+
+            <div class="scan-label">
+                حرّك الباركود داخل الإطار
+            </div>
+
+        </div>
+
     </div>
 
-    <button class="primary-btn" onclick="initScanner()">
-        بدء المسح
+
+    <div
+    class="start-screen"
+    id="start-screen">
+
+        <div class="camera-icon">
+            📷
+        </div>
+
+        <div class="start-title">
+            جاهز لفحص المادة؟
+        </div>
+
+        <div class="start-desc">
+            وجّه كاميرا الهاتف نحو الباركود
+        </div>
+
+        <button
+        class="primary-btn"
+        onclick="initScanner()">
+            بدء المسح
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- QUICK ACTIONS -->
+
+<div
+class="quick-actions"
+id="quick-actions">
+
+    <button
+    class="quick-btn"
+    onclick="initScanner()">
+
+        <span>📷</span>
+
+        فتح الكاميرا
+
+    </button>
+
+
+    <button
+    class="quick-btn"
+    onclick="refreshPrices()">
+
+        <span>↻</span>
+
+        تحديث الأسعار
+
+    </button>
+
+
+    <button
+    class="quick-btn"
+    onclick="showManualSearch()">
+
+        <span>⌨️</span>
+
+        بحث يدوي
+
     </button>
 
 </div>
 
-</section><div class="quick-actions" id="quick-actions"><button class="quick-btn" onclick="initScanner()">
-    <span>📷</span>
-    فتح الكاميرا
-</button>
 
-<button class="quick-btn" onclick="refreshPrices()">
-    <span>↻</span>
-    تحديث الأسعار
-</button>
+<!-- MANUAL SEARCH -->
 
-<button class="quick-btn" onclick="showManualSearch()">
-    <span>⌨️</span>
-    بحث يدوي
-</button>
+<div
+class="search-box"
+id="manual-box">
 
-</div><div class="search-box" id="manual-box"><div class="search-icon">
-    🔎
-</div>
+    <div class="search-icon">
+        🔎
+    </div>
 
-<input
+    <input
     id="manual-barcode-input"
     class="manual-input"
     type="text"
@@ -891,101 +1010,174 @@ body:after{
     spellcheck="false"
     placeholder="أدخل رقم الباركود...">
 
-<button
+    <button
     class="search-btn"
     onclick="searchManualBarcode()">
-    بحث
-</button>
 
-</div><div class="ai-box" id="ai-box"><div class="ai-title">
-    🤖 لم يتم التعرف على الباركود
-</div>
+        بحث
 
-<div class="ai-desc">
-    تقدر تخلي الذكاء الاصطناعي يحاول قراءة الباركود من الكاميرا
-</div>
-
-<button
-    class="ai-btn"
-    id="ai-button"
-    onclick="scanWithAI()">
-    🤖 محاولة باستخدام AI
-</button>
-
-</div><section class="result" id="result-container"><div class="result-card">
-
-    <div class="result-status">
-        <span>●</span>
-        <span id="result-status-text">
-            تم العثور على المادة
-        </span>
-    </div>
-
-    <div class="result-icon" id="result-icon">
-        ✅
-    </div>
-
-    <div class="item-name" id="item-name">
-        ---
-    </div>
-
-    <div class="price-box">
-
-        <div class="price-label">
-            السعر الإجمالي
-        </div>
-
-        <div class="price">
-            <span id="item-price">---</span>
-        </div>
-
-        <div class="currency">
-            دينار عراقي
-        </div>
-
-    </div>
-
-    <div class="barcode-display" id="barcode-display">
-        ---
-    </div>
-
-    <button class="reset-btn" onclick="resetScanner()">
-        📷 فحص مادة أخرى
     </button>
 
 </div>
 
-</section><section class="recent-section" id="recent-section"><div class="section-head">
 
-    <div class="section-title">
-        آخر المواد المفحوصة
+<!-- AI -->
+
+<div
+class="ai-box"
+id="ai-box">
+
+    <div class="ai-title">
+        🤖 لم يتم التعرف على الباركود
     </div>
 
-    <div class="clear-recent" onclick="clearRecent()">
-        مسح السجل
+    <div class="ai-desc">
+        تقدر تخلي الذكاء الاصطناعي يحاول قراءة الباركود من الكاميرا
     </div>
+
+    <button
+    class="ai-btn"
+    id="ai-button"
+    onclick="scanWithAI()">
+
+        🤖 محاولة باستخدام AI
+
+    </button>
 
 </div>
 
-<div class="recent-list" id="recent-list">
 
-    <div class="empty-recent">
-        لا توجد عمليات فحص بعد
+<!-- RESULT -->
+
+<section
+class="result"
+id="result-container">
+
+    <div class="result-card">
+
+        <div class="result-status">
+
+            <span>●</span>
+
+            <span id="result-status-text">
+                تم العثور على المادة
+            </span>
+
+        </div>
+
+
+        <div
+        class="result-icon"
+        id="result-icon">
+            ✅
+        </div>
+
+
+        <div
+        class="item-name"
+        id="item-name">
+            ---
+        </div>
+
+
+        <div class="price-box">
+
+            <div class="price-label">
+                السعر الإجمالي
+            </div>
+
+            <div class="price">
+
+                <span id="item-price">
+                    ---
+                </span>
+
+            </div>
+
+            <div class="currency">
+                دينار عراقي
+            </div>
+
+        </div>
+
+
+        <div
+        class="barcode-display"
+        id="barcode-display">
+            ---
+        </div>
+
+
+        <button
+        class="reset-btn"
+        onclick="resetScanner()">
+
+            📷 فحص مادة أخرى
+
+        </button>
+
     </div>
+
+</section>
+
+
+<!-- RECENT -->
+
+<section
+class="recent-section"
+id="recent-section">
+
+    <div class="section-head">
+
+        <div class="section-title">
+            آخر المواد المفحوصة
+        </div>
+
+        <div
+        class="clear-recent"
+        onclick="clearRecent()">
+
+            مسح السجل
+
+        </div>
+
+    </div>
+
+
+    <div
+    class="recent-list"
+    id="recent-list">
+
+        <div class="empty-recent">
+            لا توجد عمليات فحص بعد
+        </div>
+
+    </div>
+
+</section>
 
 </div>
 
-</section></div><div class="toast" id="toast"></div><script>
+
+<div
+class="toast"
+id="toast">
+</div>
+
+
+<script>
 
 /* =========================================================
    إعدادات النظام
 ========================================================= */
 
 const GOOGLE_SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbx02ACO5WZgvJ01DIUWeOuuJmlo7nRSzl3SVN7bfBs-CS6covbQ913bTcJU6PbTm_ehKA/exec";
+"https://script.google.com/macros/s/AKfycbwwisjm-Jxyna4udY4irlnYnpqTa6wAZ6tJrkzOENXcoo3Q49GBfKrZOZ9MSSXVGZ10aQ/exec";
+
 
 const AI_WORKER_URL =
 "https://ahmed.hyperahd079.workers.dev/";
+
 
 let codeReader = null;
 
@@ -1013,9 +1205,11 @@ let currentZoom = 1;
 
 let aiBusy = false;
 
+let aiTimer = null;
+
 
 /* =========================================================
-   عند تشغيل الصفحة
+   تشغيل الصفحة
 ========================================================= */
 
 window.addEventListener("load",function(){
@@ -1027,8 +1221,8 @@ window.addEventListener("load",function(){
     setTimeout(function(){
 
         document
-            .getElementById("loader")
-            .classList.add("hide");
+        .getElementById("loader")
+        .classList.add("hide");
 
     },800);
 
@@ -1036,7 +1230,7 @@ window.addEventListener("load",function(){
 
 
 /* =========================================================
-   تحميل الأسعار من Google Apps Script
+   تحميل الأسعار
 ========================================================= */
 
 function loadPriceData(){
@@ -1046,42 +1240,73 @@ function loadPriceData(){
         "loading"
     );
 
+
     const callbackName =
         "a2zCallback_" +
         Date.now() +
         "_" +
-        Math.floor(Math.random()*10000);
+        Math.floor(
+            Math.random()*10000
+        );
+
 
     window[callbackName] = function(data){
 
         try{
 
-            if(!data || typeof data !== "object"){
-                throw new Error("Invalid price data");
+            if(
+                !data ||
+                typeof data !== "object"
+            ){
+
+                throw new Error(
+                    "Invalid price data"
+                );
+
             }
+
 
             priceData.clear();
 
-            Object.entries(data).forEach(function(entry){
 
-                const barcode = String(entry[0]).trim();
+            Object.entries(data).forEach(
+                function(entry){
 
-                const item = entry[1];
+                    const barcode =
+                        String(
+                            entry[0] || ""
+                        ).trim();
 
-                if(barcode){
-                    priceData.set(barcode,item);
+
+                    const item =
+                        entry[1];
+
+
+                    if(barcode){
+
+                        priceData.set(
+                            barcode,
+                            item
+                        );
+
+                    }
+
                 }
+            );
 
-            });
 
             setSystemStatus(
                 "النظام متصل",
                 "online"
             );
 
+
             showToast(
-                "تم تحميل الأسعار ✓"
+                "تم تحميل " +
+                priceData.size +
+                " مادة ✓"
             );
+
 
         }catch(error){
 
@@ -1090,10 +1315,12 @@ function loadPriceData(){
                 error
             );
 
+
             setSystemStatus(
                 "خطأ بالبيانات",
                 "error"
             );
+
 
             showToast(
                 "وصلت البيانات بصيغة غير صحيحة"
@@ -1101,10 +1328,15 @@ function loadPriceData(){
 
         }
 
+
         delete window[callbackName];
 
+
         const oldScript =
-            document.getElementById(callbackName);
+            document.getElementById(
+                callbackName
+            );
+
 
         if(oldScript){
             oldScript.remove();
@@ -1112,17 +1344,24 @@ function loadPriceData(){
 
     };
 
+
     const script =
         document.createElement("script");
 
-    script.id = callbackName;
+
+    script.id =
+        callbackName;
+
 
     script.src =
         GOOGLE_SCRIPT_URL +
         "?callback=" +
-        encodeURIComponent(callbackName) +
+        encodeURIComponent(
+            callbackName
+        ) +
         "&t=" +
         Date.now();
+
 
     script.onerror = function(){
 
@@ -1131,15 +1370,18 @@ function loadPriceData(){
             "error"
         );
 
+
         showToast(
             "تعذر تحميل الأسعار"
         );
+
 
         delete window[callbackName];
 
         script.remove();
 
     };
+
 
     document.body.appendChild(script);
 
@@ -1150,27 +1392,44 @@ function loadPriceData(){
    حالة النظام
 ========================================================= */
 
-function setSystemStatus(text,state){
+function setSystemStatus(
+    text,
+    state
+){
 
     const status =
-        document.getElementById("system-status");
+        document.getElementById(
+            "system-status"
+        );
+
 
     const textElement =
-        document.getElementById("status-text");
+        document.getElementById(
+            "status-text"
+        );
 
-    textElement.innerText = text;
+
+    textElement.innerText =
+        text;
+
 
     status.classList.remove(
         "online",
         "error"
     );
 
+
     if(state === "online"){
-        status.classList.add("online");
+        status.classList.add(
+            "online"
+        );
     }
 
+
     if(state === "error"){
-        status.classList.add("error");
+        status.classList.add(
+            "error"
+        );
     }
 
 }
@@ -1186,35 +1445,53 @@ function createBarcodeReader(){
         return;
     }
 
-    const hints = new Map();
+
+    const hints =
+        new Map();
+
 
     const formats = [
 
         ZXing.BarcodeFormat.EAN_13,
+
         ZXing.BarcodeFormat.EAN_8,
+
         ZXing.BarcodeFormat.UPC_A,
+
         ZXing.BarcodeFormat.UPC_E,
+
         ZXing.BarcodeFormat.CODE_128,
+
         ZXing.BarcodeFormat.CODE_39,
+
         ZXing.BarcodeFormat.CODE_93,
+
         ZXing.BarcodeFormat.ITF,
+
         ZXing.BarcodeFormat.CODABAR,
+
         ZXing.BarcodeFormat.QR_CODE,
+
         ZXing.BarcodeFormat.DATA_MATRIX,
+
         ZXing.BarcodeFormat.RSS_14,
+
         ZXing.BarcodeFormat.RSS_EXPANDED
 
     ];
+
 
     hints.set(
         ZXing.DecodeHintType.POSSIBLE_FORMATS,
         formats
     );
 
+
     hints.set(
         ZXing.DecodeHintType.TRY_HARDER,
         true
     );
+
 
     codeReader =
         new ZXing.BrowserMultiFormatReader(
@@ -1238,30 +1515,52 @@ async function initScanner(){
 
     }
 
+
     hideAI();
+
+
+    clearTimeout(aiTimer);
+
 
     createBarcodeReader();
 
+
     const start =
-        document.getElementById("start-screen");
+        document.getElementById(
+            "start-screen"
+        );
+
 
     const video =
-        document.getElementById("webcam-video");
+        document.getElementById(
+            "webcam-video"
+        );
+
 
     const overlay =
-        document.getElementById("camera-overlay");
+        document.getElementById(
+            "camera-overlay"
+        );
 
-    start.style.display = "none";
 
-    video.style.display = "block";
+    start.style.display =
+        "none";
 
-    overlay.style.display = "block";
+
+    video.style.display =
+        "block";
+
+
+    overlay.style.display =
+        "block";
+
 
     canScan = true;
 
     scanLocked = false;
 
     scannerRunning = true;
+
 
     try{
 
@@ -1271,6 +1570,7 @@ async function initScanner(){
                 audio:false,
 
                 video:{
+
                     facingMode:{
                         ideal:"environment"
                     },
@@ -1289,7 +1589,9 @@ async function initScanner(){
                         ideal:30,
                         max:30
                     }
+
                 }
+
             },
 
             "webcam-video",
@@ -1318,6 +1620,7 @@ async function initScanner(){
 
         );
 
+
         setTimeout(function(){
 
             detectTorch();
@@ -1326,6 +1629,16 @@ async function initScanner(){
 
         },700);
 
+
+        /*
+         مهم:
+         بعد 7 ثواني إذا الكاميرا لم تقرأ
+         يظهر زر AI
+        */
+
+        startAIFallbackTimer();
+
+
     }catch(error){
 
         console.error(
@@ -1333,13 +1646,21 @@ async function initScanner(){
             error
         );
 
+
         scannerRunning = false;
 
-        video.style.display = "none";
 
-        overlay.style.display = "none";
+        video.style.display =
+            "none";
 
-        start.style.display = "flex";
+
+        overlay.style.display =
+            "none";
+
+
+        start.style.display =
+            "flex";
+
 
         showToast(
             "يرجى السماح للمتصفح باستخدام الكاميرا"
@@ -1351,110 +1672,181 @@ async function initScanner(){
 
 
 /* =========================================================
-   اكتشاف الفلاش
+   مؤقت AI
+========================================================= */
+
+function startAIFallbackTimer(){
+
+    clearTimeout(aiTimer);
+
+
+    aiTimer =
+        setTimeout(function(){
+
+            if(
+                scannerRunning &&
+                canScan &&
+                !scanLocked
+            ){
+
+                showAI();
+
+            }
+
+        },7000);
+
+}
+
+
+/* =========================================================
+   إظهار AI
+========================================================= */
+
+function showAI(){
+
+    if(!scannerRunning){
+        return;
+    }
+
+
+    const box =
+        document.getElementById(
+            "ai-box"
+        );
+
+
+    box.style.display =
+        "block";
+
+
+    box.scrollIntoView({
+        behavior:"smooth",
+        block:"nearest"
+    });
+
+}
+
+
+/* =========================================================
+   إخفاء AI
+========================================================= */
+
+function hideAI(){
+
+    const box =
+        document.getElementById(
+            "ai-box"
+        );
+
+
+    box.style.display =
+        "none";
+
+}
+
+
+/* =========================================================
+   الفلاش
 ========================================================= */
 
 function detectTorch(){
 
     const video =
-        document.getElementById("webcam-video");
+        document.getElementById(
+            "webcam-video"
+        );
+
 
     if(!video.srcObject){
         return;
     }
 
+
     const tracks =
         video.srcObject.getVideoTracks();
+
 
     if(!tracks.length){
         return;
     }
 
-    videoTrack = tracks[0];
+
+    videoTrack =
+        tracks[0];
+
 
     if(!videoTrack.getCapabilities){
         return;
     }
 
+
     const caps =
         videoTrack.getCapabilities();
+
 
     if(caps.torch){
 
         document
-            .getElementById("torch-btn")
-            .style.display = "block";
+        .getElementById("torch-btn")
+        .style.display =
+        "block";
 
     }
 
 }
 
 
-/* =========================================================
-   اكتشاف الزوم
-========================================================= */
+async function toggleTorch(){
 
-function detectZoom(){
-
-    const video =
-        document.getElementById("webcam-video");
-
-    const controls =
-        document.getElementById("zoom-controls");
-
-    if(!video.srcObject){
+    if(!videoTrack){
         return;
     }
 
-    const tracks =
-        video.srcObject.getVideoTracks();
 
-    if(!tracks.length){
-        return;
-    }
+    try{
 
-    videoTrack = tracks[0];
+        torchOn =
+            !torchOn;
 
-    if(!videoTrack.getCapabilities){
-        return;
-    }
 
-    const caps =
-        videoTrack.getCapabilities();
+        await videoTrack.applyConstraints({
 
-    if(!caps.zoom){
-        controls.classList.remove("visible");
-        return;
-    }
-
-    zoomSupported = true;
-
-    minZoom =
-        Number(caps.zoom.min || 1);
-
-    maxZoom =
-        Number(caps.zoom.max || 1);
-
-    zoomStep =
-        Number(caps.zoom.step || .1);
-
-    document
-        .querySelectorAll(".zoom-btn")
-        .forEach(function(btn){
-
-            const value =
-                Number(btn.dataset.zoom);
-
-            btn.style.display =
-                value >= minZoom &&
-                value <= maxZoom
-                ? "block"
-                : "none";
+            advanced:[
+                {
+                    torch:torchOn
+                }
+            ]
 
         });
 
-    if(maxZoom > minZoom){
-        controls.classList.add("visible");
+
+        const button =
+            document.getElementById(
+                "torch-btn"
+            );
+
+
+        button.innerText =
+            torchOn
+            ? "⚡ الفلاش يعمل"
+            : "⚡ الفلاش";
+
+
+        button.style.background =
+            torchOn
+            ? "#007aff"
+            : "rgba(0,0,0,.58)";
+
+
+    }catch(error){
+
+        torchOn = false;
+
+
+        showToast(
+            "الفلاش غير مدعوم بهذا الجهاز"
+        );
+
     }
 
 }
@@ -1463,6 +1855,109 @@ function detectZoom(){
 /* =========================================================
    الزوم
 ========================================================= */
+
+function detectZoom(){
+
+    const video =
+        document.getElementById(
+            "webcam-video"
+        );
+
+
+    const controls =
+        document.getElementById(
+            "zoom-controls"
+        );
+
+
+    if(!video.srcObject){
+        return;
+    }
+
+
+    const tracks =
+        video.srcObject.getVideoTracks();
+
+
+    if(!tracks.length){
+        return;
+    }
+
+
+    videoTrack =
+        tracks[0];
+
+
+    if(!videoTrack.getCapabilities){
+        return;
+    }
+
+
+    const caps =
+        videoTrack.getCapabilities();
+
+
+    if(!caps.zoom){
+
+        controls.classList.remove(
+            "visible"
+        );
+
+        return;
+
+    }
+
+
+    zoomSupported = true;
+
+
+    minZoom =
+        Number(
+            caps.zoom.min || 1
+        );
+
+
+    maxZoom =
+        Number(
+            caps.zoom.max || 1
+        );
+
+
+    zoomStep =
+        Number(
+            caps.zoom.step || .1
+        );
+
+
+    document
+    .querySelectorAll(".zoom-btn")
+    .forEach(function(btn){
+
+        const value =
+            Number(
+                btn.dataset.zoom
+            );
+
+
+        btn.style.display =
+            value >= minZoom &&
+            value <= maxZoom
+            ? "block"
+            : "none";
+
+    });
+
+
+    if(maxZoom > minZoom){
+
+        controls.classList.add(
+            "visible"
+        );
+
+    }
+
+}
+
 
 async function setCameraZoom(value){
 
@@ -1473,11 +1968,16 @@ async function setCameraZoom(value){
         return;
     }
 
+
     let zoom =
         Math.max(
             minZoom,
-            Math.min(value,maxZoom)
+            Math.min(
+                value,
+                maxZoom
+            )
         );
+
 
     if(zoomStep > 0){
 
@@ -1487,6 +1987,7 @@ async function setCameraZoom(value){
             ) * zoomStep;
 
     }
+
 
     try{
 
@@ -1500,25 +2001,35 @@ async function setCameraZoom(value){
 
         });
 
-        currentZoom = zoom;
+
+        currentZoom =
+            zoom;
+
 
         document
-            .querySelectorAll(".zoom-btn")
-            .forEach(function(btn){
+        .querySelectorAll(".zoom-btn")
+        .forEach(function(btn){
 
-                const buttonZoom =
-                    Number(btn.dataset.zoom);
-
-                btn.classList.toggle(
-                    "active",
-                    Math.abs(buttonZoom-zoom)<.15
+            const buttonZoom =
+                Number(
+                    btn.dataset.zoom
                 );
 
-            });
+
+            btn.classList.toggle(
+                "active",
+                Math.abs(
+                    buttonZoom - zoom
+                ) < .15
+            );
+
+        });
+
 
     }catch(error){
 
         console.log(error);
+
 
         showToast(
             "الزوم غير مدعوم بهذا الجهاز"
@@ -1530,91 +2041,49 @@ async function setCameraZoom(value){
 
 
 document
-    .querySelectorAll(".zoom-btn")
-    .forEach(function(button){
+.querySelectorAll(".zoom-btn")
+.forEach(function(button){
 
-        button.addEventListener(
-            "click",
-            function(){
+    button.addEventListener(
+        "click",
+        function(){
 
-                setCameraZoom(
-                    Number(this.dataset.zoom)
-                );
+            setCameraZoom(
+                Number(
+                    this.dataset.zoom
+                )
+            );
 
-            }
-        );
+        }
+    );
 
-    });
-
-
-/* =========================================================
-   الفلاش
-========================================================= */
-
-async function toggleTorch(){
-
-    if(!videoTrack){
-        return;
-    }
-
-    try{
-
-        torchOn = !torchOn;
-
-        await videoTrack.applyConstraints({
-
-            advanced:[
-                {
-                    torch:torchOn
-                }
-            ]
-
-        });
-
-        const button =
-            document.getElementById("torch-btn");
-
-        button.innerText =
-            torchOn
-            ? "⚡ الفلاش يعمل"
-            : "⚡ الفلاش";
-
-        button.style.background =
-            torchOn
-            ? "#007aff"
-            : "rgba(0,0,0,.58)";
-
-    }catch(error){
-
-        torchOn = false;
-
-        showToast(
-            "الفلاش غير مدعوم بهذا الجهاز"
-        );
-
-    }
-
-}
+});
 
 
 /* =========================================================
-   نتيجة الكاميرا
+   نتيجة الباركود
 ========================================================= */
 
-function handleResult(barcode,source){
+function handleResult(
+    barcode,
+    source
+){
 
     if(!barcode){
         return;
     }
 
+
     const clean =
         String(barcode)
-            .replace(/\s+/g,"")
-            .trim();
+        .replace(/\s+/g,"")
+        .trim();
+
 
     if(!clean){
         return;
     }
+
 
     if(navigator.vibrate){
 
@@ -1626,11 +2095,18 @@ function handleResult(barcode,source){
 
     }
 
+
     playBeep();
+
+
+    clearTimeout(aiTimer);
+
 
     stopCamera();
 
+
     hideAI();
+
 
     showResult(
         clean,
@@ -1641,65 +2117,97 @@ function handleResult(barcode,source){
 
 
 /* =========================================================
-   عرض السعر
+   عرض النتيجة والسعر
 ========================================================= */
 
-function showResult(barcode,source){
+function showResult(
+    barcode,
+    source
+){
 
     const item =
-        priceData.get(barcode);
+        priceData.get(
+            barcode
+        );
+
 
     document
-        .getElementById("scanner-card")
-        .style.display = "none";
+    .getElementById("scanner-card")
+    .style.display =
+    "none";
+
 
     document
-        .getElementById("quick-actions")
-        .style.display = "none";
+    .getElementById("quick-actions")
+    .style.display =
+    "none";
+
 
     document
-        .getElementById("manual-box")
-        .style.display = "none";
+    .getElementById("manual-box")
+    .style.display =
+    "none";
+
 
     document
-        .getElementById("recent-section")
-        .style.display = "none";
+    .getElementById("ai-box")
+    .style.display =
+    "none";
+
 
     document
-        .getElementById("result-container")
-        .style.display = "block";
+    .getElementById("recent-section")
+    .style.display =
+    "none";
+
 
     document
-        .getElementById("barcode-display")
-        .innerText = barcode;
+    .getElementById("result-container")
+    .style.display =
+    "block";
+
+
+    document
+    .getElementById("barcode-display")
+    .innerText =
+    barcode;
+
 
     if(item){
 
         document
-            .getElementById("result-icon")
-            .innerText = "✅";
+        .getElementById("result-icon")
+        .innerText =
+        "✅";
+
 
         document
-            .getElementById("result-status-text")
-            .innerText =
-            source === "ai"
-            ? "تم العثور عليها بواسطة AI"
-            : "تم العثور على المادة";
+        .getElementById("result-status-text")
+        .innerText =
+        source === "ai"
+        ? "تم العثور عليها بواسطة AI"
+        : "تم العثور على المادة";
+
 
         document
-            .getElementById("item-name")
-            .innerText =
-            item.n || "مادة بدون اسم";
+        .getElementById("item-name")
+        .innerText =
+        item.n || "مادة بدون اسم";
+
 
         const price =
             Number(item.p);
 
+
         document
-            .getElementById("item-price")
-            .innerText =
-            Number.isNaN(price)
-            ? item.p
-            : price.toLocaleString("en-US");
+        .getElementById("item-price")
+        .innerText =
+        Number.isNaN(price)
+        ? item.p
+        : price.toLocaleString(
+            "en-US"
+        );
+
 
         saveRecent(
             barcode,
@@ -1707,26 +2215,31 @@ function showResult(barcode,source){
             item.p
         );
 
+
     }else{
 
         document
-            .getElementById("result-icon")
-            .innerText = "❌";
+        .getElementById("result-icon")
+        .innerText =
+        "❌";
+
 
         document
-            .getElementById("result-status-text")
-            .innerText =
-            "الباركود غير موجود";
+        .getElementById("result-status-text")
+        .innerText =
+        "الباركود غير موجود";
+
 
         document
-            .getElementById("item-name")
-            .innerText =
-            "المادة غير موجودة في الأسعار";
+        .getElementById("item-name")
+        .innerText =
+        "المادة غير موجودة في الأسعار";
+
 
         document
-            .getElementById("item-price")
-            .innerText =
-            "---";
+        .getElementById("item-price")
+        .innerText =
+        "---";
 
     }
 
@@ -1734,83 +2247,80 @@ function showResult(barcode,source){
 
 
 /* =========================================================
-   إظهار مساعدة AI بعد فشل القراءة
-========================================================= */
-
-function showAI(){
-
-    if(!scannerRunning){
-        return;
-    }
-
-    document
-        .getElementById("ai-box")
-        .style.display = "block";
-
-}
-
-
-/* =========================================================
-   إخفاء AI
-========================================================= */
-
-function hideAI(){
-
-    document
-        .getElementById("ai-box")
-        .style.display = "none";
-
-}
-
-
-/* =========================================================
-   تصوير إطار من الكاميرا
+   التقاط صورة الكاميرا
 ========================================================= */
 
 function captureCameraFrame(){
 
     const video =
-        document.getElementById("webcam-video");
+        document.getElementById(
+            "webcam-video"
+        );
+
 
     if(
         !video ||
         video.readyState < 2 ||
         !video.videoWidth
     ){
+
         throw new Error(
             "Camera frame unavailable"
         );
+
     }
 
+
     const canvas =
-        document.createElement("canvas");
+        document.createElement(
+            "canvas"
+        );
+
 
     const maxWidth = 1280;
+
 
     let width =
         video.videoWidth;
 
+
     let height =
         video.videoHeight;
+
 
     if(width > maxWidth){
 
         const ratio =
             maxWidth / width;
 
+
         width =
-            Math.round(width * ratio);
+            Math.round(
+                width * ratio
+            );
+
 
         height =
-            Math.round(height * ratio);
+            Math.round(
+                height * ratio
+            );
 
     }
 
-    canvas.width = width;
-    canvas.height = height;
+
+    canvas.width =
+        width;
+
+
+    canvas.height =
+        height;
+
 
     const ctx =
-        canvas.getContext("2d");
+        canvas.getContext(
+            "2d"
+        );
+
 
     ctx.drawImage(
         video,
@@ -1820,16 +2330,17 @@ function captureCameraFrame(){
         height
     );
 
+
     return canvas.toDataURL(
         "image/jpeg",
-        .78
+        .85
     );
 
 }
 
 
 /* =========================================================
-   إرسال الصورة إلى AI Worker
+   AI
 ========================================================= */
 
 async function scanWithAI(){
@@ -1838,20 +2349,43 @@ async function scanWithAI(){
         return;
     }
 
+
+    if(!scannerRunning){
+
+        showToast(
+            "افتح الكاميرا أولاً"
+        );
+
+        return;
+
+    }
+
+
     const button =
-        document.getElementById("ai-button");
+        document.getElementById(
+            "ai-button"
+        );
+
 
     aiBusy = true;
 
+
     button.disabled = true;
+
 
     button.innerText =
         "🤖 جاري تحليل الصورة...";
 
+
     try{
+
+        /*
+         ناخذ الصورة قبل أي إيقاف للكاميرا
+        */
 
         const image =
             captureCameraFrame();
+
 
         const response =
             await fetch(
@@ -1870,6 +2404,7 @@ async function scanWithAI(){
                 }
             );
 
+
         if(!response.ok){
 
             throw new Error(
@@ -1879,13 +2414,16 @@ async function scanWithAI(){
 
         }
 
+
         const data =
             await response.json();
+
 
         console.log(
             "AI response:",
             data
         );
+
 
         if(
             !data ||
@@ -1899,6 +2437,7 @@ async function scanWithAI(){
 
         }
 
+
         if(
             !data.found ||
             !data.barcode
@@ -1907,9 +2446,11 @@ async function scanWithAI(){
             button.innerText =
                 "🤖 لم أتمكن من قراءة الباركود";
 
+
             showToast(
                 "AI لم يستطع قراءة الرقم بوضوح"
             );
+
 
             setTimeout(function(){
 
@@ -1918,14 +2459,19 @@ async function scanWithAI(){
 
             },1800);
 
+
             return;
 
         }
 
+
         const barcode =
-            String(data.barcode)
-                .replace(/\D/g,"")
-                .trim();
+            String(
+                data.barcode
+            )
+            .replace(/\D/g,"")
+            .trim();
+
 
         if(
             barcode.length < 6 ||
@@ -1938,16 +2484,24 @@ async function scanWithAI(){
 
         }
 
+
         playBeep();
+
+
+        clearTimeout(aiTimer);
+
 
         stopCamera();
 
+
         hideAI();
+
 
         showResult(
             barcode,
             "ai"
         );
+
 
     }catch(error){
 
@@ -1956,28 +2510,21 @@ async function scanWithAI(){
             error
         );
 
+
         showToast(
             "تعذر الاتصال بـ AI"
         );
 
+
         button.innerText =
             "🤖 حاول مرة ثانية";
+
 
     }finally{
 
         aiBusy = false;
 
         button.disabled = false;
-
-        if(
-            button.innerText ===
-            "🤖 جاري تحليل الصورة..."
-        ){
-
-            button.innerText =
-                "🤖 محاولة باستخدام AI";
-
-        }
 
     }
 
@@ -1991,16 +2538,23 @@ async function scanWithAI(){
 function showManualSearch(){
 
     const box =
-        document.getElementById("manual-box");
+        document.getElementById(
+            "manual-box"
+        );
+
 
     const input =
         document.getElementById(
             "manual-barcode-input"
         );
 
-    box.style.display = "flex";
+
+    box.style.display =
+        "flex";
+
 
     input.focus();
+
 
     box.scrollIntoView({
         behavior:"smooth",
@@ -2013,18 +2567,24 @@ function showManualSearch(){
 function hideManualSearch(){
 
     const box =
-        document.getElementById("manual-box");
+        document.getElementById(
+            "manual-box"
+        );
+
 
     const input =
         document.getElementById(
             "manual-barcode-input"
         );
 
+
     input.value = "";
 
     input.blur();
 
-    box.style.display = "none";
+
+    box.style.display =
+        "none";
 
 }
 
@@ -2036,10 +2596,12 @@ function searchManualBarcode(){
             "manual-barcode-input"
         );
 
+
     const barcode =
         input.value
-            .replace(/\s+/g,"")
-            .trim();
+        .replace(/\s+/g,"")
+        .trim();
+
 
     if(!barcode){
 
@@ -2047,11 +2609,13 @@ function searchManualBarcode(){
             "أدخل رقم الباركود أولاً"
         );
 
+
         input.focus();
 
         return;
 
     }
+
 
     showResult(
         barcode,
@@ -2062,23 +2626,23 @@ function searchManualBarcode(){
 
 
 document
-    .getElementById(
-        "manual-barcode-input"
-    )
-    .addEventListener(
-        "keydown",
-        function(event){
+.getElementById(
+    "manual-barcode-input"
+)
+.addEventListener(
+    "keydown",
+    function(event){
 
-            if(event.key === "Enter"){
+        if(event.key === "Enter"){
 
-                event.preventDefault();
+            event.preventDefault();
 
-                searchManualBarcode();
-
-            }
+            searchManualBarcode();
 
         }
-    );
+
+    }
+);
 
 
 /* =========================================================
@@ -2089,37 +2653,59 @@ function resetScanner(){
 
     stopCamera();
 
-    document
-        .getElementById("result-container")
-        .style.display = "none";
+
+    clearTimeout(
+        aiTimer
+    );
+
 
     document
-        .getElementById("scanner-card")
-        .style.display = "block";
+    .getElementById("result-container")
+    .style.display =
+    "none";
+
 
     document
-        .getElementById("quick-actions")
-        .style.display = "flex";
+    .getElementById("scanner-card")
+    .style.display =
+    "block";
+
 
     document
-        .getElementById("recent-section")
-        .style.display = "block";
+    .getElementById("quick-actions")
+    .style.display =
+    "flex";
+
 
     document
-        .getElementById("start-screen")
-        .style.display = "flex";
+    .getElementById("recent-section")
+    .style.display =
+    "block";
+
 
     document
-        .getElementById("webcam-video")
-        .style.display = "none";
+    .getElementById("start-screen")
+    .style.display =
+    "flex";
+
 
     document
-        .getElementById("camera-overlay")
-        .style.display = "none";
+    .getElementById("webcam-video")
+    .style.display =
+    "none";
+
+
+    document
+    .getElementById("camera-overlay")
+    .style.display =
+    "none";
+
 
     hideManualSearch();
 
+
     hideAI();
+
 
     canScan = true;
 
@@ -2147,7 +2733,9 @@ function stopCamera(){
     try{
 
         if(codeReader){
+
             codeReader.reset();
+
         }
 
     }catch(error){
@@ -2156,75 +2744,66 @@ function stopCamera(){
 
     }
 
+
     const video =
-        document.getElementById("webcam-video");
+        document.getElementById(
+            "webcam-video"
+        );
+
 
     if(video.srcObject){
 
         video.srcObject
-            .getTracks()
-            .forEach(function(track){
+        .getTracks()
+        .forEach(function(track){
 
-                track.stop();
+            track.stop();
 
-            });
+        });
 
-        video.srcObject = null;
+
+        video.srcObject =
+            null;
 
     }
 
-    scannerRunning = false;
 
-    canScan = false;
+    scannerRunning =
+        false;
 
-    scanLocked = false;
 
-    videoTrack = null;
+    canScan =
+        false;
 
-    torchOn = false;
+
+    scanLocked =
+        false;
+
+
+    videoTrack =
+        null;
+
+
+    torchOn =
+        false;
+
 
     document
-        .getElementById("torch-btn")
-        .style.display = "none";
+    .getElementById("torch-btn")
+    .style.display =
+    "none";
+
 
     document
-        .getElementById("zoom-controls")
-        .classList
-        .remove("visible");
+    .getElementById("zoom-controls")
+    .classList
+    .remove("visible");
 
 }
 
 
 /* =========================================================
-   محاولة تلقائية لإظهار AI
-   بعد فترة إذا لم تتم القراءة
-========================================================= */
-
-let aiTimer = null;
-
-function startAIFallbackTimer(){
-
-    clearTimeout(aiTimer);
-
-    aiTimer =
-        setTimeout(function(){
-
-            if(
-                scannerRunning &&
-                canScan
-            ){
-
-                showAI();
-
-            }
-
-        },7000);
-
-}
-
-
-/* =========================================================
-   إعادة تحميل الأسعار
+   تحديث الأسعار
 ========================================================= */
 
 function refreshPrices(){
@@ -2232,6 +2811,7 @@ function refreshPrices(){
     showToast(
         "جاري تحديث الأسعار..."
     );
+
 
     loadPriceData();
 
@@ -2245,11 +2825,11 @@ function refreshPrices(){
 function focusScanner(){
 
     document
-        .getElementById("scanner-card")
-        .scrollIntoView({
-            behavior:"smooth",
-            block:"center"
-        });
+    .getElementById("scanner-card")
+    .scrollIntoView({
+        behavior:"smooth",
+        block:"center"
+    });
 
 }
 
@@ -2266,39 +2846,57 @@ function playBeep(){
             window.AudioContext ||
             window.webkitAudioContext;
 
+
         if(!AudioContext){
             return;
         }
 
+
         const audio =
             new AudioContext();
+
 
         const oscillator =
             audio.createOscillator();
 
+
         const gain =
             audio.createGain();
 
-        oscillator.type = "square";
+
+        oscillator.type =
+            "square";
+
 
         oscillator.frequency.value =
             2200;
 
-        gain.gain.value = .12;
+
+        gain.gain.value =
+            .12;
+
 
         gain.gain.exponentialRampToValueAtTime(
             .001,
-            audio.currentTime+.09
+            audio.currentTime + .09
         );
 
-        oscillator.connect(gain);
 
-        gain.connect(audio.destination);
+        oscillator.connect(
+            gain
+        );
+
+
+        gain.connect(
+            audio.destination
+        );
+
 
         oscillator.start();
 
+
         oscillator.stop(
-            audio.currentTime+.09
+            audio.currentTime + .09
         );
 
     }catch(error){}
@@ -2318,33 +2916,44 @@ function saveRecent(
 
     let recent =
         JSON.parse(
-            localStorage.getItem("a2z_recent") ||
-            "[]"
+            localStorage.getItem(
+                "a2z_recent"
+            ) || "[]"
         );
 
+
     recent =
-        recent.filter(function(item){
+        recent.filter(
+            function(item){
 
-            return item.barcode !== barcode;
+                return item.barcode !== barcode;
 
-        });
+            }
+        );
+
 
     recent.unshift({
 
         barcode:barcode,
+
         name:name,
+
         price:price,
+
         time:Date.now()
 
     });
 
+
     recent =
         recent.slice(0,5);
+
 
     localStorage.setItem(
         "a2z_recent",
         JSON.stringify(recent)
     );
+
 
     renderRecent();
 
@@ -2352,80 +2961,121 @@ function saveRecent(
 
 
 function loadRecent(){
+
     renderRecent();
+
 }
 
 
 function renderRecent(){
 
     const container =
-        document.getElementById("recent-list");
+        document.getElementById(
+            "recent-list"
+        );
+
 
     let recent =
         JSON.parse(
-            localStorage.getItem("a2z_recent") ||
-            "[]"
+            localStorage.getItem(
+                "a2z_recent"
+            ) || "[]"
         );
+
 
     if(!recent.length){
 
         container.innerHTML =
-            '<div class="empty-recent">لا توجد عمليات فحص بعد</div>';
+        '<div class="empty-recent">لا توجد عمليات فحص بعد</div>';
 
         return;
 
     }
 
-    container.innerHTML = "";
 
-    recent.forEach(function(item){
+    container.innerHTML =
+        "";
 
-        const row =
-            document.createElement("div");
 
-        row.className =
-            "recent-item";
+    recent.forEach(
+        function(item){
 
-        row.onclick = function(){
+            const row =
+                document.createElement(
+                    "div"
+                );
 
-            showResult(
-                item.barcode,
-                "recent"
+
+            row.className =
+                "recent-item";
+
+
+            row.onclick =
+                function(){
+
+                    showResult(
+                        item.barcode,
+                        "recent"
+                    );
+
+                };
+
+
+            const name =
+                document.createElement(
+                    "div"
+                );
+
+
+            name.className =
+                "recent-name";
+
+
+            name.innerText =
+                item.name;
+
+
+            const price =
+                document.createElement(
+                    "div"
+                );
+
+
+            price.className =
+                "recent-price";
+
+
+            const numeric =
+                Number(
+                    item.price
+                );
+
+
+            price.innerText =
+                Number.isNaN(numeric)
+                ? item.price
+                : numeric.toLocaleString(
+                    "en-US"
+                  ) +
+                  " د.ع";
+
+
+            row.appendChild(
+                name
             );
 
-        };
 
-        const name =
-            document.createElement("div");
+            row.appendChild(
+                price
+            );
 
-        name.className =
-            "recent-name";
 
-        name.innerText =
-            item.name;
+            container.appendChild(
+                row
+            );
 
-        const price =
-            document.createElement("div");
-
-        price.className =
-            "recent-price";
-
-        const numeric =
-            Number(item.price);
-
-        price.innerText =
-            Number.isNaN(numeric)
-            ? item.price
-            : numeric.toLocaleString("en-US") +
-              " د.ع";
-
-        row.appendChild(name);
-
-        row.appendChild(price);
-
-        container.appendChild(row);
-
-    });
+        }
+    );
 
 }
 
@@ -2436,7 +3086,9 @@ function clearRecent(){
         "a2z_recent"
     );
 
+
     renderRecent();
+
 
     showToast(
         "تم مسح سجل الفحص"
@@ -2451,25 +3103,44 @@ function clearRecent(){
 
 let toastTimer = null;
 
+
 function showToast(message){
 
     const toast =
-        document.getElementById("toast");
+        document.getElementById(
+            "toast"
+        );
 
-    toast.innerText = message;
 
-    toast.classList.add("show");
+    toast.innerText =
+        message;
 
-    clearTimeout(toastTimer);
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    clearTimeout(
+        toastTimer
+    );
+
 
     toastTimer =
-        setTimeout(function(){
+        setTimeout(
+            function(){
 
-            toast.classList.remove("show");
+                toast.classList.remove(
+                    "show"
+                );
 
-        },2300);
+            },
+            2300
+        );
 
 }
 
-</script></body>
+</script>
+
+</body>
 </html>
