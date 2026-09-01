@@ -1,7 +1,16 @@
-<!DOCTYPE html><html lang="ar" dir="rtl">
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>A2Z HYPERMARKET - فحص الأسعار</title><script src="https://unpkg.com/@zxing/library@latest"></script><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"><style>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<title>A2Z Cosmetic - فحص الأسعار</title>
+
+<script src="https://unpkg.com/@zxing/library@latest"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
 
 *{
     box-sizing:border-box;
@@ -39,22 +48,29 @@ body{
     position:fixed;
     inset:0;
     z-index:99999;
+
     background:
         radial-gradient(
             circle at 50% 42%,
-            rgba(0,122,255,.16),
-            transparent 30%
+            rgba(0,122,255,.20),
+            transparent 27%
         ),
         radial-gradient(
-            circle at 20% 80%,
-            rgba(0,190,255,.08),
-            transparent 28%
+            circle at 15% 85%,
+            rgba(0,200,255,.11),
+            transparent 25%
+        ),
+        radial-gradient(
+            circle at 90% 15%,
+            rgba(0,100,255,.10),
+            transparent 25%
         ),
         #020305;
 
     display:flex;
     align-items:center;
     justify-content:center;
+
     overflow:hidden;
 
     transition:
@@ -70,85 +86,127 @@ body{
     pointer-events:none;
 }
 
-/* الخلفية */
-
 .intro-glow{
     position:absolute;
-    width:420px;
-    height:420px;
+
+    width:430px;
+    height:430px;
+
     border-radius:50%;
-    background:rgba(0,122,255,.10);
-    filter:blur(90px);
-    animation:introGlow 4s ease-in-out infinite;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0,122,255,.22),
+            rgba(0,200,255,.06) 38%,
+            transparent 70%
+        );
+
+    filter:blur(35px);
+
+    animation:
+        introGlow
+        4s
+        ease-in-out
+        infinite;
 }
 
 @keyframes introGlow{
+
     0%,100%{
-        transform:scale(.8);
-        opacity:.5;
+        transform:scale(.75);
+        opacity:.45;
     }
+
     50%{
-        transform:scale(1.15);
+        transform:scale(1.2);
         opacity:1;
     }
+
 }
 
-/* دوائر الخلفية */
+/* دوائر الطاقة */
 
 .intro-ring{
     position:absolute;
-    width:300px;
-    height:300px;
-    border:1px solid rgba(0,170,255,.12);
+
+    width:270px;
+    height:270px;
+
+    border:
+        1px solid rgba(0,170,255,.13);
+
     border-radius:50%;
-    animation:ringPulse 5s linear infinite;
+
+    animation:
+        ringPulse
+        5s
+        linear
+        infinite;
 }
 
 .intro-ring:nth-child(2){
-    width:430px;
-    height:430px;
+    width:400px;
+    height:400px;
+
     animation-delay:1s;
 }
 
 .intro-ring:nth-child(3){
-    width:570px;
-    height:570px;
+    width:550px;
+    height:550px;
+
     animation-delay:2s;
 }
 
 @keyframes ringPulse{
-    from{
-        transform:scale(.65);
+
+    0%{
+        transform:scale(.55);
         opacity:0;
     }
 
     25%{
-        opacity:.8;
+        opacity:.7;
     }
 
-    to{
+    100%{
         transform:scale(1.15);
         opacity:0;
     }
+
 }
 
-/* نجوم */
+/* الجزيئات */
 
 .intro-particles{
     position:absolute;
     inset:0;
+
     pointer-events:none;
 }
 
 .particle{
     position:absolute;
+
     width:3px;
     height:3px;
+
     border-radius:50%;
+
     background:#fff;
-    box-shadow:0 0 8px #00aaff;
+
+    box-shadow:
+        0 0 8px #00aaff,
+        0 0 16px #007aff;
+
     opacity:.35;
-    animation:particleFloat 4s ease-in-out infinite;
+
+    animation:
+        particleFloat
+        4s
+        ease-in-out
+        infinite;
 }
 
 .p1{top:18%;left:18%;animation-delay:.2s}
@@ -159,27 +217,34 @@ body{
 .p6{top:86%;left:45%;animation-delay:2.7s}
 .p7{top:48%;left:7%;animation-delay:1.1s}
 .p8{top:43%;left:92%;animation-delay:2.3s}
+.p9{top:34%;left:30%;animation-delay:3s}
+.p10{top:60%;left:72%;animation-delay:1.5s}
 
 @keyframes particleFloat{
+
     0%,100%{
-        transform:translateY(0) scale(.7);
-        opacity:.2;
+        transform:translateY(0) scale(.6);
+        opacity:.15;
     }
 
     50%{
-        transform:translateY(-15px) scale(1.4);
+        transform:translateY(-18px) scale(1.5);
         opacity:1;
     }
+
 }
 
-/* المحتوى */
+/* محتوى البرزنتيشن */
 
 .intro-content{
     position:relative;
     z-index:5;
+
     width:100%;
     max-width:430px;
+
     padding:25px;
+
     text-align:center;
 }
 
@@ -188,58 +253,82 @@ body{
 .intro-logo-wrap{
     width:130px;
     height:130px;
-    margin:0 auto 25px;
+
+    margin:0 auto 24px;
 
     position:relative;
 
     opacity:0;
+
     transform:
-        translateY(40px)
-        scale(.45)
-        rotate(-12deg);
+        translateY(55px)
+        scale(.35)
+        rotate(-15deg);
 
     animation:
-        logoEntrance 1.25s
+        logoEntrance
+        1.35s
         cubic-bezier(.16,1,.3,1)
-        .25s forwards;
+        .2s
+        forwards;
 }
 
 .intro-logo-glow{
     position:absolute;
-    inset:-25px;
+
+    inset:-32px;
+
     border-radius:50%;
-    background:rgba(0,122,255,.16);
-    filter:blur(25px);
-    animation:logoGlow 2.5s ease-in-out infinite;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0,160,255,.28),
+            transparent 65%
+        );
+
+    filter:blur(18px);
+
+    animation:
+        logoGlow
+        2.5s
+        ease-in-out
+        infinite;
 }
 
 @keyframes logoGlow{
+
     0%,100%{
         transform:scale(.8);
-        opacity:.5;
+        opacity:.45;
     }
 
     50%{
         transform:scale(1.15);
         opacity:1;
     }
+
 }
 
 .intro-logo{
     position:relative;
+
     width:130px;
     height:130px;
+
     padding:12px;
 
     background:#fff;
+
     border-radius:38px;
 
-    border:1px solid rgba(0,174,255,.65);
+    border:
+        1px solid rgba(0,174,255,.75);
 
     box-shadow:
         0 0 0 1px rgba(0,122,255,.15),
-        0 15px 50px rgba(0,122,255,.28),
-        0 0 70px rgba(0,122,255,.18);
+        0 18px 55px rgba(0,122,255,.32),
+        0 0 80px rgba(0,122,255,.20);
 
     object-fit:contain;
 }
@@ -248,76 +337,112 @@ body{
 
     0%{
         opacity:0;
+
         transform:
-            translateY(40px)
-            scale(.45)
-            rotate(-12deg);
+            translateY(55px)
+            scale(.35)
+            rotate(-15deg);
     }
 
-    60%{
+    55%{
         opacity:1;
+
         transform:
-            translateY(-7px)
-            scale(1.07)
-            rotate(2deg);
+            translateY(-9px)
+            scale(1.08)
+            rotate(3deg);
     }
 
-    80%{
+    75%{
         transform:
-            translateY(2px)
-            scale(.98)
+            translateY(3px)
+            scale(.97)
             rotate(-1deg);
     }
 
     100%{
         opacity:1;
+
         transform:
             translateY(0)
             scale(1)
             rotate(0);
     }
+
 }
 
-/* الخط حول اللوغو */
+/* الحلقة */
 
 .logo-circle{
     position:absolute;
-    inset:-12px;
+
+    inset:-14px;
+
     border-radius:50%;
-    border:1px solid rgba(0,174,255,.25);
-    border-top-color:#00aaff;
-    animation:logoRotate 3s linear infinite;
+
+    border:
+        1px solid rgba(0,174,255,.22);
+
+    border-top-color:#00bfff;
+    border-right-color:#007aff;
+
+    animation:
+        logoRotate
+        3s
+        linear
+        infinite;
 }
 
 .logo-circle:after{
     content:"";
+
     position:absolute;
+
     width:8px;
     height:8px;
+
     border-radius:50%;
+
     background:#00bfff;
-    box-shadow:0 0 15px #00bfff;
-    top:12px;
+
+    box-shadow:
+        0 0 15px #00bfff,
+        0 0 25px #007aff;
+
+    top:10px;
     left:50%;
 }
 
 @keyframes logoRotate{
+
     to{
         transform:rotate(360deg);
     }
+
 }
 
-/* اسم A2Z */
+/* اسم البراند */
 
 .intro-brand{
     opacity:0;
-    transform:translateY(20px);
-    animation:textEntrance .8s ease 1.25s forwards;
+
+    transform:
+        translateY(25px)
+        scale(.95);
+
+    animation:
+        textEntrance
+        .8s
+        cubic-bezier(.16,1,.3,1)
+        1.25s
+        forwards;
 }
 
 .intro-brand-main{
-    font-size:2rem;
+    font-size:2.05rem;
+
     font-weight:900;
+
     letter-spacing:4px;
 
     background:
@@ -325,43 +450,54 @@ body{
             90deg,
             #fff,
             #00aaff,
+            #fff,
+            #00c8ff,
             #fff
         );
 
-    background-size:200% auto;
+    background-size:300% auto;
 
     -webkit-background-clip:text;
+
     -webkit-text-fill-color:transparent;
 
-    animation:brandShine 3s linear infinite;
+    animation:
+        brandShine
+        4s
+        linear
+        infinite;
 }
 
 @keyframes brandShine{
+
     to{
-        background-position:200% center;
+        background-position:300% center;
     }
+
 }
 
 .intro-brand-sub{
-    margin-top:1px;
-    color:#6f7b87;
-    font-size:.62rem;
-    font-weight:800;
-    letter-spacing:4px;
-}
+    margin-top:3px;
 
-@keyframes textEntrance{
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
+    color:#00aaff;
+
+    font-size:.66rem;
+
+    font-weight:900;
+
+    letter-spacing:5px;
+
+    text-shadow:
+        0 0 12px rgba(0,170,255,.35);
 }
 
 /* الخط */
 
 .intro-line{
     width:0;
+
     height:1px;
+
     margin:20px auto;
 
     background:
@@ -369,16 +505,28 @@ body{
             90deg,
             transparent,
             #00aaff,
+            #00d5ff,
+            #00aaff,
             transparent
         );
 
-    animation:lineEntrance 1s ease 1.65s forwards;
+    box-shadow:
+        0 0 12px rgba(0,170,255,.45);
+
+    animation:
+        lineEntrance
+        1s
+        ease
+        1.65s
+        forwards;
 }
 
 @keyframes lineEntrance{
+
     to{
-        width:170px;
+        width:180px;
     }
+
 }
 
 /* العنوان */
@@ -386,20 +534,29 @@ body{
 .intro-title{
     margin:0;
 
-    font-size:1.35rem;
+    font-size:1.4rem;
+
     font-weight:900;
 
     opacity:0;
-    transform:translateY(20px);
+
+    transform:
+        translateY(20px)
+        scale(.95);
 
     animation:
         textEntrance
-        .8s ease
-        1.8s forwards;
+        .8s
+        cubic-bezier(.16,1,.3,1)
+        1.8s
+        forwards;
 }
 
 .intro-title span{
     color:#00aaff;
+
+    text-shadow:
+        0 0 15px rgba(0,170,255,.25);
 }
 
 /* الوصف */
@@ -409,16 +566,32 @@ body{
 
     color:#737e89;
 
-    font-size:.66rem;
+    font-size:.67rem;
+
     font-weight:600;
 
     opacity:0;
+
     transform:translateY(15px);
 
     animation:
         textEntrance
-        .8s ease
-        2s forwards;
+        .8s
+        ease
+        2s
+        forwards;
+}
+
+@keyframes textEntrance{
+
+    to{
+        opacity:1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+
 }
 
 /* زر الدخول */
@@ -433,143 +606,336 @@ body{
     background:
         linear-gradient(
             135deg,
-            #007aff,
-            #00bfff
+            #006eff,
+            #00aaff,
+            #00c8ff
         );
+
+    background-size:200% 200%;
 
     border-radius:18px;
 
-    padding:13px 32px;
+    padding:13px 34px;
 
-    font-size:.72rem;
+    font-size:.73rem;
+
     font-weight:900;
 
     cursor:pointer;
 
     box-shadow:
-        0 10px 35px rgba(0,122,255,.3),
-        0 0 30px rgba(0,122,255,.12);
+        0 10px 35px rgba(0,122,255,.35),
+        0 0 35px rgba(0,122,255,.14);
 
     opacity:0;
+
     transform:
-        translateY(20px)
-        scale(.95);
+        translateY(22px)
+        scale(.9);
 
     animation:
         buttonEntrance
-        .8s cubic-bezier(.16,1,.3,1)
-        2.2s forwards;
+        .85s
+        cubic-bezier(.16,1,.3,1)
+        2.2s
+        forwards,
+        buttonGradient
+        5s
+        ease
+        3s
+        infinite;
 
     overflow:hidden;
+
+    transition:
+        transform .18s ease,
+        box-shadow .18s ease;
 }
 
 .enter-btn:before{
     content:"";
 
     position:absolute;
-    top:0;
-    left:-120%;
 
-    width:80%;
+    top:0;
+    left:-130%;
+
+    width:75%;
     height:100%;
 
     background:
         linear-gradient(
             90deg,
             transparent,
-            rgba(255,255,255,.35),
+            rgba(255,255,255,.4),
             transparent
         );
 
     transform:skewX(-20deg);
 
-    animation:buttonShine 2.5s ease-in-out 2.8s infinite;
+    animation:
+        buttonShine
+        2.8s
+        ease-in-out
+        2.8s
+        infinite;
+}
+
+@keyframes buttonGradient{
+
+    0%,100%{
+        background-position:0% 50%;
+    }
+
+    50%{
+        background-position:100% 50%;
+    }
+
 }
 
 @keyframes buttonShine{
+
     0%{
-        left:-120%;
+        left:-130%;
     }
 
     45%,100%{
         left:140%;
     }
+
 }
 
 @keyframes buttonEntrance{
+
     to{
         opacity:1;
+
         transform:
             translateY(0)
             scale(1);
     }
+
 }
 
 .enter-btn:active{
-    transform:scale(.94);
-}
 
-/* أسفل الشاشة */
+    transform:
+        translateY(3px)
+        scale(.94);
 
-.intro-footer{
-    margin-top:25px;
-
-    color:#3f4852;
-
-    font-size:.5rem;
-    font-weight:700;
-
-    opacity:0;
-
-    animation:
-        fadeIn
-        .8s ease
-        2.5s forwards;
-}
-
-@keyframes fadeIn{
-    to{
-        opacity:1;
-    }
+    box-shadow:
+        0 5px 15px rgba(0,122,255,.25);
 }
 
 /* =========================================================
-   الموقع
+   حقوق المصمم - تحت الزر
+========================================================= */
+
+.intro-credit{
+    position:relative;
+
+    display:flex;
+
+    align-items:center;
+    justify-content:center;
+
+    gap:7px;
+
+    margin-top:14px;
+
+    color:#68727d;
+
+    font-size:.62rem;
+
+    font-weight:800;
+
+    letter-spacing:.6px;
+
+    direction:ltr;
+
+    opacity:0;
+
+    transform:
+        translateY(10px)
+        scale(.94);
+
+    animation:
+        creditEntrance
+        .8s
+        cubic-bezier(.16,1,.3,1)
+        2.5s
+        forwards;
+}
+
+/* خط ضوء خفيف */
+
+.intro-credit:before{
+    content:"";
+
+    position:absolute;
+
+    width:90px;
+
+    height:1px;
+
+    top:-7px;
+
+    left:50%;
+
+    transform:translateX(-50%);
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(0,170,255,.45),
+            transparent
+        );
+
+    box-shadow:
+        0 0 8px rgba(0,170,255,.25);
+}
+
+/* علامة الضوء */
+
+.credit-spark{
+    display:inline-flex;
+
+    align-items:center;
+    justify-content:center;
+
+    color:#fff;
+
+    font-size:.82rem;
+
+    line-height:1;
+
+    text-shadow:
+        0 0 4px #fff,
+        0 0 9px #00c8ff,
+        0 0 16px #007aff,
+        0 0 24px rgba(0,122,255,.7);
+
+    animation:
+        creditSpark
+        1.8s
+        ease-in-out
+        infinite;
+}
+
+@keyframes creditSpark{
+
+    0%,100%{
+        transform:
+            scale(.8)
+            rotate(0deg);
+
+        opacity:.65;
+    }
+
+    50%{
+        transform:
+            scale(1.25)
+            rotate(180deg);
+
+        opacity:1;
+    }
+
+}
+
+@keyframes creditEntrance{
+
+    0%{
+        opacity:0;
+
+        transform:
+            translateY(10px)
+            scale(.94);
+
+        filter:blur(4px);
+    }
+
+    70%{
+        opacity:1;
+
+        transform:
+            translateY(-1px)
+            scale(1.02);
+
+        filter:blur(0);
+    }
+
+    100%{
+        opacity:1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+        filter:blur(0);
+    }
+
+}
+
+/* =========================================================
+   APP
 ========================================================= */
 
 .app{
     width:100%;
+
     max-width:430px;
+
     min-height:100vh;
+
     margin:auto;
+
     padding:18px 15px 30px;
+
     position:relative;
+
     z-index:2;
 }
 
 body:before{
     content:"";
+
     position:fixed;
+
     width:300px;
     height:300px;
+
     top:-160px;
     right:-120px;
-    background:rgba(0,122,255,.13);
+
+    background:
+        rgba(0,122,255,.13);
+
     filter:blur(80px);
+
     border-radius:50%;
+
     pointer-events:none;
 }
 
 body:after{
     content:"";
+
     position:fixed;
+
     width:250px;
     height:250px;
+
     bottom:-150px;
     left:-100px;
-    background:rgba(0,180,255,.08);
+
+    background:
+        rgba(0,180,255,.08);
+
     filter:blur(80px);
+
     border-radius:50%;
+
     pointer-events:none;
 }
 
@@ -577,30 +943,57 @@ body:after{
 
 .header{
     display:flex;
+
     align-items:center;
+
     justify-content:space-between;
+
     margin-bottom:20px;
 }
 
 .brand{
     display:flex;
+
     align-items:center;
+
     gap:10px;
 }
 
 .logo{
     width:47px;
     height:47px;
+
     background:#fff;
+
     border-radius:15px;
+
     padding:5px;
-    border:1px solid rgba(0,122,255,.5);
-    box-shadow:0 0 22px rgba(0,122,255,.2);
+
+    border:
+        1px solid rgba(0,122,255,.5);
+
+    box-shadow:
+        0 0 22px rgba(0,122,255,.2);
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.logo:active{
+
+    transform:
+        scale(.92)
+        rotate(-3deg);
+
+    box-shadow:
+        0 0 30px rgba(0,122,255,.4);
 }
 
 .logo img{
     width:100%;
     height:100%;
+
     object-fit:contain;
 }
 
@@ -610,66 +1003,101 @@ body:after{
 }
 
 .brand-sub{
-    color:#68727d;
+    color:#00aaff;
+
     font-size:.58rem;
-    font-weight:800;
+
+    font-weight:900;
+
     letter-spacing:1.5px;
 }
 
 .status{
     display:flex;
+
     align-items:center;
+
     gap:6px;
+
     padding:7px 10px;
+
     border-radius:30px;
+
     background:#0c1116;
-    border:1px solid rgba(255,255,255,.06);
+
+    border:
+        1px solid rgba(255,255,255,.06);
+
     color:#9099a3;
+
     font-size:.58rem;
+
     font-weight:700;
 }
 
 .status-dot{
     width:7px;
     height:7px;
+
     border-radius:50%;
+
     background:#ffc107;
-    box-shadow:0 0 8px #ffc107;
+
+    box-shadow:
+        0 0 8px #ffc107;
 }
 
 .status.online .status-dot{
     background:#00e676;
-    box-shadow:0 0 8px #00e676;
+
+    box-shadow:
+        0 0 8px #00e676;
 }
 
 .status.error .status-dot{
     background:#ff4545;
-    box-shadow:0 0 8px #ff4545;
+
+    box-shadow:
+        0 0 8px #ff4545;
 }
 
 /* HERO */
 
 .hero{
     text-align:center;
+
     margin:5px 0 18px;
 }
 
 .hero h1{
     margin:0;
+
     font-size:1.5rem;
+
     font-weight:900;
 }
 
 .hero h1 span{
-    background:linear-gradient(90deg,#fff,#00aaff);
+    background:
+        linear-gradient(
+            90deg,
+            #fff,
+            #00aaff,
+            #00c8ff
+        );
+
     -webkit-background-clip:text;
+
     -webkit-text-fill-color:transparent;
 }
 
 .hero p{
     margin:5px 0 0;
+
     color:#717b86;
+
     font-size:.68rem;
+
     font-weight:600;
 }
 
@@ -678,203 +1106,383 @@ body:after{
 .scanner-card{
     width:100%;
     height:275px;
+
     position:relative;
+
     overflow:hidden;
+
     border-radius:27px;
+
     background:#080b0f;
-    border:1px solid rgba(0,122,255,.25);
-    box-shadow:0 20px 50px rgba(0,0,0,.65);
+
+    border:
+        1px solid rgba(0,122,255,.25);
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.65);
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease;
+}
+
+.scanner-card:active{
+    box-shadow:
+        0 15px 35px rgba(0,0,0,.55),
+        0 0 25px rgba(0,122,255,.08);
 }
 
 #webcam-video{
     width:100%;
     height:100%;
+
     object-fit:cover;
+
     display:none;
+
     background:#000;
 }
 
 .camera-overlay{
     position:absolute;
+
     inset:0;
+
     display:none;
+
     pointer-events:none;
 }
 
 .camera-overlay:after{
     content:"";
+
     position:absolute;
+
     inset:0;
-    background:linear-gradient(
-        to bottom,
-        rgba(0,0,0,.2),
-        transparent 30%,
-        transparent 70%,
-        rgba(0,0,0,.3)
-    );
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(0,0,0,.2),
+            transparent 30%,
+            transparent 70%,
+            rgba(0,0,0,.3)
+        );
 }
 
 .scan-area{
     position:absolute;
+
     z-index:2;
+
     width:78%;
     height:105px;
+
     top:50%;
     left:11%;
+
     transform:translateY(-50%);
 }
 
 .corner{
     position:absolute;
+
     width:27px;
     height:27px;
+
     border-color:#00aaff;
-    filter:drop-shadow(0 0 5px #00aaff);
+
+    filter:
+        drop-shadow(0 0 5px #00aaff);
 }
 
 .tl{
     top:0;
     left:0;
+
     border-top:3px solid;
     border-left:3px solid;
+
     border-radius:8px 0 0 0;
 }
 
 .tr{
     top:0;
     right:0;
+
     border-top:3px solid;
     border-right:3px solid;
+
     border-radius:0 8px 0 0;
 }
 
 .bl{
     bottom:0;
     left:0;
+
     border-bottom:3px solid;
     border-left:3px solid;
+
     border-radius:0 0 0 8px;
 }
 
 .br{
     bottom:0;
     right:0;
+
     border-bottom:3px solid;
     border-right:3px solid;
+
     border-radius:0 0 8px 0;
 }
 
 .laser{
     position:absolute;
+
     width:92%;
     height:2px;
+
     left:4%;
     top:5%;
+
     background:#00baff;
-    box-shadow:0 0 8px #00aaff,0 0 20px #00aaff;
-    animation:laser 2s ease-in-out infinite;
+
+    box-shadow:
+        0 0 8px #00aaff,
+        0 0 20px #00aaff;
+
+    animation:
+        laser
+        2s
+        ease-in-out
+        infinite;
 }
 
 @keyframes laser{
-    0%,100%{top:6%}
-    50%{top:92%}
+
+    0%,100%{
+        top:6%;
+    }
+
+    50%{
+        top:92%;
+    }
+
 }
 
 .scan-label{
     position:absolute;
+
     top:116px;
+
     width:100%;
+
     text-align:center;
+
     font-size:.63rem;
+
     font-weight:700;
+
     color:#fff;
-    text-shadow:0 1px 5px #000;
+
+    text-shadow:
+        0 1px 5px #000;
 }
 
-/* START */
+/* START SCREEN */
 
 .start-screen{
     position:absolute;
+
     inset:0;
+
     display:flex;
+
     align-items:center;
+
     justify-content:center;
+
     flex-direction:column;
+
     padding:20px;
 }
 
 .camera-icon{
     width:62px;
     height:62px;
+
     border-radius:21px;
+
     display:flex;
+
     align-items:center;
+
     justify-content:center;
-    background:rgba(0,122,255,.1);
-    border:1px solid rgba(0,122,255,.25);
+
+    background:
+        rgba(0,122,255,.1);
+
+    border:
+        1px solid rgba(0,122,255,.25);
+
     font-size:1.8rem;
+
     margin-bottom:13px;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease;
+}
+
+.start-screen:active .camera-icon{
+
+    transform:
+        scale(.9)
+        rotate(-5deg);
+
+    box-shadow:
+        0 0 25px rgba(0,122,255,.2);
 }
 
 .start-title{
     font-size:.9rem;
+
     font-weight:900;
 }
 
 .start-desc{
     margin:4px 0 15px;
+
     color:#717b86;
+
     font-size:.65rem;
+
     text-align:center;
+}
+
+/* BUTTON POP SYSTEM */
+
+button{
+    -webkit-user-select:none;
+
+    user-select:none;
+
+    touch-action:manipulation;
 }
 
 .primary-btn,
 .reset-btn{
     border:0;
+
     color:#fff;
-    background:linear-gradient(135deg,#007aff,#00bfff);
+
+    background:
+        linear-gradient(
+            135deg,
+            #007aff,
+            #00bfff
+        );
+
     border-radius:50px;
+
     padding:11px 23px;
+
     font-size:.72rem;
+
     font-weight:900;
+
     cursor:pointer;
-    box-shadow:0 8px 25px rgba(0,122,255,.25);
+
+    box-shadow:
+        0 8px 25px rgba(0,122,255,.25);
+
+    transition:
+        transform .16s cubic-bezier(.2,.8,.2,1),
+        box-shadow .16s ease,
+        filter .16s ease;
+}
+
+.primary-btn:hover,
+.reset-btn:hover{
+
+    filter:brightness(1.08);
+
+    box-shadow:
+        0 10px 30px rgba(0,122,255,.35);
 }
 
 .primary-btn:active,
 .reset-btn:active{
-    transform:scale(.96);
+
+    transform:
+        scale(.92)
+        translateY(2px);
+
+    box-shadow:
+        0 3px 10px rgba(0,122,255,.2);
 }
 
 /* CAMERA BUTTONS */
 
 #torch-btn{
     display:none;
+
     position:absolute;
+
     z-index:20;
+
     top:12px;
     left:12px;
-    border:1px solid rgba(255,255,255,.14);
-    background:rgba(0,0,0,.58);
+
+    border:
+        1px solid rgba(255,255,255,.14);
+
+    background:
+        rgba(0,0,0,.58);
+
     color:#fff;
+
     border-radius:30px;
+
     padding:7px 12px;
+
     font-size:.6rem;
+
     font-weight:800;
+
+    transition:
+        transform .16s ease,
+        background .16s ease;
+}
+
+#torch-btn:active{
+    transform:scale(.9);
 }
 
 .zoom-controls{
     display:none;
+
     position:absolute;
+
     z-index:20;
+
     top:12px;
     right:12px;
+
     align-items:center;
+
     gap:3px;
+
     padding:4px;
-    background:rgba(0,0,0,.58);
-    border:1px solid rgba(255,255,255,.12);
+
+    background:
+        rgba(0,0,0,.58);
+
+    border:
+        1px solid rgba(255,255,255,.12);
+
     border-radius:30px;
+
     backdrop-filter:blur(10px);
 }
 
@@ -884,56 +1492,177 @@ body:after{
 
 .zoom-btn{
     min-width:38px;
+
     height:29px;
+
     border:0;
+
     background:transparent;
+
     color:#adb6c0;
+
     border-radius:20px;
+
     font-size:.58rem;
+
     font-weight:900;
+
+    transition:
+        transform .15s ease,
+        background .15s ease,
+        color .15s ease;
+}
+
+.zoom-btn:active{
+    transform:scale(.82);
 }
 
 .zoom-btn.active{
     background:#007aff;
+
     color:#fff;
+
+    box-shadow:
+        0 0 12px rgba(0,122,255,.35);
 }
 
-/* ACTIONS */
+/* QUICK ACTIONS */
 
 .quick-actions{
     display:flex;
+
     gap:7px;
+
     margin-top:10px;
 }
 
 .quick-btn{
     flex:1;
-    border:1px solid rgba(255,255,255,.05);
-    background:#090c10;
+
+    border:
+        1px solid rgba(255,255,255,.05);
+
+    background:
+        linear-gradient(
+            145deg,
+            #0b0f14,
+            #080b0f
+        );
+
     color:#808a95;
+
     border-radius:14px;
+
     padding:8px 4px;
+
     font-size:.58rem;
+
     font-weight:700;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 5px 15px rgba(0,0,0,.2);
+
+    transition:
+        transform .18s cubic-bezier(.2,.8,.2,1),
+        background .18s ease,
+        border-color .18s ease,
+        color .18s ease,
+        box-shadow .18s ease;
 }
 
 .quick-btn span{
     display:block;
+
     font-size:.9rem;
+
     margin-bottom:2px;
+
+    transition:
+        transform .18s ease;
+}
+
+.quick-btn:hover{
+
+    color:#b9c3cd;
+
+    border-color:
+        rgba(0,122,255,.2);
+
+    box-shadow:
+        0 8px 20px rgba(0,0,0,.3);
+}
+
+.quick-btn:active{
+
+    transform:
+        translateY(3px)
+        scale(.91);
+
+    background:
+        #101821;
+
+    color:#00aaff;
+
+    border-color:
+        rgba(0,122,255,.4);
+
+    box-shadow:
+        0 2px 7px rgba(0,0,0,.35);
+}
+
+.quick-btn:active span{
+
+    transform:
+        scale(1.25)
+        translateY(-2px);
 }
 
 /* MANUAL */
 
 .search-box{
     display:none;
+
     align-items:center;
+
     gap:5px;
+
     margin-top:9px;
+
     padding:5px 6px 5px 9px;
+
     background:#0c0f13;
-    border:1px solid rgba(255,255,255,.06);
+
+    border:
+        1px solid rgba(255,255,255,.06);
+
     border-radius:17px;
+
+    animation:
+        popIn
+        .3s
+        cubic-bezier(.16,1,.3,1);
+}
+
+@keyframes popIn{
+
+    from{
+        opacity:0;
+
+        transform:
+            translateY(-8px)
+            scale(.94);
+    }
+
+    to{
+        opacity:1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+
 }
 
 .search-icon{
@@ -942,113 +1671,228 @@ body:after{
 
 .manual-input{
     flex:1;
+
     min-width:0;
+
     border:0;
+
     outline:none;
+
     background:transparent;
+
     color:#fff;
+
     direction:ltr;
+
     text-align:left;
+
     font-size:.7rem;
+
     padding:8px 3px;
 }
 
 .search-btn{
     border:0;
+
     background:#111820;
+
     color:#00aaff;
+
     border-radius:12px;
+
     padding:8px 13px;
+
     font-size:.64rem;
+
     font-weight:900;
+
+    cursor:pointer;
+
+    transition:
+        transform .16s ease,
+        background .16s ease;
+}
+
+.search-btn:active{
+
+    transform:scale(.88);
+
+    background:#007aff;
+
+    color:#fff;
 }
 
 /* RESULT */
 
 .result{
     display:none;
-    animation:resultIn .35s ease;
+
+    animation:
+        resultIn
+        .4s
+        cubic-bezier(.16,1,.3,1);
 }
 
 @keyframes resultIn{
+
     from{
         opacity:0;
-        transform:translateY(12px);
+
+        transform:
+            translateY(15px)
+            scale(.96);
     }
+
     to{
         opacity:1;
-        transform:none;
+
+        transform:
+            translateY(0)
+            scale(1);
     }
+
 }
 
 .result-card{
     margin-top:10px;
+
     padding:20px 16px 16px;
+
     text-align:center;
-    background:#0c1015;
-    border:1px solid rgba(0,122,255,.2);
+
+    background:
+        linear-gradient(
+            145deg,
+            #0e1319,
+            #0a0d11
+        );
+
+    border:
+        1px solid rgba(0,122,255,.2);
+
     border-radius:25px;
-    box-shadow:0 20px 50px rgba(0,0,0,.55);
+
+    box-shadow:
+        0 20px 50px rgba(0,0,0,.55);
 }
 
 .result-status{
     display:inline-flex;
+
     align-items:center;
+
     gap:5px;
+
     padding:5px 10px;
+
     border-radius:30px;
-    background:rgba(0,122,255,.08);
-    border:1px solid rgba(0,122,255,.15);
+
+    background:
+        rgba(0,122,255,.08);
+
+    border:
+        1px solid rgba(0,122,255,.15);
+
     color:#00aaff;
+
     font-size:.58rem;
+
     font-weight:800;
 }
 
 .result-icon{
     font-size:2rem;
+
     margin:8px 0 3px;
+
+    animation:
+        resultIconPop
+        .5s
+        cubic-bezier(.16,1,.3,1);
+}
+
+@keyframes resultIconPop{
+
+    0%{
+        transform:
+            scale(.3)
+            rotate(-15deg);
+
+        opacity:0;
+    }
+
+    70%{
+        transform:
+            scale(1.2)
+            rotate(4deg);
+    }
+
+    100%{
+        transform:
+            scale(1)
+            rotate(0);
+
+        opacity:1;
+    }
+
 }
 
 .item-name{
     font-size:1.05rem;
+
     font-weight:900;
+
     line-height:1.45;
+
     margin-bottom:14px;
 }
 
 .price-box{
     background:#070a0e;
+
     border-radius:18px;
+
     padding:12px;
-    border:1px solid rgba(0,122,255,.15);
+
+    border:
+        1px solid rgba(0,122,255,.15);
 }
 
 .price-label{
     color:#68727e;
+
     font-size:.6rem;
 }
 
 .price{
     color:#00aaff;
+
     font-size:2.25rem;
+
     font-weight:900;
 }
 
 .currency{
     color:#6d7783;
+
     font-size:.65rem;
 }
 
 .barcode-display{
     margin-top:9px;
+
     color:#59636e;
+
     font-size:.57rem;
+
     direction:ltr;
 }
 
 .reset-btn{
     width:100%;
+
     margin-top:11px;
+
     border-radius:15px;
 }
 
@@ -1060,56 +1904,131 @@ body:after{
 
 .section-head{
     display:flex;
+
     justify-content:space-between;
+
     align-items:center;
+
     margin-bottom:7px;
 }
 
 .section-title{
     font-size:.7rem;
+
     font-weight:800;
 }
 
 .clear-recent{
     color:#4e5863;
+
     font-size:.57rem;
+
+    cursor:pointer;
+
+    padding:5px 8px;
+
+    border-radius:8px;
+
+    transition:
+        color .15s ease,
+        background .15s ease,
+        transform .15s ease;
+}
+
+.clear-recent:hover{
+
+    color:#ff5c5c;
+
+    background:
+        rgba(255,70,70,.06);
+}
+
+.clear-recent:active{
+    transform:scale(.9);
 }
 
 .recent-list{
     display:flex;
+
     flex-direction:column;
+
     gap:6px;
 }
 
 .recent-item{
     display:flex;
+
     align-items:center;
+
     justify-content:space-between;
+
     padding:8px 10px;
+
     background:#090c10;
-    border:1px solid rgba(255,255,255,.035);
+
+    border:
+        1px solid rgba(255,255,255,.035);
+
     border-radius:13px;
+
+    cursor:pointer;
+
+    transition:
+        transform .18s ease,
+        background .18s ease,
+        border-color .18s ease;
+}
+
+.recent-item:hover{
+
+    background:#0d1218;
+
+    border-color:
+        rgba(0,122,255,.12);
+}
+
+.recent-item:active{
+
+    transform:
+        scale(.97)
+        translateY(2px);
+
+    background:
+        #101720;
+
+    border-color:
+        rgba(0,122,255,.25);
 }
 
 .recent-name{
     max-width:65%;
+
     overflow:hidden;
+
     white-space:nowrap;
+
     text-overflow:ellipsis;
+
     font-size:.61rem;
+
     font-weight:700;
 }
 
 .recent-price{
     color:#00aaff;
+
     font-size:.61rem;
+
     font-weight:900;
 }
 
 .empty-recent{
     text-align:center;
+
     color:#4c555f;
+
     font-size:.58rem;
+
     padding:10px;
 }
 
@@ -1117,27 +2036,56 @@ body:after{
 
 .toast{
     position:fixed;
+
     z-index:1000;
+
     left:50%;
+
     bottom:22px;
-    transform:translate(-50%,20px);
+
+    transform:
+        translate(-50%,20px)
+        scale(.9);
+
     opacity:0;
+
     pointer-events:none;
+
     background:#11161c;
-    border:1px solid rgba(255,255,255,.08);
+
+    border:
+        1px solid rgba(255,255,255,.08);
+
     border-radius:14px;
+
     padding:10px 15px;
+
     color:#fff;
+
     font-size:.62rem;
+
     font-weight:700;
-    transition:.3s;
+
+    transition:
+        opacity .3s ease,
+        transform .3s cubic-bezier(.16,1,.3,1);
+
     white-space:nowrap;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.4);
 }
 
 .toast.show{
+
     opacity:1;
-    transform:translate(-50%,0);
+
+    transform:
+        translate(-50%,0)
+        scale(1);
 }
+
+/* MEDIA */
 
 @media(max-height:700px){
 
@@ -1156,6 +2104,7 @@ body:after{
     .intro-logo-wrap{
         width:105px;
         height:105px;
+
         margin-bottom:18px;
     }
 
@@ -1167,133 +2116,189 @@ body:after{
     .intro-title{
         font-size:1.15rem;
     }
+
+    .intro-brand-main{
+        font-size:1.8rem;
+    }
+
+    .intro-credit{
+        font-size:.58rem;
+    }
+
 }
 
-</style></head><body><!-- =========================================================
-     PRESENTATION / شاشة الدخول
-========================================================= --><div class="intro" id="intro"><div class="intro-glow"></div>
+</style>
+</head>
 
-<div class="intro-ring"></div>
-<div class="intro-ring"></div>
-<div class="intro-ring"></div>
+<body>
 
-<div class="intro-particles">
-    <span class="particle p1"></span>
-    <span class="particle p2"></span>
-    <span class="particle p3"></span>
-    <span class="particle p4"></span>
-    <span class="particle p5"></span>
-    <span class="particle p6"></span>
-    <span class="particle p7"></span>
-    <span class="particle p8"></span>
+<!-- =========================================================
+     PRESENTATION
+========================================================= -->
+
+<div class="intro" id="intro">
+
+    <div class="intro-glow"></div>
+
+    <div class="intro-ring"></div>
+    <div class="intro-ring"></div>
+    <div class="intro-ring"></div>
+
+    <div class="intro-particles">
+
+        <span class="particle p1"></span>
+        <span class="particle p2"></span>
+        <span class="particle p3"></span>
+        <span class="particle p4"></span>
+        <span class="particle p5"></span>
+        <span class="particle p6"></span>
+        <span class="particle p7"></span>
+        <span class="particle p8"></span>
+        <span class="particle p9"></span>
+        <span class="particle p10"></span>
+
+    </div>
+
+    <div class="intro-content">
+
+        <div class="intro-logo-wrap">
+
+            <div class="intro-logo-glow"></div>
+
+            <div class="logo-circle"></div>
+
+            <img
+                class="intro-logo"
+                src="https://lh3.googleusercontent.com/d/109H2w4zxFrJzi5EgQse4u1Ka6KoZyupo"
+                alt="A2Z Cosmetic"
+            >
+
+        </div>
+
+        <div class="intro-brand">
+
+            <div class="intro-brand-main">
+                A2Z
+            </div>
+
+            <div class="intro-brand-sub">
+                COSMETIC
+            </div>
+
+        </div>
+
+        <div class="intro-line"></div>
+
+        <h1 class="intro-title">
+            فحص الأسعار <span>بسرعة</span>
+        </h1>
+
+        <p class="intro-desc">
+            نظام فحص الأسعار الخاص بـ A2Z Cosmetic
+        </p>
+
+        <button
+            class="enter-btn"
+            id="enter-btn"
+            type="button"
+        >
+            دخول إلى الموقع
+        </button>
+
+        <!-- الحقوق تحت الزر وخارجَه -->
+
+        <div class="intro-credit">
+
+            <span class="credit-spark">
+                ✦
+            </span>
+
+            <span>
+                © Ahmed J Alsafe
+            </span>
+
+        </div>
+
+    </div>
+
 </div>
 
-<div class="intro-content">
 
-    <div class="intro-logo-wrap">
+<!-- =========================================================
+     APP
+========================================================= -->
 
-        <div class="intro-logo-glow"></div>
+<div class="app">
 
-        <div class="logo-circle"></div>
+<header class="header">
 
-        <img
-            class="intro-logo"
-            src="https://lh3.googleusercontent.com/d/109H2w4zxFrJzi5EgQse4u1Ka6KoZyupo"
-            alt="A2Z"
-        >
+    <div class="brand">
+
+        <div class="logo">
+
+            <img
+                src="https://lh3.googleusercontent.com/d/109H2w4zxFrJzi5EgQse4u1Ka6KoZyupo"
+                alt="A2Z Cosmetic"
+            >
+
+        </div>
+
+        <div>
+
+            <div class="brand-name">
+                A2Z
+            </div>
+
+            <div class="brand-sub">
+                COSMETIC
+            </div>
+
+        </div>
 
     </div>
 
-    <div class="intro-brand">
+    <div class="status" id="system-status">
 
-        <div class="intro-brand-main">
-            A2Z
-        </div>
+        <span class="status-dot"></span>
 
-        <div class="intro-brand-sub">
-            HYPERMARKET
-        </div>
+        <span id="status-text">
+            جاري الاتصال
+        </span>
 
     </div>
 
-    <div class="intro-line"></div>
+</header>
 
-    <h1 class="intro-title">
-        فحص الأسعار <span>بسرعة</span>
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <h1>
+        <span>خاص الى محمد</span>
     </h1>
 
-    <p class="intro-desc">
-        نظام فحص الأسعار الخاص بـ الكوزمتك
+    <p>
+        امسح الباركود لمعرفة السعر
     </p>
 
-    <button
-        class="enter-btn"
-        id="enter-btn"
-        type="button"
-    >
-        دخول إلى الموقع
-    </button>
+</section>
 
-    <div class="intro-footer">
-        ahmed j • alsafe
-    </div>
 
-</div>
+<!-- SCANNER -->
 
-</div><!-- =========================================================
-     APP
-========================================================= --><div class="app"><header class="header"><div class="brand">
-
-    <div class="logo">
-
-        <img
-            src="https://lh3.googleusercontent.com/d/109H2w4zxFrJzi5EgQse4u1Ka6KoZyupo"
-            alt="A2Z"
-        >
-
-    </div>
-
-    <div>
-
-        <div class="brand-name">
-            A2Z
-        </div>
-
-        <div class="brand-sub">
-            HYPERMARKET
-        </div>
-
-    </div>
-
-</div>
-
-<div class="status" id="system-status">
-
-    <span class="status-dot"></span>
-
-    <span id="status-text">
-        جاري الاتصال
-    </span>
-
-</div>
-
-</header><section class="hero"><h1>
-    <span>خاص الى محمد</span>
-</h1>
-
-<p>
-    امسح الباركود لمعرفة السعر
-</p>
-
-</section><!-- SCANNER --><section
+<section
     class="scanner-card"
     id="scanner-card"
-><button
+>
+
+<button
     id="torch-btn"
     onclick="toggleTorch()"
 >
     ⚡ الفلاش
 </button>
+
 
 <div
     class="zoom-controls"
@@ -1387,16 +2392,24 @@ body:after{
 
 </div>
 
-</section><!-- QUICK ACTIONS --><div
+</section>
+
+
+<!-- QUICK ACTIONS -->
+
+<div
     class="quick-actions"
     id="quick-actions"
-><button
+>
+
+<button
     class="quick-btn"
     onclick="initScanner()"
 >
     <span>📷</span>
     فتح الكاميرا
 </button>
+
 
 <button
     class="quick-btn"
@@ -1406,6 +2419,7 @@ body:after{
     تحديث الأسعار
 </button>
 
+
 <button
     class="quick-btn"
     onclick="showManualSearch()"
@@ -1414,36 +2428,50 @@ body:after{
     بحث يدوي
 </button>
 
-</div><!-- MANUAL SEARCH --><div
-    class="search-box"
-    id="manual-box"
-><div class="search-icon">
-    🔎
 </div>
 
-<input
-    id="manual-barcode-input"
-    class="manual-input"
-    type="text"
-    inputmode="numeric"
-    autocomplete="off"
-    autocorrect="off"
-    autocapitalize="off"
-    spellcheck="false"
-    placeholder="أدخل رقم الباركود..."
+
+<!-- MANUAL SEARCH -->
+
+<div
+    class="search-box"
+    id="manual-box"
 >
 
-<button
-    class="search-btn"
-    onclick="searchManualBarcode()"
->
-    بحث
-</button>
+    <div class="search-icon">
+        🔎
+    </div>
 
-</div><!-- RESULT --><section
+    <input
+        id="manual-barcode-input"
+        class="manual-input"
+        type="text"
+        inputmode="numeric"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false"
+        placeholder="أدخل رقم الباركود..."
+    >
+
+    <button
+        class="search-btn"
+        onclick="searchManualBarcode()"
+    >
+        بحث
+    </button>
+
+</div>
+
+
+<!-- RESULT -->
+
+<section
     class="result"
     id="result-container"
-><div class="result-card">
+>
+
+<div class="result-card">
 
     <div class="result-status">
 
@@ -1476,9 +2504,11 @@ body:after{
         </div>
 
         <div class="price">
+
             <span id="item-price">
                 ---
             </span>
+
         </div>
 
         <div class="currency">
@@ -1503,10 +2533,17 @@ body:after{
 
 </div>
 
-</section><!-- RECENT --><section
+</section>
+
+
+<!-- RECENT -->
+
+<section
     class="recent-section"
     id="recent-section"
-><div class="section-head">
+>
+
+<div class="section-head">
 
     <div class="section-title">
         آخر المواد المفحوصة
@@ -1532,10 +2569,18 @@ body:after{
 
 </div>
 
-</section></div><div
+</section>
+
+</div>
+
+
+<div
     class="toast"
     id="toast"
-></div><script>
+></div>
+
+
+<script>
 
 /* =========================================================
    إعدادات
@@ -1589,12 +2634,16 @@ enterBtn.addEventListener(
 
         enterBtn.disabled = true;
 
+        enterBtn.style.pointerEvents = "none";
+
         intro.classList.add("hide");
 
         setTimeout(
             function(){
 
                 intro.style.display = "none";
+
+                enterBtn.disabled = false;
 
             },
             950
@@ -3346,5 +4395,7 @@ function showToast(message){
 
 }
 
-</script></body>
+</script>
+
+</body>
 </html>
