@@ -41,951 +41,6 @@ body{
 }
 
 /* =========================================================
-   MAINTENANCE MODE
-========================================================= */
-
-#maintenance-screen{
-    position:fixed;
-    inset:0;
-    z-index:999999;
-
-    display:none;
-
-    align-items:center;
-    justify-content:center;
-
-    overflow:hidden;
-
-    background:
-        radial-gradient(
-            circle at 50% 42%,
-            rgba(0,155,255,.22),
-            transparent 32%
-        ),
-        radial-gradient(
-            circle at 20% 85%,
-            rgba(0,100,255,.16),
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 85% 20%,
-            rgba(0,200,255,.12),
-            transparent 28%
-        ),
-        #010711;
-}
-
-#maintenance-screen.active{
-    display:flex;
-}
-
-/* شبكة الخلفية */
-
-.maintenance-grid{
-    position:absolute;
-    inset:-50%;
-
-    background-image:
-        linear-gradient(
-            rgba(0,150,255,.055) 1px,
-            transparent 1px
-        ),
-        linear-gradient(
-            90deg,
-            rgba(0,150,255,.055) 1px,
-            transparent 1px
-        );
-
-    background-size:42px 42px;
-
-    transform:
-        perspective(500px)
-        rotateX(58deg)
-        scale(1.5);
-
-    transform-origin:center bottom;
-
-    animation:
-        gridMove
-        9s
-        linear
-        infinite;
-
-    opacity:.75;
-}
-
-@keyframes gridMove{
-    from{
-        transform:
-            perspective(500px)
-            rotateX(58deg)
-            scale(1.5)
-            translateY(0);
-    }
-
-    to{
-        transform:
-            perspective(500px)
-            rotateX(58deg)
-            scale(1.5)
-            translateY(42px);
-    }
-}
-
-/* الضوء المركزي */
-
-.maintenance-ambient{
-    position:absolute;
-
-    width:700px;
-    height:700px;
-
-    border-radius:50%;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(0,185,255,.32) 0%,
-            rgba(0,130,255,.21) 22%,
-            rgba(0,82,220,.11) 45%,
-            transparent 72%
-        );
-
-    filter:blur(45px);
-
-    animation:
-        maintenanceAmbient
-        7s
-        ease-in-out
-        infinite;
-}
-
-@keyframes maintenanceAmbient{
-
-    0%,100%{
-        transform:scale(.78);
-        opacity:.55;
-    }
-
-    50%{
-        transform:scale(1.15);
-        opacity:1;
-    }
-
-}
-
-/* ضوء صاعد من الأسفل */
-
-.maintenance-rise{
-    position:absolute;
-
-    width:480px;
-    height:900px;
-
-    left:50%;
-    bottom:-620px;
-
-    transform:translateX(-50%);
-
-    background:
-        radial-gradient(
-            ellipse,
-            rgba(0,205,255,.40) 0%,
-            rgba(0,145,255,.25) 22%,
-            rgba(0,90,230,.12) 44%,
-            transparent 72%
-        );
-
-    filter:blur(35px);
-
-    animation:
-        lightRise
-        6s
-        ease-in-out
-        infinite;
-}
-
-@keyframes lightRise{
-
-    0%,100%{
-        transform:
-            translateX(-50%)
-            translateY(90px)
-            scale(.85);
-
-        opacity:.45;
-    }
-
-    50%{
-        transform:
-            translateX(-50%)
-            translateY(-40px)
-            scale(1.08);
-
-        opacity:1;
-    }
-
-}
-
-/* إضاءة جانبية */
-
-.maintenance-side{
-    position:absolute;
-
-    width:600px;
-    height:600px;
-
-    right:-260px;
-    top:25%;
-
-    border-radius:50%;
-
-    background:
-        radial-gradient(
-            circle,
-            rgba(0,165,255,.28),
-            rgba(0,100,255,.10) 35%,
-            transparent 70%
-        );
-
-    filter:blur(45px);
-
-    animation:
-        sideGlow
-        8s
-        ease-in-out
-        infinite;
-}
-
-@keyframes sideGlow{
-
-    0%,100%{
-        transform:translate(0,0);
-        opacity:.45;
-    }
-
-    50%{
-        transform:translate(-80px,35px);
-        opacity:1;
-    }
-
-}
-
-/* حزم الضوء */
-
-.maintenance-beams{
-    position:absolute;
-    inset:0;
-    pointer-events:none;
-    overflow:hidden;
-}
-
-.beam{
-    position:absolute;
-
-    width:2px;
-    height:75%;
-
-    bottom:-75%;
-
-    background:
-        linear-gradient(
-            to top,
-            transparent,
-            rgba(0,190,255,.12),
-            rgba(0,210,255,.75),
-            transparent
-        );
-
-    filter:blur(1px);
-
-    box-shadow:
-        0 0 20px rgba(0,170,255,.45);
-
-    transform:rotate(9deg);
-
-    animation:
-        beamRise
-        6s
-        linear
-        infinite;
-}
-
-.beam:nth-child(1){
-    left:15%;
-    animation-delay:0s;
-}
-
-.beam:nth-child(2){
-    left:35%;
-    animation-delay:2.1s;
-    opacity:.65;
-}
-
-.beam:nth-child(3){
-    left:67%;
-    animation-delay:1.1s;
-    opacity:.7;
-}
-
-.beam:nth-child(4){
-    left:86%;
-    animation-delay:3.2s;
-    opacity:.5;
-}
-
-@keyframes beamRise{
-
-    0%{
-        transform:
-            translateY(0)
-            rotate(9deg);
-
-        opacity:0;
-    }
-
-    15%{
-        opacity:.8;
-    }
-
-    80%{
-        opacity:.5;
-    }
-
-    100%{
-        transform:
-            translateY(-180vh)
-            rotate(9deg);
-
-        opacity:0;
-    }
-
-}
-
-/* جسيمات */
-
-.maintenance-particles{
-    position:absolute;
-    inset:0;
-    pointer-events:none;
-}
-
-.m-particle{
-    position:absolute;
-
-    width:3px;
-    height:3px;
-
-    border-radius:50%;
-
-    background:#fff;
-
-    box-shadow:
-        0 0 8px #00aaff,
-        0 0 16px #007aff;
-
-    opacity:.35;
-
-    animation:
-        maintenanceParticle
-        4s
-        ease-in-out
-        infinite;
-}
-
-.mp1{top:16%;left:13%;animation-delay:.2s}
-.mp2{top:25%;left:79%;animation-delay:1.1s}
-.mp3{top:68%;left:11%;animation-delay:2s}
-.mp4{top:78%;left:86%;animation-delay:.7s}
-.mp5{top:12%;left:51%;animation-delay:1.7s}
-.mp6{top:87%;left:45%;animation-delay:2.7s}
-.mp7{top:46%;left:7%;animation-delay:1s}
-.mp8{top:43%;left:93%;animation-delay:2.2s}
-.mp9{top:33%;left:28%;animation-delay:3s}
-.mp10{top:61%;left:73%;animation-delay:1.5s}
-.mp11{top:83%;left:25%;animation-delay:2.4s}
-.mp12{top:20%;left:63%;animation-delay:3.2s}
-
-@keyframes maintenanceParticle{
-
-    0%,100%{
-        transform:
-            translateY(0)
-            scale(.6);
-
-        opacity:.12;
-    }
-
-    50%{
-        transform:
-            translateY(-18px)
-            scale(1.5);
-
-        opacity:1;
-    }
-
-}
-
-/* محتوى الصيانة */
-
-.maintenance-content{
-    position:relative;
-    z-index:10;
-
-    width:100%;
-    max-width:430px;
-
-    padding:25px;
-
-    text-align:center;
-}
-
-/* شعار النص */
-
-.maintenance-logo{
-    position:relative;
-
-    display:inline-block;
-
-    font-family:Arial,Helvetica,sans-serif;
-
-    font-size:clamp(5rem,22vw,8rem);
-
-    font-weight:900;
-
-    font-style:italic;
-
-    letter-spacing:-11px;
-
-    line-height:.9;
-
-    color:#f2fbff;
-
-    text-shadow:
-        0 0 4px rgba(255,255,255,.95),
-        0 0 14px rgba(42,190,255,.95),
-        0 0 32px rgba(0,136,255,.72),
-        0 0 70px rgba(0,100,255,.42);
-
-    opacity:0;
-
-    transform:
-        translateY(35px)
-        scale(.65);
-
-    animation:
-        maintenanceLogoIn
-        1.35s
-        cubic-bezier(.16,1,.3,1)
-        .15s
-        forwards,
-        maintenanceLogoFloat
-        4s
-        ease-in-out
-        1.5s
-        infinite;
-
-    overflow:hidden;
-}
-
-.maintenance-logo:before{
-    content:"A2Z";
-
-    position:absolute;
-    inset:0;
-
-    color:transparent;
-
-    filter:blur(14px);
-
-    text-shadow:
-        0 0 35px rgba(0,174,255,.9),
-        0 0 65px rgba(0,122,255,.7);
-
-    z-index:-1;
-}
-
-.maintenance-logo:after{
-    content:"";
-
-    position:absolute;
-
-    top:-20%;
-    left:-100%;
-
-    width:55%;
-    height:150%;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            rgba(255,255,255,.75),
-            transparent
-        );
-
-    transform:skewX(-20deg);
-
-    animation:
-        maintenanceLogoShine
-        3.8s
-        ease-in-out
-        2s
-        infinite;
-}
-
-@keyframes maintenanceLogoIn{
-
-    0%{
-        opacity:0;
-
-        transform:
-            translateY(35px)
-            scale(.65);
-    }
-
-    65%{
-        opacity:1;
-
-        transform:
-            translateY(-6px)
-            scale(1.06);
-    }
-
-    100%{
-        opacity:1;
-
-        transform:
-            translateY(0)
-            scale(1);
-    }
-
-}
-
-@keyframes maintenanceLogoFloat{
-
-    0%,100%{
-        transform:
-            translateY(0)
-            scale(1);
-    }
-
-    50%{
-        transform:
-            translateY(-7px)
-            scale(1.015);
-    }
-
-}
-
-@keyframes maintenanceLogoShine{
-
-    0%{
-        left:-100%;
-    }
-
-    45%,100%{
-        left:145%;
-    }
-
-}
-
-/* COSMETIC */
-
-.maintenance-brand{
-    margin-top:3px;
-
-    color:#00bfff;
-
-    font-size:.68rem;
-
-    font-weight:900;
-
-    letter-spacing:6px;
-
-    text-shadow:
-        0 0 15px rgba(0,190,255,.45);
-
-    opacity:0;
-
-    transform:translateY(15px);
-
-    animation:
-        maintenanceFadeUp
-        .8s
-        cubic-bezier(.16,1,.3,1)
-        .9s
-        forwards;
-}
-
-/* الخط */
-
-.maintenance-line{
-    width:0;
-    height:1px;
-
-    margin:23px auto 20px;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            #00aaff,
-            #00d5ff,
-            #00aaff,
-            transparent
-        );
-
-    box-shadow:
-        0 0 15px rgba(0,170,255,.5);
-
-    animation:
-        maintenanceLine
-        1s
-        ease
-        1.2s
-        forwards;
-}
-
-@keyframes maintenanceLine{
-
-    to{
-        width:190px;
-    }
-
-}
-
-/* عنوان */
-
-.maintenance-title{
-    margin:0;
-
-    font-size:1.48rem;
-
-    font-weight:900;
-
-    opacity:0;
-
-    transform:
-        translateY(18px)
-        scale(.96);
-
-    animation:
-        maintenanceFadeUp
-        .8s
-        cubic-bezier(.16,1,.3,1)
-        1.45s
-        forwards;
-}
-
-.maintenance-title span{
-    color:#00baff;
-
-    text-shadow:
-        0 0 17px rgba(0,180,255,.32);
-}
-
-/* الوصف */
-
-.maintenance-desc{
-    margin:8px auto 19px;
-
-    max-width:330px;
-
-    color:#7a8794;
-
-    font-size:.67rem;
-
-    font-weight:600;
-
-    line-height:1.8;
-
-    opacity:0;
-
-    transform:translateY(15px);
-
-    animation:
-        maintenanceFadeUp
-        .8s
-        ease
-        1.65s
-        forwards;
-}
-
-@keyframes maintenanceFadeUp{
-
-    to{
-        opacity:1;
-
-        transform:
-            translateY(0)
-            scale(1);
-    }
-
-}
-
-/* حالة النظام */
-
-.maintenance-status{
-    display:inline-flex;
-
-    align-items:center;
-
-    gap:7px;
-
-    padding:7px 13px;
-
-    border-radius:50px;
-
-    background:
-        rgba(0,122,255,.07);
-
-    border:
-        1px solid rgba(0,170,255,.13);
-
-    color:#84919e;
-
-    font-size:.57rem;
-
-    font-weight:800;
-
-    opacity:0;
-
-    animation:
-        maintenanceFade
-        .8s
-        ease
-        1.9s
-        forwards;
-}
-
-.maintenance-status-dot{
-    width:7px;
-    height:7px;
-
-    border-radius:50%;
-
-    background:#00baff;
-
-    box-shadow:
-        0 0 8px #00baff,
-        0 0 16px rgba(0,180,255,.6);
-
-    animation:
-        statusPulse
-        1.5s
-        ease-in-out
-        infinite;
-}
-
-@keyframes statusPulse{
-
-    0%,100%{
-        transform:scale(.75);
-        opacity:.55;
-    }
-
-    50%{
-        transform:scale(1.2);
-        opacity:1;
-    }
-
-}
-
-/* العداد الصاعد */
-
-.maintenance-timer-wrap{
-    margin:17px auto 0;
-
-    width:100%;
-    max-width:270px;
-
-    padding:14px 12px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(10,19,29,.88),
-            rgba(4,10,17,.9)
-        );
-
-    border:
-        1px solid rgba(0,140,255,.16);
-
-    border-radius:20px;
-
-    box-shadow:
-        0 18px 50px rgba(0,0,0,.35),
-        inset 0 0 30px rgba(0,120,255,.035);
-
-    opacity:0;
-
-    transform:
-        translateY(15px)
-        scale(.95);
-
-    animation:
-        timerIn
-        .8s
-        cubic-bezier(.16,1,.3,1)
-        2.05s
-        forwards;
-}
-
-@keyframes timerIn{
-
-    to{
-        opacity:1;
-
-        transform:
-            translateY(0)
-            scale(1);
-    }
-
-}
-
-.timer-label{
-    color:#596774;
-
-    font-size:.52rem;
-
-    font-weight:800;
-
-    letter-spacing:1.5px;
-}
-
-#maintenance-timer{
-    margin-top:3px;
-
-    direction:ltr;
-
-    color:#f1fbff;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    font-size:2rem;
-
-    font-weight:900;
-
-    letter-spacing:3px;
-
-    text-shadow:
-        0 0 12px rgba(0,190,255,.55),
-        0 0 30px rgba(0,122,255,.25);
-}
-
-.timer-progress{
-    position:relative;
-
-    width:100%;
-    height:2px;
-
-    margin-top:10px;
-
-    overflow:hidden;
-
-    border-radius:10px;
-
-    background:
-        rgba(255,255,255,.05);
-}
-
-.timer-progress:after{
-    content:"";
-
-    position:absolute;
-
-    left:-40%;
-
-    top:0;
-
-    width:40%;
-    height:100%;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            #00bfff,
-            transparent
-        );
-
-    box-shadow:
-        0 0 12px #00aaff;
-
-    animation:
-        progressShine
-        2s
-        linear
-        infinite;
-}
-
-@keyframes progressShine{
-
-    to{
-        left:140%;
-    }
-
-}
-
-/* رسالة متغيرة */
-
-#maintenance-message{
-    min-height:22px;
-
-    margin-top:13px;
-
-    color:#697683;
-
-    font-size:.57rem;
-
-    font-weight:700;
-
-    transition:
-        opacity .3s ease,
-        transform .3s ease;
-}
-
-#maintenance-message.change{
-    opacity:0;
-    transform:translateY(4px);
-}
-
-/* الفوتر */
-
-.maintenance-footer{
-    margin-top:23px;
-
-    color:#394550;
-
-    font-size:.5rem;
-
-    font-weight:700;
-
-    letter-spacing:.5px;
-
-    opacity:0;
-
-    animation:
-        maintenanceFade
-        .8s
-        ease
-        2.4s
-        forwards;
-}
-
-@keyframes maintenanceFade{
-
-    to{
-        opacity:1;
-    }
-
-}
-
-/* =========================================================
    PRESENTATION
 ========================================================= */
 
@@ -993,29 +48,15 @@ body{
     position:fixed;
     inset:0;
     z-index:99999;
-
     background:
-        radial-gradient(
-            circle at 50% 42%,
-            rgba(0,122,255,.20),
-            transparent 27%
-        ),
-        radial-gradient(
-            circle at 15% 85%,
-            rgba(0,200,255,.11),
-            transparent 25%
-        ),
-        radial-gradient(
-            circle at 90% 15%,
-            rgba(0,100,255,.10),
-            transparent 25%
-        ),
+        radial-gradient(circle at 50% 42%,rgba(0,122,255,.20),transparent 27%),
+        radial-gradient(circle at 15% 85%,rgba(0,200,255,.11),transparent 25%),
+        radial-gradient(circle at 90% 15%,rgba(0,100,255,.10),transparent 25%),
         #020305;
 
     display:flex;
     align-items:center;
     justify-content:center;
-
     overflow:hidden;
 
     transition:
@@ -1033,10 +74,8 @@ body{
 
 .intro-glow{
     position:absolute;
-
     width:430px;
     height:430px;
-
     border-radius:50%;
 
     background:
@@ -1049,15 +88,10 @@ body{
 
     filter:blur(35px);
 
-    animation:
-        introGlow
-        4s
-        ease-in-out
-        infinite;
+    animation:introGlow 4s ease-in-out infinite;
 }
 
 @keyframes introGlow{
-
     0%,100%{
         transform:scale(.75);
         opacity:.45;
@@ -1067,25 +101,17 @@ body{
         transform:scale(1.2);
         opacity:1;
     }
-
 }
 
 .intro-ring{
     position:absolute;
-
     width:270px;
     height:270px;
 
-    border:
-        1px solid rgba(0,170,255,.13);
-
+    border:1px solid rgba(0,170,255,.13);
     border-radius:50%;
 
-    animation:
-        ringPulse
-        5s
-        linear
-        infinite;
+    animation:ringPulse 5s linear infinite;
 }
 
 .intro-ring:nth-child(2){
@@ -1101,7 +127,6 @@ body{
 }
 
 @keyframes ringPulse{
-
     0%{
         transform:scale(.55);
         opacity:0;
@@ -1115,7 +140,6 @@ body{
         transform:scale(1.15);
         opacity:0;
     }
-
 }
 
 .intro-particles{
@@ -1126,10 +150,8 @@ body{
 
 .particle{
     position:absolute;
-
     width:3px;
     height:3px;
-
     border-radius:50%;
 
     background:#fff;
@@ -1140,11 +162,7 @@ body{
 
     opacity:.35;
 
-    animation:
-        particleFloat
-        4s
-        ease-in-out
-        infinite;
+    animation:particleFloat 4s ease-in-out infinite;
 }
 
 .p1{top:18%;left:18%;animation-delay:.2s}
@@ -1159,7 +177,6 @@ body{
 .p10{top:60%;left:72%;animation-delay:1.5s}
 
 @keyframes particleFloat{
-
     0%,100%{
         transform:translateY(0) scale(.6);
         opacity:.15;
@@ -1169,25 +186,20 @@ body{
         transform:translateY(-18px) scale(1.5);
         opacity:1;
     }
-
 }
 
 .intro-content{
     position:relative;
     z-index:5;
-
     width:100%;
     max-width:430px;
-
     padding:25px;
-
     text-align:center;
 }
 
 .intro-logo-wrap{
     width:130px;
     height:130px;
-
     margin:0 auto 24px;
 
     position:relative;
@@ -1210,7 +222,6 @@ body{
 .intro-logo-glow{
     position:absolute;
     inset:-32px;
-
     border-radius:50%;
 
     background:
@@ -1230,7 +241,6 @@ body{
 }
 
 @keyframes logoGlow{
-
     0%,100%{
         transform:scale(.8);
         opacity:.45;
@@ -1240,7 +250,6 @@ body{
         transform:scale(1.15);
         opacity:1;
     }
-
 }
 
 .intro-logo{
@@ -1255,8 +264,7 @@ body{
 
     border-radius:38px;
 
-    border:
-        1px solid rgba(0,174,255,.75);
+    border:1px solid rgba(0,174,255,.75);
 
     box-shadow:
         0 0 0 1px rgba(0,122,255,.15),
@@ -1267,41 +275,24 @@ body{
 }
 
 @keyframes logoEntrance{
-
     0%{
         opacity:0;
-
-        transform:
-            translateY(55px)
-            scale(.35)
-            rotate(-15deg);
+        transform:translateY(55px) scale(.35) rotate(-15deg);
     }
 
     55%{
         opacity:1;
-
-        transform:
-            translateY(-9px)
-            scale(1.08)
-            rotate(3deg);
+        transform:translateY(-9px) scale(1.08) rotate(3deg);
     }
 
     75%{
-        transform:
-            translateY(3px)
-            scale(.97)
-            rotate(-1deg);
+        transform:translateY(3px) scale(.97) rotate(-1deg);
     }
 
     100%{
         opacity:1;
-
-        transform:
-            translateY(0)
-            scale(1)
-            rotate(0);
+        transform:translateY(0) scale(1) rotate(0);
     }
-
 }
 
 .logo-circle{
@@ -1310,17 +301,11 @@ body{
 
     border-radius:50%;
 
-    border:
-        1px solid rgba(0,174,255,.22);
-
+    border:1px solid rgba(0,174,255,.22);
     border-top-color:#00bfff;
     border-right-color:#007aff;
 
-    animation:
-        logoRotate
-        3s
-        linear
-        infinite;
+    animation:logoRotate 3s linear infinite;
 }
 
 .logo-circle:after{
@@ -1351,7 +336,6 @@ body{
 
 .intro-brand{
     opacity:0;
-
     transform:translateY(25px) scale(.95);
 
     animation:
@@ -1383,11 +367,7 @@ body{
     -webkit-background-clip:text;
     -webkit-text-fill-color:transparent;
 
-    animation:
-        brandShine
-        4s
-        linear
-        infinite;
+    animation:brandShine 4s linear infinite;
 }
 
 @keyframes brandShine{
@@ -1402,7 +382,6 @@ body{
     color:#00aaff;
 
     font-size:.66rem;
-
     font-weight:900;
 
     letter-spacing:5px;
@@ -1448,7 +427,6 @@ body{
     margin:0;
 
     font-size:1.4rem;
-
     font-weight:900;
 
     opacity:0;
@@ -1478,7 +456,6 @@ body{
     color:#737e89;
 
     font-size:.67rem;
-
     font-weight:600;
 
     opacity:0;
@@ -1494,15 +471,10 @@ body{
 }
 
 @keyframes textEntrance{
-
     to{
         opacity:1;
-
-        transform:
-            translateY(0)
-            scale(1);
+        transform:translateY(0) scale(1);
     }
-
 }
 
 .enter-btn{
@@ -1527,7 +499,6 @@ body{
     padding:13px 34px;
 
     font-size:.73rem;
-
     font-weight:900;
 
     cursor:pointer;
@@ -1562,7 +533,6 @@ body{
 }
 
 @keyframes buttonGradient{
-
     0%,100%{
         background-position:0% 50%;
     }
@@ -1570,7 +540,6 @@ body{
     50%{
         background-position:100% 50%;
     }
-
 }
 
 .enter-btn:before{
@@ -1603,34 +572,19 @@ body{
 }
 
 @keyframes buttonShine{
-
-    0%{
-        left:-130%;
-    }
-
-    45%,100%{
-        left:140%;
-    }
-
+    0%{left:-130%;}
+    45%,100%{left:140%;}
 }
 
 @keyframes buttonEntrance{
-
     to{
         opacity:1;
-
-        transform:
-            translateY(0)
-            scale(1);
+        transform:translateY(0) scale(1);
     }
-
 }
 
 .enter-btn:active{
-
-    transform:
-        translateY(3px)
-        scale(.94);
+    transform:translateY(3px) scale(.94);
 
     box-shadow:
         0 5px 15px rgba(0,122,255,.25);
@@ -1642,7 +596,6 @@ body{
     color:#3f4852;
 
     font-size:.5rem;
-
     font-weight:700;
 
     opacity:0;
@@ -1661,6 +614,619 @@ body{
     }
 }
 
+
+/* =========================================================
+   🔧 MAINTENANCE PRESENTATION
+========================================================= */
+
+.maintenance-screen{
+    position:fixed;
+    inset:0;
+
+    z-index:9999999;
+
+    display:none;
+
+    align-items:center;
+    justify-content:center;
+
+    overflow:hidden;
+
+    background:
+        radial-gradient(
+            circle at 50% 43%,
+            rgba(0,122,255,.18),
+            transparent 25%
+        ),
+        radial-gradient(
+            circle at 15% 80%,
+            rgba(0,200,255,.08),
+            transparent 25%
+        ),
+        radial-gradient(
+            circle at 85% 15%,
+            rgba(0,80,255,.08),
+            transparent 28%
+        ),
+        #020305;
+}
+
+.maintenance-screen.active{
+    display:flex;
+}
+
+.maintenance-screen:before{
+    content:"";
+
+    position:absolute;
+    inset:0;
+
+    background:
+        linear-gradient(
+            rgba(255,255,255,.015) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(255,255,255,.015) 1px,
+            transparent 1px
+        );
+
+    background-size:45px 45px;
+
+    mask-image:
+        radial-gradient(
+            circle at center,
+            black,
+            transparent 75%
+        );
+
+    opacity:.35;
+}
+
+.maintenance-glow{
+    position:absolute;
+
+    width:360px;
+    height:360px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0,150,255,.22),
+            rgba(0,100,255,.06) 35%,
+            transparent 70%
+        );
+
+    filter:blur(30px);
+
+    animation:
+        maintenanceGlow
+        4s
+        ease-in-out
+        infinite;
+}
+
+@keyframes maintenanceGlow{
+    0%,100%{
+        transform:scale(.72);
+        opacity:.45;
+    }
+
+    50%{
+        transform:scale(1.25);
+        opacity:1;
+    }
+}
+
+.maintenance-content{
+    position:relative;
+
+    z-index:10;
+
+    width:100%;
+    max-width:430px;
+
+    padding:28px;
+
+    text-align:center;
+
+    animation:
+        maintenanceContentIn
+        1.2s
+        cubic-bezier(.16,1,.3,1)
+        forwards;
+}
+
+@keyframes maintenanceContentIn{
+    from{
+        opacity:0;
+        transform:
+            translateY(35px)
+            scale(.92);
+    }
+
+    to{
+        opacity:1;
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+/* شعار الصيانة — كتابة فقط */
+
+.maintenance-logo{
+    position:relative;
+
+    margin:0 auto 32px;
+
+    width:max-content;
+
+    opacity:0;
+
+    animation:
+        maintenanceLogoIn
+        1.5s
+        cubic-bezier(.16,1,.3,1)
+        .15s
+        forwards;
+}
+
+@keyframes maintenanceLogoIn{
+    0%{
+        opacity:0;
+
+        transform:
+            translateY(35px)
+            scale(.65);
+
+        filter:blur(12px);
+    }
+
+    55%{
+        opacity:1;
+
+        transform:
+            translateY(-5px)
+            scale(1.05);
+
+        filter:blur(0);
+    }
+
+    100%{
+        opacity:1;
+
+        transform:
+            translateY(0)
+            scale(1);
+
+        filter:blur(0);
+    }
+}
+
+.maintenance-logo-main{
+    position:relative;
+
+    font-size:4.5rem;
+    line-height:.9;
+
+    font-weight:900;
+
+    letter-spacing:8px;
+
+    padding-left:8px;
+
+    background:
+        linear-gradient(
+            120deg,
+            #ffffff 0%,
+            #dff7ff 18%,
+            #00aaff 40%,
+            #ffffff 55%,
+            #00c8ff 75%,
+            #ffffff 100%
+        );
+
+    background-size:300% 100%;
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    filter:
+        drop-shadow(0 0 12px rgba(0,160,255,.25))
+        drop-shadow(0 0 35px rgba(0,122,255,.18));
+
+    animation:
+        maintenanceLogoShine
+        4s
+        linear
+        infinite;
+}
+
+@keyframes maintenanceLogoShine{
+    0%{
+        background-position:0% center;
+    }
+
+    100%{
+        background-position:300% center;
+    }
+}
+
+.maintenance-logo-sub{
+    margin-top:9px;
+
+    font-size:.73rem;
+
+    font-weight:900;
+
+    letter-spacing:9px;
+
+    padding-left:9px;
+
+    color:#00bfff;
+
+    text-shadow:
+        0 0 10px rgba(0,191,255,.45),
+        0 0 25px rgba(0,122,255,.25);
+
+    opacity:0;
+
+    animation:
+        maintenanceSubIn
+        .9s
+        ease
+        .8s
+        forwards;
+}
+
+@keyframes maintenanceSubIn{
+    from{
+        opacity:0;
+        letter-spacing:15px;
+        transform:translateY(10px);
+    }
+
+    to{
+        opacity:1;
+        letter-spacing:9px;
+        transform:translateY(0);
+    }
+}
+
+.maintenance-line{
+    width:0;
+    height:1px;
+
+    margin:0 auto 25px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #007aff,
+            #00c8ff,
+            #007aff,
+            transparent
+        );
+
+    box-shadow:
+        0 0 14px rgba(0,174,255,.55);
+
+    animation:
+        maintenanceLineIn
+        1s
+        ease
+        1.15s
+        forwards;
+}
+
+@keyframes maintenanceLineIn{
+    to{
+        width:175px;
+    }
+}
+
+.maintenance-icon{
+    width:60px;
+    height:60px;
+
+    margin:0 auto 17px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:20px;
+
+    background:
+        rgba(0,122,255,.07);
+
+    border:
+        1px solid rgba(0,174,255,.14);
+
+    color:#00bfff;
+
+    font-size:1.55rem;
+
+    box-shadow:
+        0 0 30px rgba(0,122,255,.08);
+
+    animation:
+        maintenanceIconFloat
+        3s
+        ease-in-out
+        infinite;
+}
+
+@keyframes maintenanceIconFloat{
+    0%,100%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-5px);
+    }
+}
+
+.maintenance-title{
+    margin:0;
+
+    font-size:1.3rem;
+    font-weight:900;
+
+    opacity:0;
+
+    animation:
+        maintenanceTextIn
+        .8s
+        cubic-bezier(.16,1,.3,1)
+        1.35s
+        forwards;
+}
+
+.maintenance-title span{
+    color:#00bfff;
+
+    text-shadow:
+        0 0 18px rgba(0,191,255,.25);
+}
+
+.maintenance-message{
+    min-height:24px;
+
+    margin:8px 0 22px;
+
+    color:#68747f;
+
+    font-size:.68rem;
+    font-weight:600;
+
+    opacity:0;
+
+    animation:
+        maintenanceTextIn
+        .8s
+        ease
+        1.55s
+        forwards;
+}
+
+@keyframes maintenanceTextIn{
+    from{
+        opacity:0;
+        transform:translateY(15px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.maintenance-status-box{
+    display:inline-flex;
+
+    align-items:center;
+    justify-content:center;
+
+    gap:8px;
+
+    padding:8px 14px;
+
+    margin-bottom:18px;
+
+    border-radius:50px;
+
+    background:
+        rgba(0,122,255,.06);
+
+    border:
+        1px solid rgba(0,122,255,.13);
+
+    color:#7d8995;
+
+    font-size:.58rem;
+    font-weight:800;
+
+    opacity:0;
+
+    animation:
+        maintenanceTextIn
+        .8s
+        ease
+        1.75s
+        forwards;
+}
+
+.maintenance-dot{
+    width:7px;
+    height:7px;
+
+    border-radius:50%;
+
+    background:#00bfff;
+
+    box-shadow:
+        0 0 8px #00bfff,
+        0 0 15px rgba(0,191,255,.6);
+
+    animation:
+        maintenanceDot
+        1.3s
+        ease-in-out
+        infinite;
+}
+
+@keyframes maintenanceDot{
+    0%,100%{
+        transform:scale(.7);
+        opacity:.55;
+    }
+
+    50%{
+        transform:scale(1.25);
+        opacity:1;
+    }
+}
+
+.maintenance-timer{
+    direction:ltr;
+
+    font-family:
+        monospace,
+        Cairo,
+        sans-serif;
+
+    font-size:1.45rem;
+
+    font-weight:700;
+
+    letter-spacing:3px;
+
+    color:#eafaff;
+
+    text-shadow:
+        0 0 15px rgba(0,174,255,.25);
+
+    opacity:0;
+
+    animation:
+        maintenanceTextIn
+        .8s
+        ease
+        1.95s
+        forwards;
+}
+
+.maintenance-timer-label{
+    margin-top:4px;
+
+    color:#39444e;
+
+    font-size:.48rem;
+
+    font-weight:700;
+
+    letter-spacing:2px;
+
+    opacity:0;
+
+    animation:
+        maintenanceTextIn
+        .8s
+        ease
+        2.05s
+        forwards;
+}
+
+.maintenance-footer{
+    margin-top:27px;
+
+    color:#303942;
+
+    font-size:.48rem;
+    font-weight:700;
+
+    letter-spacing:2px;
+
+    opacity:0;
+
+    animation:
+        maintenanceTextIn
+        .8s
+        ease
+        2.25s
+        forwards;
+}
+
+/* جزيئات الصيانة */
+
+.maintenance-particles{
+    position:absolute;
+    inset:0;
+
+    pointer-events:none;
+}
+
+.mparticle{
+    position:absolute;
+
+    width:2px;
+    height:2px;
+
+    border-radius:50%;
+
+    background:#00bfff;
+
+    box-shadow:
+        0 0 8px #00bfff,
+        0 0 16px #007aff;
+
+    opacity:.25;
+
+    animation:
+        mParticle
+        5s
+        ease-in-out
+        infinite;
+}
+
+.mparticle:nth-child(1){top:18%;left:12%;animation-delay:.3s}
+.mparticle:nth-child(2){top:27%;left:85%;animation-delay:1.4s}
+.mparticle:nth-child(3){top:65%;left:8%;animation-delay:2.1s}
+.mparticle:nth-child(4){top:78%;left:88%;animation-delay:.9s}
+.mparticle:nth-child(5){top:11%;left:52%;animation-delay:2.8s}
+.mparticle:nth-child(6){top:88%;left:42%;animation-delay:1.7s}
+.mparticle:nth-child(7){top:42%;left:5%;animation-delay:3.1s}
+.mparticle:nth-child(8){top:52%;left:94%;animation-delay:2.3s}
+.mparticle:nth-child(9){top:32%;left:25%;animation-delay:3.5s}
+.mparticle:nth-child(10){top:68%;left:73%;animation-delay:1.1s}
+.mparticle:nth-child(11){top:22%;left:68%;animation-delay:4s}
+.mparticle:nth-child(12){top:82%;left:25%;animation-delay:2.6s}
+
+@keyframes mParticle{
+    0%,100%{
+        transform:
+            translate3d(0,0,0)
+            scale(.5);
+
+        opacity:.08;
+    }
+
+    50%{
+        transform:
+            translate3d(0,-25px,0)
+            scale(1.6);
+
+        opacity:.8;
+    }
+}
+
+
 /* =========================================================
    APP
 ========================================================= */
@@ -1668,7 +1234,6 @@ body{
 .app{
     width:100%;
     max-width:430px;
-
     min-height:100vh;
 
     margin:auto;
@@ -1691,8 +1256,7 @@ body:before{
     top:-160px;
     right:-120px;
 
-    background:
-        rgba(0,122,255,.13);
+    background:rgba(0,122,255,.13);
 
     filter:blur(80px);
 
@@ -1712,8 +1276,7 @@ body:after{
     bottom:-150px;
     left:-100px;
 
-    background:
-        rgba(0,180,255,.08);
+    background:rgba(0,180,255,.08);
 
     filter:blur(80px);
 
@@ -1722,15 +1285,14 @@ body:after{
     pointer-events:none;
 }
 
+
 /* =========================================================
    HEADER
 ========================================================= */
 
 .header{
     display:flex;
-
     align-items:center;
-
     justify-content:space-between;
 
     margin-bottom:20px;
@@ -1738,7 +1300,6 @@ body:after{
 
 .brand{
     display:flex;
-
     align-items:center;
 
     gap:10px;
@@ -1754,8 +1315,7 @@ body:after{
 
     padding:5px;
 
-    border:
-        1px solid rgba(0,122,255,.5);
+    border:1px solid rgba(0,122,255,.5);
 
     box-shadow:
         0 0 22px rgba(0,122,255,.2);
@@ -1788,7 +1348,6 @@ body:after{
     color:#00aaff;
 
     font-size:.58rem;
-
     font-weight:900;
 
     letter-spacing:1.5px;
@@ -1796,7 +1355,6 @@ body:after{
 
 .status{
     display:flex;
-
     align-items:center;
 
     gap:6px;
@@ -1807,13 +1365,11 @@ body:after{
 
     background:#0c1116;
 
-    border:
-        1px solid rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.06);
 
     color:#9099a3;
 
     font-size:.58rem;
-
     font-weight:700;
 }
 
@@ -1843,6 +1399,7 @@ body:after{
         0 0 8px #ff4545;
 }
 
+
 /* =========================================================
    HERO
 ========================================================= */
@@ -1857,7 +1414,6 @@ body:after{
     margin:0;
 
     font-size:1.5rem;
-
     font-weight:900;
 }
 
@@ -1871,7 +1427,6 @@ body:after{
         );
 
     -webkit-background-clip:text;
-
     -webkit-text-fill-color:transparent;
 }
 
@@ -1881,9 +1436,9 @@ body:after{
     color:#717b86;
 
     font-size:.68rem;
-
     font-weight:600;
 }
+
 
 /* =========================================================
    SCANNER
@@ -1894,15 +1449,13 @@ body:after{
     height:275px;
 
     position:relative;
-
     overflow:hidden;
 
     border-radius:27px;
 
     background:#080b0f;
 
-    border:
-        1px solid rgba(0,122,255,.25);
+    border:1px solid rgba(0,122,255,.25);
 
     box-shadow:
         0 20px 50px rgba(0,0,0,.65);
@@ -1931,7 +1484,6 @@ body:after{
 
 .camera-overlay{
     position:absolute;
-
     inset:0;
 
     display:none;
@@ -1943,7 +1495,6 @@ body:after{
     content:"";
 
     position:absolute;
-
     inset:0;
 
     background:
@@ -1958,7 +1509,6 @@ body:after{
 
 .scan-area{
     position:absolute;
-
     z-index:2;
 
     width:78%;
@@ -1978,8 +1528,7 @@ body:after{
 
     border-color:#00aaff;
 
-    filter:
-        drop-shadow(0 0 5px #00aaff);
+    filter:drop-shadow(0 0 5px #00aaff);
 }
 
 .tl{
@@ -2045,7 +1594,6 @@ body:after{
 }
 
 @keyframes laser{
-
     0%,100%{
         top:6%;
     }
@@ -2053,7 +1601,6 @@ body:after{
     50%{
         top:92%;
     }
-
 }
 
 .scan-label{
@@ -2066,7 +1613,6 @@ body:after{
     text-align:center;
 
     font-size:.63rem;
-
     font-weight:700;
 
     color:#fff;
@@ -2075,19 +1621,18 @@ body:after{
         0 1px 5px #000;
 }
 
+
 /* =========================================================
    START SCREEN
 ========================================================= */
 
 .start-screen{
     position:absolute;
-
     inset:0;
 
     display:flex;
 
     align-items:center;
-
     justify-content:center;
 
     flex-direction:column;
@@ -2102,16 +1647,12 @@ body:after{
     border-radius:21px;
 
     display:flex;
-
     align-items:center;
-
     justify-content:center;
 
-    background:
-        rgba(0,122,255,.1);
+    background:rgba(0,122,255,.1);
 
-    border:
-        1px solid rgba(0,122,255,.25);
+    border:1px solid rgba(0,122,255,.25);
 
     font-size:1.8rem;
 
@@ -2123,9 +1664,7 @@ body:after{
 }
 
 .start-screen:active .camera-icon{
-    transform:
-        scale(.9)
-        rotate(-5deg);
+    transform:scale(.9) rotate(-5deg);
 
     box-shadow:
         0 0 25px rgba(0,122,255,.2);
@@ -2133,7 +1672,6 @@ body:after{
 
 .start-title{
     font-size:.9rem;
-
     font-weight:900;
 }
 
@@ -2147,8 +1685,9 @@ body:after{
     text-align:center;
 }
 
+
 /* =========================================================
-   BUTTONS
+   BUTTON POP SYSTEM
 ========================================================= */
 
 button{
@@ -2176,7 +1715,6 @@ button{
     padding:11px 23px;
 
     font-size:.72rem;
-
     font-weight:900;
 
     cursor:pointer;
@@ -2208,6 +1746,7 @@ button{
         0 3px 10px rgba(0,122,255,.2);
 }
 
+
 /* =========================================================
    CAMERA BUTTONS
 ========================================================= */
@@ -2216,17 +1755,14 @@ button{
     display:none;
 
     position:absolute;
-
     z-index:20;
 
     top:12px;
     left:12px;
 
-    border:
-        1px solid rgba(255,255,255,.14);
+    border:1px solid rgba(255,255,255,.14);
 
-    background:
-        rgba(0,0,0,.58);
+    background:rgba(0,0,0,.58);
 
     color:#fff;
 
@@ -2235,7 +1771,6 @@ button{
     padding:7px 12px;
 
     font-size:.6rem;
-
     font-weight:800;
 
     transition:
@@ -2251,7 +1786,6 @@ button{
     display:none;
 
     position:absolute;
-
     z-index:20;
 
     top:12px;
@@ -2263,11 +1797,9 @@ button{
 
     padding:4px;
 
-    background:
-        rgba(0,0,0,.58);
+    background:rgba(0,0,0,.58);
 
-    border:
-        1px solid rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.12);
 
     border-radius:30px;
 
@@ -2291,7 +1823,6 @@ button{
     border-radius:20px;
 
     font-size:.58rem;
-
     font-weight:900;
 
     transition:
@@ -2312,6 +1843,7 @@ button{
         0 0 12px rgba(0,122,255,.35);
 }
 
+
 /* =========================================================
    QUICK ACTIONS
 ========================================================= */
@@ -2327,8 +1859,7 @@ button{
 .quick-btn{
     flex:1;
 
-    border:
-        1px solid rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.05);
 
     background:
         linear-gradient(
@@ -2344,7 +1875,6 @@ button{
     padding:8px 4px;
 
     font-size:.58rem;
-
     font-weight:700;
 
     cursor:pointer;
@@ -2403,6 +1933,7 @@ button{
         translateY(-2px);
 }
 
+
 /* =========================================================
    MANUAL
 ========================================================= */
@@ -2420,8 +1951,7 @@ button{
 
     background:#0c0f13;
 
-    border:
-        1px solid rgba(255,255,255,.06);
+    border:1px solid rgba(255,255,255,.06);
 
     border-radius:17px;
 
@@ -2432,23 +1962,15 @@ button{
 }
 
 @keyframes popIn{
-
     from{
         opacity:0;
-
-        transform:
-            translateY(-8px)
-            scale(.94);
+        transform:translateY(-8px) scale(.94);
     }
 
     to{
         opacity:1;
-
-        transform:
-            translateY(0)
-            scale(1);
+        transform:translateY(0) scale(1);
     }
-
 }
 
 .search-icon{
@@ -2461,7 +1983,6 @@ button{
     min-width:0;
 
     border:0;
-
     outline:none;
 
     background:transparent;
@@ -2469,7 +1990,6 @@ button{
     color:#fff;
 
     direction:ltr;
-
     text-align:left;
 
     font-size:.7rem;
@@ -2489,7 +2009,6 @@ button{
     padding:8px 13px;
 
     font-size:.64rem;
-
     font-weight:900;
 
     cursor:pointer;
@@ -2507,6 +2026,7 @@ button{
     color:#fff;
 }
 
+
 /* =========================================================
    RESULT
 ========================================================= */
@@ -2521,23 +2041,15 @@ button{
 }
 
 @keyframes resultIn{
-
     from{
         opacity:0;
-
-        transform:
-            translateY(15px)
-            scale(.96);
+        transform:translateY(15px) scale(.96);
     }
 
     to{
         opacity:1;
-
-        transform:
-            translateY(0)
-            scale(1);
+        transform:translateY(0) scale(1);
     }
-
 }
 
 .result-card{
@@ -2554,8 +2066,7 @@ button{
             #0a0d11
         );
 
-    border:
-        1px solid rgba(0,122,255,.2);
+    border:1px solid rgba(0,122,255,.2);
 
     border-radius:25px;
 
@@ -2574,16 +2085,13 @@ button{
 
     border-radius:30px;
 
-    background:
-        rgba(0,122,255,.08);
+    background:rgba(0,122,255,.08);
 
-    border:
-        1px solid rgba(0,122,255,.15);
+    border:1px solid rgba(0,122,255,.15);
 
     color:#00aaff;
 
     font-size:.58rem;
-
     font-weight:800;
 }
 
@@ -2599,29 +2107,19 @@ button{
 }
 
 @keyframes resultIconPop{
-
     0%{
-        transform:
-            scale(.3)
-            rotate(-15deg);
-
+        transform:scale(.3) rotate(-15deg);
         opacity:0;
     }
 
     70%{
-        transform:
-            scale(1.2)
-            rotate(4deg);
+        transform:scale(1.2) rotate(4deg);
     }
 
     100%{
-        transform:
-            scale(1)
-            rotate(0);
-
+        transform:scale(1) rotate(0);
         opacity:1;
     }
-
 }
 
 .item-name{
@@ -2641,8 +2139,7 @@ button{
 
     padding:12px;
 
-    border:
-        1px solid rgba(0,122,255,.15);
+    border:1px solid rgba(0,122,255,.15);
 }
 
 .price-label{
@@ -2683,6 +2180,7 @@ button{
     border-radius:15px;
 }
 
+
 /* =========================================================
    RECENT
 ========================================================= */
@@ -2695,7 +2193,6 @@ button{
     display:flex;
 
     justify-content:space-between;
-
     align-items:center;
 
     margin-bottom:7px;
@@ -2703,7 +2200,6 @@ button{
 
 .section-title{
     font-size:.7rem;
-
     font-weight:800;
 }
 
@@ -2727,8 +2223,7 @@ button{
 .clear-recent:hover{
     color:#ff5c5c;
 
-    background:
-        rgba(255,70,70,.06);
+    background:rgba(255,70,70,.06);
 }
 
 .clear-recent:active{
@@ -2747,15 +2242,13 @@ button{
     display:flex;
 
     align-items:center;
-
     justify-content:space-between;
 
     padding:8px 10px;
 
     background:#090c10;
 
-    border:
-        1px solid rgba(255,255,255,.035);
+    border:1px solid rgba(255,255,255,.035);
 
     border-radius:13px;
 
@@ -2795,7 +2288,6 @@ button{
     text-overflow:ellipsis;
 
     font-size:.61rem;
-
     font-weight:700;
 }
 
@@ -2803,7 +2295,6 @@ button{
     color:#00aaff;
 
     font-size:.61rem;
-
     font-weight:900;
 }
 
@@ -2817,6 +2308,7 @@ button{
     padding:10px;
 }
 
+
 /* =========================================================
    TOAST
 ========================================================= */
@@ -2827,7 +2319,6 @@ button{
     z-index:1000;
 
     left:50%;
-
     bottom:22px;
 
     transform:
@@ -2840,8 +2331,7 @@ button{
 
     background:#11161c;
 
-    border:
-        1px solid rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.08);
 
     border-radius:14px;
 
@@ -2850,7 +2340,6 @@ button{
     color:#fff;
 
     font-size:.62rem;
-
     font-weight:700;
 
     transition:
@@ -2870,6 +2359,7 @@ button{
         translate(-50%,0)
         scale(1);
 }
+
 
 /* =========================================================
    MEDIA
@@ -2909,31 +2399,17 @@ button{
         font-size:1.8rem;
     }
 
+    .maintenance-logo-main{
+        font-size:3.7rem;
+    }
+
     .maintenance-content{
-        padding:18px;
+        padding:20px;
     }
 
-    .maintenance-title{
-        font-size:1.25rem;
+    .maintenance-logo{
+        margin-bottom:25px;
     }
-
-    .maintenance-desc{
-        margin-bottom:13px;
-    }
-
-    .maintenance-timer-wrap{
-        margin-top:12px;
-        padding:11px;
-    }
-
-    #maintenance-timer{
-        font-size:1.7rem;
-    }
-
-    .maintenance-footer{
-        margin-top:15px;
-    }
-
 }
 
 </style>
@@ -2941,91 +2417,91 @@ button{
 
 <body>
 
+
 <!-- =========================================================
-     MAINTENANCE SCREEN
+     🔧 MAINTENANCE SCREEN
 ========================================================= -->
 
-<div id="maintenance-screen">
+<div
+    class="maintenance-screen"
+    id="maintenance-screen"
+>
 
-    <div class="maintenance-grid"></div>
-
-    <div class="maintenance-ambient"></div>
-
-    <div class="maintenance-rise"></div>
-
-    <div class="maintenance-side"></div>
-
-    <div class="maintenance-beams">
-        <div class="beam"></div>
-        <div class="beam"></div>
-        <div class="beam"></div>
-        <div class="beam"></div>
-    </div>
+    <div class="maintenance-glow"></div>
 
     <div class="maintenance-particles">
 
-        <span class="m-particle mp1"></span>
-        <span class="m-particle mp2"></span>
-        <span class="m-particle mp3"></span>
-        <span class="m-particle mp4"></span>
-        <span class="m-particle mp5"></span>
-        <span class="m-particle mp6"></span>
-        <span class="m-particle mp7"></span>
-        <span class="m-particle mp8"></span>
-        <span class="m-particle mp9"></span>
-        <span class="m-particle mp10"></span>
-        <span class="m-particle mp11"></span>
-        <span class="m-particle mp12"></span>
+        <span class="mparticle"></span>
+        <span class="mparticle"></span>
+        <span class="mparticle"></span>
+        <span class="mparticle"></span>
+        <span class="mparticle"></span>
+        <span class="mparticle"></span>
+        <span class="mparticle"></span>
+        <span class="mparticle"></span>
+        <span class="mparticle"></span>
+        <span class="mparticle"></span>
+        <span class="mparticle"></span>
+        <span class="mparticle"></span>
 
     </div>
 
     <div class="maintenance-content">
 
-        <div class="maintenance-logo">
-            A2Z
-        </div>
+        <!-- كتابة فقط بدون صورة أو إطار -->
 
-        <div class="maintenance-brand">
-            COSMETIC
+        <div class="maintenance-logo">
+
+            <div class="maintenance-logo-main">
+                A2Z
+            </div>
+
+            <div class="maintenance-logo-sub">
+                COSMETIC
+            </div>
+
         </div>
 
         <div class="maintenance-line"></div>
 
+        <div class="maintenance-icon">
+            ⚙
+        </div>
+
         <h1 class="maintenance-title">
-            الموقع <span>تحت الصيانة</span>
+            الموقع <span>قيد الصيانة</span>
         </h1>
 
-        <p class="maintenance-desc">
-            نقوم حالياً بإجراء بعض التحديثات والتحسينات
-            حتى نقدم لكم تجربة أفضل وأسرع.
-        </p>
+        <div
+            class="maintenance-message"
+            id="maintenance-message"
+        >
+            نقوم حالياً بإجراء بعض التحسينات
+        </div>
 
-        <div class="maintenance-status">
+        <div class="maintenance-status-box">
 
-            <span class="maintenance-status-dot"></span>
+            <span class="maintenance-dot"></span>
 
-            <span id="maintenance-message">
-                جاري تنفيذ التحديثات...
+            <span>
+                جاري العمل على النظام
             </span>
 
         </div>
 
-        <div class="maintenance-timer-wrap">
+        <div
+            class="maintenance-timer"
+            id="maintenance-timer"
+        >
+            00:00:00
+        </div>
 
-            <div class="timer-label">
-                مدة الصيانة الحالية
-            </div>
-
-            <div id="maintenance-timer">
-                00:00:00
-            </div>
-
-            <div class="timer-progress"></div>
-
+        <div class="maintenance-timer-label">
+            MAINTENANCE TIME
         </div>
 
         <div class="maintenance-footer">
-            A2Z COSMETIC • SYSTEM UPDATE
+            A2Z COSMETIC • PRICE CHECK SYSTEM
         </div>
 
     </div>
@@ -3462,182 +2938,19 @@ button{
 <script>
 
 /* =========================================================
-   إعدادات الموقع
+   🔧 وضع الصيانة
 ========================================================= */
 
 /*
-   true  = تشغيل الصيانة
-   false = تشغيل الموقع الطبيعي
+   false = الموقع الطبيعي
+   true  = شاشة الصيانة
 */
 
 const MAINTENANCE_MODE = true;
 
 
 /* =========================================================
-   تشغيل / إيقاف شاشة الصيانة
-========================================================= */
-
-const maintenanceScreen =
-    document.getElementById(
-        "maintenance-screen"
-    );
-
-const app =
-    document.querySelector(".app");
-
-const intro =
-    document.getElementById("intro");
-
-
-if(MAINTENANCE_MODE){
-
-    maintenanceScreen.classList.add(
-        "active"
-    );
-
-    app.style.display = "none";
-
-    intro.style.display = "none";
-
-}else{
-
-    maintenanceScreen.classList.remove(
-        "active"
-    );
-
-}
-
-
-/* =========================================================
-   عداد الصيانة الصاعد
-========================================================= */
-
-let maintenanceElapsed = 0;
-
-let maintenanceTimerInterval = null;
-
-
-function updateMaintenanceTimer(){
-
-    const hours =
-        Math.floor(
-            maintenanceElapsed / 3600
-        );
-
-    const minutes =
-        Math.floor(
-            (maintenanceElapsed % 3600) / 60
-        );
-
-    const seconds =
-        maintenanceElapsed % 60;
-
-
-    const timer =
-        document.getElementById(
-            "maintenance-timer"
-        );
-
-
-    timer.textContent =
-        String(hours).padStart(2,"0") +
-        ":" +
-        String(minutes).padStart(2,"0") +
-        ":" +
-        String(seconds).padStart(2,"0");
-
-
-    maintenanceElapsed++;
-
-}
-
-
-if(MAINTENANCE_MODE){
-
-    updateMaintenanceTimer();
-
-    maintenanceTimerInterval =
-        setInterval(
-            updateMaintenanceTimer,
-            1000
-        );
-
-}
-
-
-/* =========================================================
-   رسائل الصيانة المتغيرة
-========================================================= */
-
-const maintenanceMessages = [
-
-    "جاري تنفيذ التحديثات...",
-
-    "تحسين أداء النظام...",
-
-    "تحديث بعض المكونات...",
-
-    "اختبار الخدمات...",
-
-    "تحسين تجربة الاستخدام...",
-
-    "جاري وضع اللمسات الأخيرة..."
-
-];
-
-
-let maintenanceMessageIndex = 0;
-
-
-const maintenanceMessage =
-    document.getElementById(
-        "maintenance-message"
-    );
-
-
-if(MAINTENANCE_MODE){
-
-    setInterval(
-        function(){
-
-            maintenanceMessage.classList.add(
-                "change"
-            );
-
-
-            setTimeout(
-                function(){
-
-                    maintenanceMessageIndex =
-                        (
-                            maintenanceMessageIndex + 1
-                        ) %
-                        maintenanceMessages.length;
-
-
-                    maintenanceMessage.innerText =
-                        maintenanceMessages[
-                            maintenanceMessageIndex
-                        ];
-
-
-                    maintenanceMessage.classList.remove(
-                        "change"
-                    );
-
-                },
-                300
-            );
-
-        },
-        3000
-    );
-
-}
-
-
-/* =========================================================
-   إعدادات الأسعار والكاميرا
+   إعدادات الموقع
 ========================================================= */
 
 const GOOGLE_SCRIPT_URL =
@@ -3672,6 +2985,246 @@ let currentZoom = 1;
 
 
 /* =========================================================
+   عناصر الصيانة
+========================================================= */
+
+const maintenanceScreen =
+    document.getElementById(
+        "maintenance-screen"
+    );
+
+const app =
+    document.querySelector(
+        ".app"
+    );
+
+const intro =
+    document.getElementById(
+        "intro"
+    );
+
+let maintenanceStartTime =
+    null;
+
+let maintenanceTimerInterval =
+    null;
+
+let maintenanceMessageInterval =
+    null;
+
+
+/* =========================================================
+   تشغيل / إيقاف الصيانة
+========================================================= */
+
+function updateMaintenanceMode(){
+
+    if(MAINTENANCE_MODE){
+
+        maintenanceScreen.classList.add(
+            "active"
+        );
+
+        app.style.display =
+            "none";
+
+        intro.style.display =
+            "none";
+
+        startMaintenanceTimer();
+
+        startMaintenanceMessages();
+
+        return;
+
+    }
+
+
+    maintenanceScreen.classList.remove(
+        "active"
+    );
+
+    app.style.display =
+        "";
+
+    intro.style.display =
+        "flex";
+
+    stopMaintenanceTimer();
+
+}
+
+
+/* =========================================================
+   عداد الصيانة
+========================================================= */
+
+function startMaintenanceTimer(){
+
+    if(maintenanceTimerInterval){
+
+        return;
+
+    }
+
+    maintenanceStartTime =
+        Date.now();
+
+
+    const timer =
+        document.getElementById(
+            "maintenance-timer"
+        );
+
+
+    function updateTimer(){
+
+        const elapsed =
+            Date.now() -
+            maintenanceStartTime;
+
+
+        const totalSeconds =
+            Math.floor(
+                elapsed / 1000
+            );
+
+
+        const hours =
+            Math.floor(
+                totalSeconds / 3600
+            );
+
+
+        const minutes =
+            Math.floor(
+                (totalSeconds % 3600) / 60
+            );
+
+
+        const seconds =
+            totalSeconds % 60;
+
+
+        timer.innerText =
+            String(hours).padStart(2,"0") +
+            ":" +
+            String(minutes).padStart(2,"0") +
+            ":" +
+            String(seconds).padStart(2,"0");
+
+    }
+
+
+    updateTimer();
+
+
+    maintenanceTimerInterval =
+        setInterval(
+            updateTimer,
+            1000
+        );
+
+}
+
+
+function stopMaintenanceTimer(){
+
+    if(maintenanceTimerInterval){
+
+        clearInterval(
+            maintenanceTimerInterval
+        );
+
+        maintenanceTimerInterval =
+            null;
+
+    }
+
+}
+
+
+/* =========================================================
+   رسائل الصيانة
+========================================================= */
+
+function startMaintenanceMessages(){
+
+    const message =
+        document.getElementById(
+            "maintenance-message"
+        );
+
+
+    const messages = [
+
+        "نقوم حالياً بإجراء بعض التحسينات",
+
+        "نحدّث النظام حتى تحصل على تجربة أفضل",
+
+        "A2Z Cosmetic يعود إليك قريباً",
+
+        "نقوم بتحسين سرعة وأداء الموقع",
+
+        "شكراً لصبرك ❤️"
+
+    ];
+
+
+    let index = 0;
+
+
+    message.innerText =
+        messages[index];
+
+
+    if(maintenanceMessageInterval){
+
+        clearInterval(
+            maintenanceMessageInterval
+        );
+
+    }
+
+
+    maintenanceMessageInterval =
+        setInterval(
+            function(){
+
+                index =
+                    (index + 1) %
+                    messages.length;
+
+
+                message.animate(
+                    [
+                        {
+                            opacity:0,
+                            transform:"translateY(6px)"
+                        },
+                        {
+                            opacity:1,
+                            transform:"translateY(0)"
+                        }
+                    ],
+                    {
+                        duration:500,
+                        easing:"ease"
+                    }
+                );
+
+
+                message.innerText =
+                    messages[index];
+
+            },
+            3000
+        );
+
+}
+
+
+/* =========================================================
    PRESENTATION
 ========================================================= */
 
@@ -3687,16 +3240,21 @@ enterBtn.addEventListener(
 
         enterBtn.disabled = true;
 
-        enterBtn.style.pointerEvents = "none";
+        enterBtn.style.pointerEvents =
+            "none";
 
-        intro.classList.add("hide");
+        intro.classList.add(
+            "hide"
+        );
 
         setTimeout(
             function(){
 
-                intro.style.display = "none";
+                intro.style.display =
+                    "none";
 
-                enterBtn.disabled = false;
+                enterBtn.disabled =
+                    false;
 
             },
             950
@@ -3714,11 +3272,21 @@ window.addEventListener(
     "load",
     function(){
 
+        updateMaintenanceMode();
+
+
+        /*
+           إذا الصيانة مفعلة:
+           لا نحمل الأسعار ولا نشغل
+           أي شيء خاص بالموقع.
+        */
+
         if(MAINTENANCE_MODE){
 
             return;
 
         }
+
 
         loadRecent();
 
@@ -3734,10 +3302,18 @@ window.addEventListener(
 
 function loadPriceData(){
 
+    if(MAINTENANCE_MODE){
+
+        return;
+
+    }
+
+
     setSystemStatus(
         "جاري تحميل الأسعار",
         "loading"
     );
+
 
     const callbackName =
         "a2zCallback_" +
@@ -3764,6 +3340,7 @@ function loadPriceData(){
 
             }
 
+
             priceData.clear();
 
 
@@ -3778,6 +3355,7 @@ function loadPriceData(){
 
                         const item =
                             entry[1];
+
 
                         if(barcode){
 
@@ -3818,10 +3396,12 @@ function loadPriceData(){
 
         delete window[callbackName];
 
+
         const oldScript =
             document.getElementById(
                 callbackName
             );
+
 
         if(oldScript){
 
@@ -3901,13 +3481,16 @@ function setSystemStatus(
             "status-text"
         );
 
+
     textElement.innerText =
         text;
+
 
     status.classList.remove(
         "online",
         "error"
     );
+
 
     if(state === "online"){
 
@@ -3916,6 +3499,7 @@ function setSystemStatus(
         );
 
     }
+
 
     if(state === "error"){
 
@@ -3940,8 +3524,10 @@ function createBarcodeReader(){
 
     }
 
+
     const hints =
         new Map();
+
 
     const formats = [
 
@@ -3961,15 +3547,18 @@ function createBarcodeReader(){
 
     ];
 
+
     hints.set(
         ZXing.DecodeHintType.POSSIBLE_FORMATS,
         formats
     );
 
+
     hints.set(
         ZXing.DecodeHintType.TRY_HARDER,
         true
     );
+
 
     codeReader =
         new ZXing.BrowserMultiFormatReader(
@@ -3985,6 +3574,13 @@ function createBarcodeReader(){
 
 async function initScanner(){
 
+    if(MAINTENANCE_MODE){
+
+        return;
+
+    }
+
+
     if(scannerRunning){
 
         focusScanner();
@@ -3999,10 +3595,12 @@ async function initScanner(){
             "start-screen"
         );
 
+
     const video =
         document.getElementById(
             "webcam-video"
         );
+
 
     const overlay =
         document.getElementById(
@@ -4138,11 +3736,14 @@ async function initScanner(){
 
         video.srcObject = null;
 
-        video.style.display = "none";
+        video.style.display =
+            "none";
 
-        overlay.style.display = "none";
+        overlay.style.display =
+            "none";
 
-        start.style.display = "flex";
+        start.style.display =
+            "flex";
 
 
         if(
@@ -4257,6 +3858,7 @@ function startZXingScanner(){
 
                     canScan = false;
 
+
                     handleResult(
                         result.text,
                         "camera"
@@ -4295,11 +3897,13 @@ function detectTorch(){
             "webcam-video"
         );
 
+
     if(!video.srcObject){
 
         return;
 
     }
+
 
     const tracks =
         video.srcObject
@@ -4311,6 +3915,7 @@ function detectTorch(){
         return;
 
     }
+
 
     videoTrack =
         tracks[0];
@@ -4351,6 +3956,7 @@ function detectZoom(){
         document.getElementById(
             "webcam-video"
         );
+
 
     const controls =
         document.getElementById(
@@ -4405,15 +4011,18 @@ function detectZoom(){
 
     zoomSupported = true;
 
+
     minZoom =
         Number(
             caps.zoom.min || 1
         );
 
+
     maxZoom =
         Number(
             caps.zoom.max || 1
         );
+
 
     zoomStep =
         Number(
@@ -4432,6 +4041,7 @@ function detectZoom(){
                     Number(
                         btn.dataset.zoom
                     );
+
 
                 btn.style.display =
                     value >= minZoom &&
@@ -4518,6 +4128,7 @@ async function setCameraZoom(value){
                         Number(
                             btn.dataset.zoom
                         );
+
 
                     btn.classList.toggle(
                         "active",
@@ -4843,6 +4454,7 @@ function showManualSearch(){
             "manual-box"
         );
 
+
     const input =
         document.getElementById(
             "manual-barcode-input"
@@ -4873,6 +4485,7 @@ function hideManualSearch(){
         document.getElementById(
             "manual-box"
         );
+
 
     const input =
         document.getElementById(
@@ -5130,9 +4743,17 @@ function stopCamera(){
 
 function refreshPrices(){
 
+    if(MAINTENANCE_MODE){
+
+        return;
+
+    }
+
+
     showToast(
         "جاري تحديث الأسعار..."
     );
+
 
     loadPriceData();
 
