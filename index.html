@@ -1,1972 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-
-<title>A2Z Cosmetic — صيانة</title>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-
-<link rel="preconnect"
-      href="https://fonts.gstatic.com"
-      crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap"
-      rel="stylesheet">
-
-
-<style>
-
-/* =====================================================
-   RESET
-===================================================== */
-
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
-}
-
-html,
-body{
-    width:100%;
-    height:100%;
-    overflow:hidden;
-}
-
-body{
-    font-family:"Cairo",sans-serif;
-    background:#010711;
-    color:#fff;
-}
-
-
-/* =====================================================
-   MAIN PAGE
-===================================================== */
-
-.page{
-    position:relative;
-
-    width:100%;
-    height:100%;
-
-    overflow:hidden;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    background:
-
-        radial-gradient(
-            circle at 50% 42%,
-            rgba(0,155,255,.20),
-            transparent 32%
-        ),
-
-        radial-gradient(
-            circle at 20% 85%,
-            rgba(0,100,255,.15),
-            transparent 30%
-        ),
-
-        radial-gradient(
-            circle at 85% 20%,
-            rgba(0,200,255,.10),
-            transparent 28%
-        ),
-
-        #010711;
-}
-
-
-/* =====================================================
-   BIG CENTER LIGHT
-===================================================== */
-
-.ambient{
-    position:absolute;
-
-    width:700px;
-    height:700px;
-
-    border-radius:50%;
-
-    background:
-
-        radial-gradient(
-            circle,
-            rgba(0,185,255,.30) 0%,
-            rgba(0,130,255,.20) 22%,
-            rgba(0,82,220,.11) 45%,
-            transparent 72%
-        );
-
-    filter:blur(45px);
-
-    animation:
-        ambientMove 7s
-        ease-in-out
-        infinite;
-
-    pointer-events:none;
-}
-
-
-/* =====================================================
-   RISING LIGHT FROM BOTTOM
-===================================================== */
-
-.page::before{
-
-    content:"";
-
-    position:absolute;
-
-    width:480px;
-    height:900px;
-
-    left:50%;
-    bottom:-620px;
-
-    transform:translateX(-50%);
-
-    background:
-
-        radial-gradient(
-            ellipse,
-            rgba(0,205,255,.38) 0%,
-            rgba(0,145,255,.25) 22%,
-            rgba(0,90,230,.12) 44%,
-            transparent 72%
-        );
-
-    filter:blur(35px);
-
-    animation:
-        lightRise 6s
-        ease-in-out
-        infinite;
-
-    pointer-events:none;
-
-    z-index:1;
-}
-
-
-/* =====================================================
-   SIDE LIGHT
-===================================================== */
-
-.page::after{
-
-    content:"";
-
-    position:absolute;
-
-    width:600px;
-    height:600px;
-
-    right:-260px;
-    top:25%;
-
-    border-radius:50%;
-
-    background:
-
-        radial-gradient(
-            circle,
-            rgba(0,165,255,.27),
-            rgba(0,100,255,.10) 35%,
-            transparent 70%
-        );
-
-    filter:blur(45px);
-
-    animation:
-        sideGlow 8s
-        ease-in-out
-        infinite;
-
-    pointer-events:none;
-
-    z-index:1;
-}
-
-
-/* =====================================================
-   LIGHT ANIMATIONS
-===================================================== */
-
-@keyframes ambientMove{
-
-    0%,100%{
-
-        transform:
-            translateY(25px)
-            scale(.85);
-
-        opacity:.60;
-    }
-
-    50%{
-
-        transform:
-            translateY(-35px)
-            scale(1.18);
-
-        opacity:1;
-    }
-}
-
-
-@keyframes lightRise{
-
-    0%{
-
-        bottom:-620px;
-
-        opacity:0;
-
-        transform:
-            translateX(-50%)
-            scale(.65);
-    }
-
-    20%{
-
-        opacity:.65;
-    }
-
-    50%{
-
-        opacity:1;
-    }
-
-    75%{
-
-        opacity:.65;
-    }
-
-    100%{
-
-        bottom:90px;
-
-        opacity:0;
-
-        transform:
-            translateX(-50%)
-            scale(1.25);
-    }
-}
-
-
-@keyframes sideGlow{
-
-    0%,100%{
-
-        transform:
-            translate(0,30px)
-            scale(.75);
-
-        opacity:.30;
-    }
-
-    50%{
-
-        transform:
-            translate(-120px,-50px)
-            scale(1.20);
-
-        opacity:.85;
-    }
-}
-
-
-/* =====================================================
-   GRID
-===================================================== */
-
-.grid{
-
-    position:absolute;
-
-    inset:-30%;
-
-    opacity:.16;
-
-    background-image:
-
-        linear-gradient(
-            rgba(0,157,255,.28) 1px,
-            transparent 1px
-        ),
-
-        linear-gradient(
-            90deg,
-            rgba(0,157,255,.28) 1px,
-            transparent 1px
-        );
-
-    background-size:55px 55px;
-
-    transform:
-        perspective(500px)
-        rotateX(65deg)
-        translateY(20%);
-
-    animation:
-        gridMove 12s
-        linear
-        infinite;
-
-    z-index:2;
-}
-
-
-@keyframes gridMove{
-
-    from{
-        background-position:0 0;
-    }
-
-    to{
-        background-position:0 55px;
-    }
-}
-
-
-/* =====================================================
-   EXTRA LIGHT BEAMS
-===================================================== */
-
-.light-beams{
-
-    position:absolute;
-
-    inset:0;
-
-    overflow:hidden;
-
-    pointer-events:none;
-
-    z-index:3;
-}
-
-
-.beam{
-
-    position:absolute;
-
-    bottom:-300px;
-
-    width:2px;
-
-    height:650px;
-
-    background:
-
-        linear-gradient(
-            to top,
-            transparent,
-            rgba(0,185,255,.45),
-            transparent
-        );
-
-    filter:blur(2px);
-
-    opacity:.35;
-
-    transform:
-        rotate(12deg);
-
-    animation:
-        beamRise
-        linear
-        infinite;
-}
-
-
-.beam:nth-child(1){
-
-    left:20%;
-
-    height:600px;
-
-    animation-duration:7s;
-}
-
-
-.beam:nth-child(2){
-
-    left:37%;
-
-    height:800px;
-
-    animation-duration:9s;
-
-    animation-delay:2s;
-
-    transform:rotate(-8deg);
-}
-
-
-.beam:nth-child(3){
-
-    left:61%;
-
-    height:700px;
-
-    animation-duration:8s;
-
-    animation-delay:1s;
-
-    transform:rotate(9deg);
-}
-
-
-.beam:nth-child(4){
-
-    left:78%;
-
-    height:600px;
-
-    animation-duration:10s;
-
-    animation-delay:4s;
-
-    transform:rotate(-12deg);
-}
-
-
-@keyframes beamRise{
-
-    0%{
-
-        bottom:-350px;
-
-        opacity:0;
-
-        transform:
-            translateY(100px)
-            rotate(12deg);
-    }
-
-    25%{
-
-        opacity:.35;
-    }
-
-    65%{
-
-        opacity:.45;
-    }
-
-    100%{
-
-        bottom:100%;
-
-        opacity:0;
-
-        transform:
-            translateY(-100px)
-            rotate(12deg);
-    }
-}
-
-
-/* =====================================================
-   PARTICLES
-===================================================== */
-
-.particles{
-
-    position:absolute;
-
-    inset:0;
-
-    pointer-events:none;
-
-    z-index:4;
-}
-
-
-.particle{
-
-    position:absolute;
-
-    width:2px;
-    height:2px;
-
-    border-radius:50%;
-
-    background:#69d4ff;
-
-    box-shadow:
-        0 0 12px #159cff;
-
-    opacity:.55;
-
-    animation:
-        floatParticle
-        linear
-        infinite;
-}
-
-
-.p1{
-    left:8%;
-    top:20%;
-    animation-duration:8s;
-}
-
-.p2{
-    left:18%;
-    top:70%;
-    animation-duration:11s;
-}
-
-.p3{
-    left:31%;
-    top:15%;
-    animation-duration:9s;
-}
-
-.p4{
-    left:73%;
-    top:25%;
-    animation-duration:12s;
-}
-
-.p5{
-    left:88%;
-    top:67%;
-    animation-duration:10s;
-}
-
-.p6{
-    left:64%;
-    top:82%;
-    animation-duration:8s;
-}
-
-.p7{
-    left:45%;
-    top:90%;
-    animation-duration:13s;
-}
-
-.p8{
-    left:94%;
-    top:14%;
-    animation-duration:9s;
-}
-
-.p9{
-    left:54%;
-    top:32%;
-    animation-duration:10s;
-}
-
-.p10{
-    left:12%;
-    top:45%;
-    animation-duration:12s;
-}
-
-
-@keyframes floatParticle{
-
-    0%{
-
-        transform:
-            translateY(40px);
-
-        opacity:0;
-    }
-
-    20%{
-
-        opacity:.65;
-    }
-
-    80%{
-
-        opacity:.65;
-    }
-
-    100%{
-
-        transform:
-            translateY(-120px);
-
-        opacity:0;
-    }
-}
-
-
-/* =====================================================
-   TOP BRAND
-===================================================== */
-
-.top{
-
-    position:absolute;
-
-    top:25px;
-
-    left:25px;
-
-    right:25px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
-    z-index:20;
-}
-
-
-.mini-brand{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:10px;
-}
-
-
-.mini-a2z{
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    font-size:1.05rem;
-
-    font-weight:900;
-
-    font-style:italic;
-
-    letter-spacing:-2px;
-
-    color:#effbff;
-
-    text-shadow:
-
-        0 0 7px
-        rgba(45,184,255,.85),
-
-        0 0 20px
-        rgba(0,120,255,.45);
-}
-
-
-.mini-name{
-
-    display:flex;
-
-    flex-direction:column;
-
-    line-height:1.1;
-}
-
-
-.mini-name strong{
-
-    font-size:.78rem;
-
-    letter-spacing:2px;
-}
-
-
-.mini-name span{
-
-    font-size:.42rem;
-
-    letter-spacing:2px;
-
-    color:#6b89a4;
-
-    margin-top:4px;
-}
-
-
-/* =====================================================
-   MODE
-===================================================== */
-
-.mode{
-
-    border:
-        1px solid
-        rgba(40,169,255,.20);
-
-    background:
-        rgba(0,35,65,.32);
-
-    padding:
-        7px 12px;
-
-    border-radius:30px;
-
-    font-size:.48rem;
-
-    color:#7894aa;
-
-    letter-spacing:1px;
-
-    backdrop-filter:
-        blur(14px);
-
-    box-shadow:
-        0 0 20px
-        rgba(0,110,255,.06);
-}
-
-
-.mode-dot{
-
-    display:inline-block;
-
-    width:6px;
-    height:6px;
-
-    border-radius:50%;
-
-    background:#18a8ff;
-
-    box-shadow:
-        0 0 10px #18a8ff;
-
-    margin-left:5px;
-
-    animation:
-        dotPulse
-        1.5s
-        infinite;
-}
-
-
-@keyframes dotPulse{
-
-    0%,100%{
-
-        opacity:.35;
-
-        transform:scale(.8);
-    }
-
-    50%{
-
-        opacity:1;
-
-        transform:scale(1.15);
-    }
-}
-
-
-/* =====================================================
-   CONTENT
-===================================================== */
-
-.content{
-
-    position:relative;
-
-    z-index:15;
-
-    width:min(92%,500px);
-
-    text-align:center;
-
-    transition:
-        transform .2s ease-out;
-}
-
-
-/* =====================================================
-   A2Z TEXT LOGO
-===================================================== */
-
-.logo-stage{
-
-    position:relative;
-
-    width:100%;
-
-    height:150px;
-
-    margin:
-        0 auto 2px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    overflow:visible;
-}
-
-
-.a2z-logo{
-
-    position:relative;
-
-    z-index:3;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    font-size:
-        clamp(
-            5rem,
-            22vw,
-            8rem
-        );
-
-    font-weight:900;
-
-    font-style:italic;
-
-    letter-spacing:-11px;
-
-    line-height:1;
-
-    color:#f1fbff;
-
-    transform-origin:center;
-
-    animation:
-
-        a2zEnter
-        1.5s
-        cubic-bezier(.16,1,.3,1)
-        both,
-
-        a2zFloat
-        4s
-        ease-in-out
-        1.5s
-        infinite;
-
-    text-shadow:
-
-        0 0 4px
-        rgba(255,255,255,.95),
-
-        0 0 14px
-        rgba(42,190,255,.95),
-
-        0 0 32px
-        rgba(0,136,255,.72),
-
-        0 0 70px
-        rgba(0,100,255,.42);
-}
-
-
-/* soft glow behind letters */
-
-.a2z-logo::before{
-
-    content:"A2Z";
-
-    position:absolute;
-
-    inset:0;
-
-    z-index:-1;
-
-    font:inherit;
-
-    font-style:inherit;
-
-    letter-spacing:inherit;
-
-    color:#079eff;
-
-    filter:
-        blur(22px);
-
-    opacity:.60;
-
-    transform:
-        scale(.96);
-}
-
-
-/* shine */
-
-.a2z-logo::after{
-
-    content:"";
-
-    position:absolute;
-
-    top:-15%;
-
-    bottom:-15%;
-
-    left:-80%;
-
-    width:35%;
-
-    background:
-
-        linear-gradient(
-            90deg,
-            transparent,
-            rgba(255,255,255,.98),
-            transparent
-        );
-
-    filter:
-        blur(5px);
-
-    transform:
-        skewX(-18deg);
-
-    animation:
-
-        logoShine
-        3.4s
-        ease-in-out
-        1.8s
-        infinite;
-
-    pointer-events:none;
-}
-
-
-@keyframes a2zEnter{
-
-    0%{
-
-        opacity:0;
-
-        transform:
-            scale(.25)
-            translateY(30px)
-            rotate(-8deg);
-
-        filter:
-            blur(16px);
-    }
-
-    45%{
-
-        opacity:1;
-
-        transform:
-            scale(1.12)
-            translateY(-5px)
-            rotate(2deg);
-
-        filter:
-            blur(0);
-    }
-
-    70%{
-
-        transform:
-            scale(.96)
-            rotate(-1deg);
-    }
-
-    100%{
-
-        opacity:1;
-
-        transform:
-            scale(1)
-            translateY(0)
-            rotate(0);
-
-        filter:
-            blur(0);
-    }
-}
-
-
-@keyframes a2zFloat{
-
-    0%,100%{
-
-        transform:
-            translateY(0)
-            rotate(0);
-    }
-
-    50%{
-
-        transform:
-            translateY(-5px)
-            rotate(-1deg);
-    }
-}
-
-
-@keyframes logoShine{
-
-    0%{
-
-        left:-80%;
-
-        opacity:0;
-    }
-
-    15%{
-
-        opacity:.9;
-    }
-
-    40%{
-
-        left:140%;
-
-        opacity:0;
-    }
-
-    100%{
-
-        left:140%;
-
-        opacity:0;
-    }
-}
-
-
-/* =====================================================
-   COSMETIC
-===================================================== */
-
-.cosmetic{
-
-    margin-top:-12px;
-
-    font-size:.62rem;
-
-    letter-spacing:7px;
-
-    color:#75b9df;
-
-    text-shadow:
-        0 0 15px
-        rgba(0,155,255,.40);
-
-    animation:
-        fadeUp .9s .7s both;
-}
-
-
-/* =====================================================
-   DIVIDER
-===================================================== */
-
-.divider{
-
-    width:55px;
-
-    height:1px;
-
-    margin:
-        14px auto 16px;
-
-    background:
-
-        linear-gradient(
-            90deg,
-            transparent,
-            #159dff,
-            transparent
-        );
-
-    box-shadow:
-        0 0 15px
-        rgba(0,150,255,.75);
-
-    animation:
-        fadeUp .9s .8s both;
-}
-
-
-/* =====================================================
-   TEXT
-===================================================== */
-
-.kicker{
-
-    font-size:.5rem;
-
-    color:#42aeea;
-
-    letter-spacing:3px;
-
-    margin-bottom:6px;
-
-    animation:
-        fadeUp .9s .9s both;
-}
-
-
-h1{
-
-    font-size:
-        clamp(
-            1.35rem,
-            5vw,
-            2rem
-        );
-
-    font-weight:800;
-
-    letter-spacing:-.5px;
-
-    margin-bottom:8px;
-
-    text-shadow:
-        0 0 20px
-        rgba(0,150,255,.10);
-
-    animation:
-        fadeUp .9s 1s both;
-}
-
-
-.description{
-
-    max-width:390px;
-
-    margin:auto;
-
-    color:#89a6b9;
-
-    font-size:.68rem;
-
-    line-height:2;
-
-    animation:
-        fadeUp .9s 1.1s both;
-}
-
-
-/* =====================================================
-   TIMER
-===================================================== */
-
-.timer-box{
-
-    width:fit-content;
-
-    min-width:210px;
-
-    margin:
-        22px auto 12px;
-
-    padding:
-        12px 25px 13px;
-
-    border:
-        1px solid
-        rgba(35,157,255,.20);
-
-    border-radius:18px;
-
-    background:
-        rgba(4,28,50,.34);
-
-    backdrop-filter:
-        blur(16px);
-
-    box-shadow:
-
-        0 15px 50px
-        rgba(0,0,0,.28),
-
-        0 0 30px
-        rgba(0,110,255,.06),
-
-        inset 0 0 25px
-        rgba(0,120,255,.04);
-
-    animation:
-        fadeUp .9s 1.2s both;
-}
-
-
-.timer-label{
-
-    color:#5d88a3;
-
-    font-size:.42rem;
-
-    letter-spacing:3px;
-
-    margin-bottom:4px;
-}
-
-
-.timer{
-
-    direction:ltr;
-
-    font-family:
-        "Courier New",
-        monospace;
-
-    font-size:1.55rem;
-
-    font-weight:700;
-
-    letter-spacing:3px;
-
-    color:#dff8ff;
-
-    text-shadow:
-
-        0 0 10px
-        rgba(20,170,255,.75),
-
-        0 0 28px
-        rgba(20,120,255,.40);
-}
-
-
-/* =====================================================
-   PROGRESS
-===================================================== */
-
-.progress{
-
-    position:relative;
-
-    width:190px;
-
-    height:2px;
-
-    margin:
-        10px auto 15px;
-
-    overflow:hidden;
-
-    background:
-        rgba(55,139,187,.15);
-
-    border-radius:10px;
-
-    animation:
-        fadeUp .9s 1.3s both;
-}
-
-
-.progress::after{
-
-    content:"";
-
-    position:absolute;
-
-    top:0;
-
-    left:-40%;
-
-    width:40%;
-
-    height:100%;
-
-    background:
-
-        linear-gradient(
-            90deg,
-            transparent,
-            #20b2ff,
-            transparent
-        );
-
-    box-shadow:
-        0 0 12px #20b2ff;
-
-    animation:
-        progressMove
-        2.4s
-        linear
-        infinite;
-}
-
-
-@keyframes progressMove{
-
-    to{
-        left:100%;
-    }
-}
-
-
-/* =====================================================
-   STATUS
-===================================================== */
-
-.status{
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    gap:7px;
-
-    color:#68879a;
-
-    font-size:.54rem;
-
-    min-height:25px;
-
-    animation:
-        fadeUp .9s 1.4s both;
-}
-
-
-.status-dot{
-
-    width:6px;
-    height:6px;
-
-    border-radius:50%;
-
-    background:#18a8ff;
-
-    box-shadow:
-        0 0 12px #18a8ff;
-
-    animation:
-        dotPulse
-        1.5s
-        infinite;
-}
-
-
-#statusText{
-
-    transition:
-        opacity .35s ease;
-}
-
-
-/* =====================================================
-   FOOTER
-===================================================== */
-
-.footer{
-
-    position:absolute;
-
-    bottom:18px;
-
-    left:0;
-
-    right:0;
-
-    text-align:center;
-
-    color:#355165;
-
-    font-size:.42rem;
-
-    letter-spacing:2px;
-
-    z-index:20;
-}
-
-
-/* =====================================================
-   FADE
-===================================================== */
-
-@keyframes fadeUp{
-
-    from{
-
-        opacity:0;
-
-        transform:
-            translateY(15px);
-    }
-
-    to{
-
-        opacity:1;
-
-        transform:
-            translateY(0);
-    }
-}
-
-
-/* =====================================================
-   MOBILE
-===================================================== */
-
-@media(max-width:600px){
-
-    .top{
-
-        top:16px;
-
-        left:16px;
-
-        right:16px;
-    }
-
-
-    .mini-a2z{
-
-        font-size:.95rem;
-    }
-
-
-    .mini-name strong{
-
-        font-size:.68rem;
-    }
-
-
-    .mini-name span{
-
-        font-size:.36rem;
-    }
-
-
-    .mode{
-
-        font-size:.4rem;
-
-        padding:
-            6px 9px;
-    }
-
-
-    .logo-stage{
-
-        height:135px;
-    }
-
-
-    .a2z-logo{
-
-        font-size:
-            clamp(
-                5rem,
-                23vw,
-                7rem
-            );
-
-        letter-spacing:-9px;
-    }
-
-
-    .cosmetic{
-
-        font-size:.48rem;
-
-        letter-spacing:6px;
-    }
-
-
-    .description{
-
-        padding:
-            0 20px;
-
-        font-size:.63rem;
-    }
-
-
-    .timer-box{
-
-        margin-top:18px;
-    }
-
-
-    .footer{
-
-        bottom:12px;
-
-        font-size:.36rem;
-    }
-
-
-    .ambient{
-
-        width:520px;
-        height:520px;
-    }
-
-
-    .page::before{
-
-        width:380px;
-    }
-
-}
-
-
-/* =====================================================
-   SHORT SCREEN
-===================================================== */
-
-@media(max-height:680px){
-
-    .logo-stage{
-
-        height:105px;
-    }
-
-
-    .a2z-logo{
-
-        font-size:4.5rem;
-
-        letter-spacing:-7px;
-    }
-
-
-    .cosmetic{
-
-        font-size:.43rem;
-    }
-
-
-    .divider{
-
-        margin:
-            8px auto 10px;
-    }
-
-
-    .description{
-
-        font-size:.56rem;
-    }
-
-
-    .timer-box{
-
-        margin-top:12px;
-
-        padding:
-            8px 20px;
-    }
-
-}
-
-</style>
-
-</head>
-
-
-<body>
-
-
-<div class="page">
-
-
-    <!-- MAIN AMBIENT LIGHT -->
-
-    <div class="ambient"></div>
-
-
-    <!-- GRID -->
-
-    <div class="grid"></div>
-
-
-    <!-- MOVING LIGHT BEAMS -->
-
-    <div class="light-beams">
-
-        <span class="beam"></span>
-
-        <span class="beam"></span>
-
-        <span class="beam"></span>
-
-        <span class="beam"></span>
-
-    </div>
-
-
-    <!-- PARTICLES -->
-
-    <div class="particles">
-
-        <span class="particle p1"></span>
-
-        <span class="particle p2"></span>
-
-        <span class="particle p3"></span>
-
-        <span class="particle p4"></span>
-
-        <span class="particle p5"></span>
-
-        <span class="particle p6"></span>
-
-        <span class="particle p7"></span>
-
-        <span class="particle p8"></span>
-
-        <span class="particle p9"></span>
-
-        <span class="particle p10"></span>
-
-    </div>
-
-
-    <!-- =================================================
-         TOP
-    ================================================= -->
-
-    <div class="top">
-
-
-        <div class="mini-brand">
-
-
-            <div class="mini-a2z">
-
-                A2Z
-
-            </div>
-
-
-            <div class="mini-name">
-
-                <strong>
-                    A2Z COSMETIC
-                </strong>
-
-                <span>
-                    BEAUTY SYSTEM
-                </span>
-
-            </div>
-
-
-        </div>
-
-
-        <div class="mode">
-
-            <span class="mode-dot"></span>
-
-            MAINTENANCE MODE
-
-        </div>
-
-
-    </div>
-
-
-    <!-- =================================================
-         MAIN CONTENT
-    ================================================= -->
-
-    <main class="content">
-
-
-        <!-- A2Z -->
-
-        <div class="logo-stage">
-
-            <div class="a2z-logo">
-
-                A2Z
-
-            </div>
-
-        </div>
-
-
-        <div class="cosmetic">
-
-            COSMETIC
-
-        </div>
-
-
-        <div class="divider"></div>
-
-
-        <div class="kicker">
-
-            SYSTEM UPDATE
-
-        </div>
-
-
-        <h1>
-
-            الموقع تحت الصيانة
-
-        </h1>
-
-
-        <p class="description">
-
-            نعمل حالياً على تحسين النظام وتحديث بعض المكونات
-            لتقديم تجربة أفضل وأكثر استقراراً.
-
-        </p>
-
-
-        <!-- =================================================
-             ASCENDING TIMER
-        ================================================= -->
-
-        <div class="timer-box">
-
-
-            <div class="timer-label">
-
-                MAINTENANCE TIME
-
-            </div>
-
-
-            <div
-                class="timer"
-                id="timer">
-
-                00:00:00
-
-            </div>
-
-
-        </div>
-
-
-        <!-- PROGRESS -->
-
-        <div class="progress"></div>
-
-
-        <!-- STATUS -->
-
-        <div class="status">
-
-            <span class="status-dot"></span>
-
-
-            <span id="statusText">
-
-                جاري تنفيذ التحديثات...
-
-            </span>
-
-
-        </div>
-
-
-    </main>
-
-
-    <!-- FOOTER -->
-
-    <div class="footer">
-
-        A2Z COSMETIC • SYSTEM MAINTENANCE
-
-    </div>
-
-
-</div>
-
-
-<script>
-
-/* =====================================================
-   ASCENDING TIMER
-===================================================== */
-
-let elapsed = 0;
-
-const timer =
-    document.getElementById("timer");
-
-
-function updateTimer(){
-
-    const hours =
-        Math.floor(
-            elapsed / 3600
-        );
-
-
-    const minutes =
-        Math.floor(
-            (elapsed % 3600) / 60
-        );
-
-
-    const seconds =
-        elapsed % 60;
-
-
-    timer.textContent =
-
-        String(hours)
-            .padStart(2,"0")
-
-        + ":" +
-
-        String(minutes)
-            .padStart(2,"0")
-
-        + ":" +
-
-        String(seconds)
-            .padStart(2,"0");
-
-
-    elapsed++;
-
-}
-
-
-updateTimer();
-
-
-setInterval(
-    updateTimer,
-    1000
-);
-
-
-/* =====================================================
-   STATUS MESSAGES
-===================================================== */
-
-const messages = [
-
-    "جاري تنفيذ التحديثات...",
-
-    "تحسين أداء النظام...",
-
-    "تحديث بعض المكونات...",
-
-    "اختبار الخدمات...",
-
-    "تحسين تجربة الاستخدام...",
-
-    "جاري وضع اللمسات الأخيرة..."
-
-];
-
-
-let messageIndex = 0;
-
-
-const statusText =
-    document.getElementById(
-        "statusText"
-    );
-
-
-setInterval(() => {
-
-
-    statusText.style.opacity =
-        "0";
-
-
-    setTimeout(() => {
-
-
-        messageIndex =
-
-            (
-                messageIndex + 1
-            )
-            %
-            messages.length;
-
-
-        statusText.textContent =
-            messages[messageIndex];
-
-
-        statusText.style.opacity =
-            "1";
-
-
-    },350);
-
-
-},3000);
-
-
-/* =====================================================
-   SOFT MOUSE / TOUCH PARALLAX
-===================================================== */
-
-const content =
-    document.querySelector(
-        ".content"
-    );
-
-
-document.addEventListener(
-    "pointermove",
-    (event) => {
-
-
-        const x =
-
-            (
-                event.clientX /
-                window.innerWidth
-                - .5
-            ) * 4;
-
-
-        const y =
-
-            (
-                event.clientY /
-                window.innerHeight
-                - .5
-            ) * 4;
-
-
-        content.style.transform =
-
-            `translate(${x}px,${y}px)`;
-
-
-    }
-);
-
-</script>
-
-
-</body>
-</html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 
@@ -2004,6 +38,951 @@ body{
 body{
     color:#fff;
     overflow-x:hidden;
+}
+
+/* =========================================================
+   MAINTENANCE MODE
+========================================================= */
+
+#maintenance-screen{
+    position:fixed;
+    inset:0;
+    z-index:999999;
+
+    display:none;
+
+    align-items:center;
+    justify-content:center;
+
+    overflow:hidden;
+
+    background:
+        radial-gradient(
+            circle at 50% 42%,
+            rgba(0,155,255,.22),
+            transparent 32%
+        ),
+        radial-gradient(
+            circle at 20% 85%,
+            rgba(0,100,255,.16),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 85% 20%,
+            rgba(0,200,255,.12),
+            transparent 28%
+        ),
+        #010711;
+}
+
+#maintenance-screen.active{
+    display:flex;
+}
+
+/* شبكة الخلفية */
+
+.maintenance-grid{
+    position:absolute;
+    inset:-50%;
+
+    background-image:
+        linear-gradient(
+            rgba(0,150,255,.055) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(0,150,255,.055) 1px,
+            transparent 1px
+        );
+
+    background-size:42px 42px;
+
+    transform:
+        perspective(500px)
+        rotateX(58deg)
+        scale(1.5);
+
+    transform-origin:center bottom;
+
+    animation:
+        gridMove
+        9s
+        linear
+        infinite;
+
+    opacity:.75;
+}
+
+@keyframes gridMove{
+    from{
+        transform:
+            perspective(500px)
+            rotateX(58deg)
+            scale(1.5)
+            translateY(0);
+    }
+
+    to{
+        transform:
+            perspective(500px)
+            rotateX(58deg)
+            scale(1.5)
+            translateY(42px);
+    }
+}
+
+/* الضوء المركزي */
+
+.maintenance-ambient{
+    position:absolute;
+
+    width:700px;
+    height:700px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0,185,255,.32) 0%,
+            rgba(0,130,255,.21) 22%,
+            rgba(0,82,220,.11) 45%,
+            transparent 72%
+        );
+
+    filter:blur(45px);
+
+    animation:
+        maintenanceAmbient
+        7s
+        ease-in-out
+        infinite;
+}
+
+@keyframes maintenanceAmbient{
+
+    0%,100%{
+        transform:scale(.78);
+        opacity:.55;
+    }
+
+    50%{
+        transform:scale(1.15);
+        opacity:1;
+    }
+
+}
+
+/* ضوء صاعد من الأسفل */
+
+.maintenance-rise{
+    position:absolute;
+
+    width:480px;
+    height:900px;
+
+    left:50%;
+    bottom:-620px;
+
+    transform:translateX(-50%);
+
+    background:
+        radial-gradient(
+            ellipse,
+            rgba(0,205,255,.40) 0%,
+            rgba(0,145,255,.25) 22%,
+            rgba(0,90,230,.12) 44%,
+            transparent 72%
+        );
+
+    filter:blur(35px);
+
+    animation:
+        lightRise
+        6s
+        ease-in-out
+        infinite;
+}
+
+@keyframes lightRise{
+
+    0%,100%{
+        transform:
+            translateX(-50%)
+            translateY(90px)
+            scale(.85);
+
+        opacity:.45;
+    }
+
+    50%{
+        transform:
+            translateX(-50%)
+            translateY(-40px)
+            scale(1.08);
+
+        opacity:1;
+    }
+
+}
+
+/* إضاءة جانبية */
+
+.maintenance-side{
+    position:absolute;
+
+    width:600px;
+    height:600px;
+
+    right:-260px;
+    top:25%;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(0,165,255,.28),
+            rgba(0,100,255,.10) 35%,
+            transparent 70%
+        );
+
+    filter:blur(45px);
+
+    animation:
+        sideGlow
+        8s
+        ease-in-out
+        infinite;
+}
+
+@keyframes sideGlow{
+
+    0%,100%{
+        transform:translate(0,0);
+        opacity:.45;
+    }
+
+    50%{
+        transform:translate(-80px,35px);
+        opacity:1;
+    }
+
+}
+
+/* حزم الضوء */
+
+.maintenance-beams{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    overflow:hidden;
+}
+
+.beam{
+    position:absolute;
+
+    width:2px;
+    height:75%;
+
+    bottom:-75%;
+
+    background:
+        linear-gradient(
+            to top,
+            transparent,
+            rgba(0,190,255,.12),
+            rgba(0,210,255,.75),
+            transparent
+        );
+
+    filter:blur(1px);
+
+    box-shadow:
+        0 0 20px rgba(0,170,255,.45);
+
+    transform:rotate(9deg);
+
+    animation:
+        beamRise
+        6s
+        linear
+        infinite;
+}
+
+.beam:nth-child(1){
+    left:15%;
+    animation-delay:0s;
+}
+
+.beam:nth-child(2){
+    left:35%;
+    animation-delay:2.1s;
+    opacity:.65;
+}
+
+.beam:nth-child(3){
+    left:67%;
+    animation-delay:1.1s;
+    opacity:.7;
+}
+
+.beam:nth-child(4){
+    left:86%;
+    animation-delay:3.2s;
+    opacity:.5;
+}
+
+@keyframes beamRise{
+
+    0%{
+        transform:
+            translateY(0)
+            rotate(9deg);
+
+        opacity:0;
+    }
+
+    15%{
+        opacity:.8;
+    }
+
+    80%{
+        opacity:.5;
+    }
+
+    100%{
+        transform:
+            translateY(-180vh)
+            rotate(9deg);
+
+        opacity:0;
+    }
+
+}
+
+/* جسيمات */
+
+.maintenance-particles{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+}
+
+.m-particle{
+    position:absolute;
+
+    width:3px;
+    height:3px;
+
+    border-radius:50%;
+
+    background:#fff;
+
+    box-shadow:
+        0 0 8px #00aaff,
+        0 0 16px #007aff;
+
+    opacity:.35;
+
+    animation:
+        maintenanceParticle
+        4s
+        ease-in-out
+        infinite;
+}
+
+.mp1{top:16%;left:13%;animation-delay:.2s}
+.mp2{top:25%;left:79%;animation-delay:1.1s}
+.mp3{top:68%;left:11%;animation-delay:2s}
+.mp4{top:78%;left:86%;animation-delay:.7s}
+.mp5{top:12%;left:51%;animation-delay:1.7s}
+.mp6{top:87%;left:45%;animation-delay:2.7s}
+.mp7{top:46%;left:7%;animation-delay:1s}
+.mp8{top:43%;left:93%;animation-delay:2.2s}
+.mp9{top:33%;left:28%;animation-delay:3s}
+.mp10{top:61%;left:73%;animation-delay:1.5s}
+.mp11{top:83%;left:25%;animation-delay:2.4s}
+.mp12{top:20%;left:63%;animation-delay:3.2s}
+
+@keyframes maintenanceParticle{
+
+    0%,100%{
+        transform:
+            translateY(0)
+            scale(.6);
+
+        opacity:.12;
+    }
+
+    50%{
+        transform:
+            translateY(-18px)
+            scale(1.5);
+
+        opacity:1;
+    }
+
+}
+
+/* محتوى الصيانة */
+
+.maintenance-content{
+    position:relative;
+    z-index:10;
+
+    width:100%;
+    max-width:430px;
+
+    padding:25px;
+
+    text-align:center;
+}
+
+/* شعار النص */
+
+.maintenance-logo{
+    position:relative;
+
+    display:inline-block;
+
+    font-family:Arial,Helvetica,sans-serif;
+
+    font-size:clamp(5rem,22vw,8rem);
+
+    font-weight:900;
+
+    font-style:italic;
+
+    letter-spacing:-11px;
+
+    line-height:.9;
+
+    color:#f2fbff;
+
+    text-shadow:
+        0 0 4px rgba(255,255,255,.95),
+        0 0 14px rgba(42,190,255,.95),
+        0 0 32px rgba(0,136,255,.72),
+        0 0 70px rgba(0,100,255,.42);
+
+    opacity:0;
+
+    transform:
+        translateY(35px)
+        scale(.65);
+
+    animation:
+        maintenanceLogoIn
+        1.35s
+        cubic-bezier(.16,1,.3,1)
+        .15s
+        forwards,
+        maintenanceLogoFloat
+        4s
+        ease-in-out
+        1.5s
+        infinite;
+
+    overflow:hidden;
+}
+
+.maintenance-logo:before{
+    content:"A2Z";
+
+    position:absolute;
+    inset:0;
+
+    color:transparent;
+
+    filter:blur(14px);
+
+    text-shadow:
+        0 0 35px rgba(0,174,255,.9),
+        0 0 65px rgba(0,122,255,.7);
+
+    z-index:-1;
+}
+
+.maintenance-logo:after{
+    content:"";
+
+    position:absolute;
+
+    top:-20%;
+    left:-100%;
+
+    width:55%;
+    height:150%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,255,255,.75),
+            transparent
+        );
+
+    transform:skewX(-20deg);
+
+    animation:
+        maintenanceLogoShine
+        3.8s
+        ease-in-out
+        2s
+        infinite;
+}
+
+@keyframes maintenanceLogoIn{
+
+    0%{
+        opacity:0;
+
+        transform:
+            translateY(35px)
+            scale(.65);
+    }
+
+    65%{
+        opacity:1;
+
+        transform:
+            translateY(-6px)
+            scale(1.06);
+    }
+
+    100%{
+        opacity:1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+
+}
+
+@keyframes maintenanceLogoFloat{
+
+    0%,100%{
+        transform:
+            translateY(0)
+            scale(1);
+    }
+
+    50%{
+        transform:
+            translateY(-7px)
+            scale(1.015);
+    }
+
+}
+
+@keyframes maintenanceLogoShine{
+
+    0%{
+        left:-100%;
+    }
+
+    45%,100%{
+        left:145%;
+    }
+
+}
+
+/* COSMETIC */
+
+.maintenance-brand{
+    margin-top:3px;
+
+    color:#00bfff;
+
+    font-size:.68rem;
+
+    font-weight:900;
+
+    letter-spacing:6px;
+
+    text-shadow:
+        0 0 15px rgba(0,190,255,.45);
+
+    opacity:0;
+
+    transform:translateY(15px);
+
+    animation:
+        maintenanceFadeUp
+        .8s
+        cubic-bezier(.16,1,.3,1)
+        .9s
+        forwards;
+}
+
+/* الخط */
+
+.maintenance-line{
+    width:0;
+    height:1px;
+
+    margin:23px auto 20px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #00aaff,
+            #00d5ff,
+            #00aaff,
+            transparent
+        );
+
+    box-shadow:
+        0 0 15px rgba(0,170,255,.5);
+
+    animation:
+        maintenanceLine
+        1s
+        ease
+        1.2s
+        forwards;
+}
+
+@keyframes maintenanceLine{
+
+    to{
+        width:190px;
+    }
+
+}
+
+/* عنوان */
+
+.maintenance-title{
+    margin:0;
+
+    font-size:1.48rem;
+
+    font-weight:900;
+
+    opacity:0;
+
+    transform:
+        translateY(18px)
+        scale(.96);
+
+    animation:
+        maintenanceFadeUp
+        .8s
+        cubic-bezier(.16,1,.3,1)
+        1.45s
+        forwards;
+}
+
+.maintenance-title span{
+    color:#00baff;
+
+    text-shadow:
+        0 0 17px rgba(0,180,255,.32);
+}
+
+/* الوصف */
+
+.maintenance-desc{
+    margin:8px auto 19px;
+
+    max-width:330px;
+
+    color:#7a8794;
+
+    font-size:.67rem;
+
+    font-weight:600;
+
+    line-height:1.8;
+
+    opacity:0;
+
+    transform:translateY(15px);
+
+    animation:
+        maintenanceFadeUp
+        .8s
+        ease
+        1.65s
+        forwards;
+}
+
+@keyframes maintenanceFadeUp{
+
+    to{
+        opacity:1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+
+}
+
+/* حالة النظام */
+
+.maintenance-status{
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:7px;
+
+    padding:7px 13px;
+
+    border-radius:50px;
+
+    background:
+        rgba(0,122,255,.07);
+
+    border:
+        1px solid rgba(0,170,255,.13);
+
+    color:#84919e;
+
+    font-size:.57rem;
+
+    font-weight:800;
+
+    opacity:0;
+
+    animation:
+        maintenanceFade
+        .8s
+        ease
+        1.9s
+        forwards;
+}
+
+.maintenance-status-dot{
+    width:7px;
+    height:7px;
+
+    border-radius:50%;
+
+    background:#00baff;
+
+    box-shadow:
+        0 0 8px #00baff,
+        0 0 16px rgba(0,180,255,.6);
+
+    animation:
+        statusPulse
+        1.5s
+        ease-in-out
+        infinite;
+}
+
+@keyframes statusPulse{
+
+    0%,100%{
+        transform:scale(.75);
+        opacity:.55;
+    }
+
+    50%{
+        transform:scale(1.2);
+        opacity:1;
+    }
+
+}
+
+/* العداد الصاعد */
+
+.maintenance-timer-wrap{
+    margin:17px auto 0;
+
+    width:100%;
+    max-width:270px;
+
+    padding:14px 12px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(10,19,29,.88),
+            rgba(4,10,17,.9)
+        );
+
+    border:
+        1px solid rgba(0,140,255,.16);
+
+    border-radius:20px;
+
+    box-shadow:
+        0 18px 50px rgba(0,0,0,.35),
+        inset 0 0 30px rgba(0,120,255,.035);
+
+    opacity:0;
+
+    transform:
+        translateY(15px)
+        scale(.95);
+
+    animation:
+        timerIn
+        .8s
+        cubic-bezier(.16,1,.3,1)
+        2.05s
+        forwards;
+}
+
+@keyframes timerIn{
+
+    to{
+        opacity:1;
+
+        transform:
+            translateY(0)
+            scale(1);
+    }
+
+}
+
+.timer-label{
+    color:#596774;
+
+    font-size:.52rem;
+
+    font-weight:800;
+
+    letter-spacing:1.5px;
+}
+
+#maintenance-timer{
+    margin-top:3px;
+
+    direction:ltr;
+
+    color:#f1fbff;
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    font-size:2rem;
+
+    font-weight:900;
+
+    letter-spacing:3px;
+
+    text-shadow:
+        0 0 12px rgba(0,190,255,.55),
+        0 0 30px rgba(0,122,255,.25);
+}
+
+.timer-progress{
+    position:relative;
+
+    width:100%;
+    height:2px;
+
+    margin-top:10px;
+
+    overflow:hidden;
+
+    border-radius:10px;
+
+    background:
+        rgba(255,255,255,.05);
+}
+
+.timer-progress:after{
+    content:"";
+
+    position:absolute;
+
+    left:-40%;
+
+    top:0;
+
+    width:40%;
+    height:100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            #00bfff,
+            transparent
+        );
+
+    box-shadow:
+        0 0 12px #00aaff;
+
+    animation:
+        progressShine
+        2s
+        linear
+        infinite;
+}
+
+@keyframes progressShine{
+
+    to{
+        left:140%;
+    }
+
+}
+
+/* رسالة متغيرة */
+
+#maintenance-message{
+    min-height:22px;
+
+    margin-top:13px;
+
+    color:#697683;
+
+    font-size:.57rem;
+
+    font-weight:700;
+
+    transition:
+        opacity .3s ease,
+        transform .3s ease;
+}
+
+#maintenance-message.change{
+    opacity:0;
+    transform:translateY(4px);
+}
+
+/* الفوتر */
+
+.maintenance-footer{
+    margin-top:23px;
+
+    color:#394550;
+
+    font-size:.5rem;
+
+    font-weight:700;
+
+    letter-spacing:.5px;
+
+    opacity:0;
+
+    animation:
+        maintenanceFade
+        .8s
+        ease
+        2.4s
+        forwards;
+}
+
+@keyframes maintenanceFade{
+
+    to{
+        opacity:1;
+    }
+
 }
 
 /* =========================================================
@@ -2091,8 +1070,6 @@ body{
 
 }
 
-/* دوائر الطاقة */
-
 .intro-ring{
     position:absolute;
 
@@ -2114,14 +1091,12 @@ body{
 .intro-ring:nth-child(2){
     width:400px;
     height:400px;
-
     animation-delay:1s;
 }
 
 .intro-ring:nth-child(3){
     width:550px;
     height:550px;
-
     animation-delay:2s;
 }
 
@@ -2143,12 +1118,9 @@ body{
 
 }
 
-/* الجزيئات */
-
 .intro-particles{
     position:absolute;
     inset:0;
-
     pointer-events:none;
 }
 
@@ -2200,8 +1172,6 @@ body{
 
 }
 
-/* محتوى البرزنتيشن */
-
 .intro-content{
     position:relative;
     z-index:5;
@@ -2213,8 +1183,6 @@ body{
 
     text-align:center;
 }
-
-/* اللوغو */
 
 .intro-logo-wrap{
     width:130px;
@@ -2241,7 +1209,6 @@ body{
 
 .intro-logo-glow{
     position:absolute;
-
     inset:-32px;
 
     border-radius:50%;
@@ -2337,11 +1304,8 @@ body{
 
 }
 
-/* الحلقة */
-
 .logo-circle{
     position:absolute;
-
     inset:-14px;
 
     border-radius:50%;
@@ -2380,21 +1344,15 @@ body{
 }
 
 @keyframes logoRotate{
-
     to{
         transform:rotate(360deg);
     }
-
 }
-
-/* اسم البراند */
 
 .intro-brand{
     opacity:0;
 
-    transform:
-        translateY(25px)
-        scale(.95);
+    transform:translateY(25px) scale(.95);
 
     animation:
         textEntrance
@@ -2406,7 +1364,6 @@ body{
 
 .intro-brand-main{
     font-size:2.05rem;
-
     font-weight:900;
 
     letter-spacing:4px;
@@ -2424,7 +1381,6 @@ body{
     background-size:300% auto;
 
     -webkit-background-clip:text;
-
     -webkit-text-fill-color:transparent;
 
     animation:
@@ -2435,11 +1391,9 @@ body{
 }
 
 @keyframes brandShine{
-
     to{
         background-position:300% center;
     }
-
 }
 
 .intro-brand-sub{
@@ -2457,11 +1411,8 @@ body{
         0 0 12px rgba(0,170,255,.35);
 }
 
-/* الخط */
-
 .intro-line{
     width:0;
-
     height:1px;
 
     margin:20px auto;
@@ -2488,14 +1439,10 @@ body{
 }
 
 @keyframes lineEntrance{
-
     to{
         width:180px;
     }
-
 }
-
-/* العنوان */
 
 .intro-title{
     margin:0;
@@ -2524,8 +1471,6 @@ body{
     text-shadow:
         0 0 15px rgba(0,170,255,.25);
 }
-
-/* الوصف */
 
 .intro-desc{
     margin:8px 0 22px;
@@ -2559,8 +1504,6 @@ body{
     }
 
 }
-
-/* زر الدخول */
 
 .enter-btn{
     position:relative;
@@ -2618,6 +1561,18 @@ body{
         box-shadow .18s ease;
 }
 
+@keyframes buttonGradient{
+
+    0%,100%{
+        background-position:0% 50%;
+    }
+
+    50%{
+        background-position:100% 50%;
+    }
+
+}
+
 .enter-btn:before{
     content:"";
 
@@ -2645,18 +1600,6 @@ body{
         ease-in-out
         2.8s
         infinite;
-}
-
-@keyframes buttonGradient{
-
-    0%,100%{
-        background-position:0% 50%;
-    }
-
-    50%{
-        background-position:100% 50%;
-    }
-
 }
 
 @keyframes buttonShine{
@@ -2693,154 +1636,29 @@ body{
         0 5px 15px rgba(0,122,255,.25);
 }
 
-/* =========================================================
-   حقوق المصمم - تحت الزر
-========================================================= */
+.intro-footer{
+    margin-top:25px;
 
-.intro-credit{
-    position:relative;
+    color:#3f4852;
 
-    display:flex;
+    font-size:.5rem;
 
-    align-items:center;
-    justify-content:center;
-
-    gap:7px;
-
-    margin-top:14px;
-
-    color:#68727d;
-
-    font-size:.62rem;
-
-    font-weight:800;
-
-    letter-spacing:.6px;
-
-    direction:ltr;
+    font-weight:700;
 
     opacity:0;
 
-    transform:
-        translateY(10px)
-        scale(.94);
-
     animation:
-        creditEntrance
+        fadeIn
         .8s
-        cubic-bezier(.16,1,.3,1)
+        ease
         2.5s
         forwards;
 }
 
-/* خط ضوء خفيف */
-
-.intro-credit:before{
-    content:"";
-
-    position:absolute;
-
-    width:90px;
-
-    height:1px;
-
-    top:-7px;
-
-    left:50%;
-
-    transform:translateX(-50%);
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            rgba(0,170,255,.45),
-            transparent
-        );
-
-    box-shadow:
-        0 0 8px rgba(0,170,255,.25);
-}
-
-/* علامة الضوء */
-
-.credit-spark{
-    display:inline-flex;
-
-    align-items:center;
-    justify-content:center;
-
-    color:#fff;
-
-    font-size:.82rem;
-
-    line-height:1;
-
-    text-shadow:
-        0 0 4px #fff,
-        0 0 9px #00c8ff,
-        0 0 16px #007aff,
-        0 0 24px rgba(0,122,255,.7);
-
-    animation:
-        creditSpark
-        1.8s
-        ease-in-out
-        infinite;
-}
-
-@keyframes creditSpark{
-
-    0%,100%{
-        transform:
-            scale(.8)
-            rotate(0deg);
-
-        opacity:.65;
-    }
-
-    50%{
-        transform:
-            scale(1.25)
-            rotate(180deg);
-
+@keyframes fadeIn{
+    to{
         opacity:1;
     }
-
-}
-
-@keyframes creditEntrance{
-
-    0%{
-        opacity:0;
-
-        transform:
-            translateY(10px)
-            scale(.94);
-
-        filter:blur(4px);
-    }
-
-    70%{
-        opacity:1;
-
-        transform:
-            translateY(-1px)
-            scale(1.02);
-
-        filter:blur(0);
-    }
-
-    100%{
-        opacity:1;
-
-        transform:
-            translateY(0)
-            scale(1);
-
-        filter:blur(0);
-    }
-
 }
 
 /* =========================================================
@@ -2849,7 +1667,6 @@ body{
 
 .app{
     width:100%;
-
     max-width:430px;
 
     min-height:100vh;
@@ -2905,7 +1722,9 @@ body:after{
     pointer-events:none;
 }
 
-/* HEADER */
+/* =========================================================
+   HEADER
+========================================================= */
 
 .header{
     display:flex;
@@ -2947,10 +1766,7 @@ body:after{
 }
 
 .logo:active{
-
-    transform:
-        scale(.92)
-        rotate(-3deg);
+    transform:scale(.92) rotate(-3deg);
 
     box-shadow:
         0 0 30px rgba(0,122,255,.4);
@@ -3027,7 +1843,9 @@ body:after{
         0 0 8px #ff4545;
 }
 
-/* HERO */
+/* =========================================================
+   HERO
+========================================================= */
 
 .hero{
     text-align:center;
@@ -3067,7 +1885,9 @@ body:after{
     font-weight:600;
 }
 
-/* SCANNER */
+/* =========================================================
+   SCANNER
+========================================================= */
 
 .scanner-card{
     width:100%;
@@ -3255,7 +2075,9 @@ body:after{
         0 1px 5px #000;
 }
 
-/* START SCREEN */
+/* =========================================================
+   START SCREEN
+========================================================= */
 
 .start-screen{
     position:absolute;
@@ -3301,7 +2123,6 @@ body:after{
 }
 
 .start-screen:active .camera-icon{
-
     transform:
         scale(.9)
         rotate(-5deg);
@@ -3326,11 +2147,12 @@ body:after{
     text-align:center;
 }
 
-/* BUTTON POP SYSTEM */
+/* =========================================================
+   BUTTONS
+========================================================= */
 
 button{
     -webkit-user-select:none;
-
     user-select:none;
 
     touch-action:manipulation;
@@ -3370,7 +2192,6 @@ button{
 
 .primary-btn:hover,
 .reset-btn:hover{
-
     filter:brightness(1.08);
 
     box-shadow:
@@ -3379,7 +2200,6 @@ button{
 
 .primary-btn:active,
 .reset-btn:active{
-
     transform:
         scale(.92)
         translateY(2px);
@@ -3388,7 +2208,9 @@ button{
         0 3px 10px rgba(0,122,255,.2);
 }
 
-/* CAMERA BUTTONS */
+/* =========================================================
+   CAMERA BUTTONS
+========================================================= */
 
 #torch-btn{
     display:none;
@@ -3458,7 +2280,6 @@ button{
 
 .zoom-btn{
     min-width:38px;
-
     height:29px;
 
     border:0;
@@ -3485,14 +2306,15 @@ button{
 
 .zoom-btn.active{
     background:#007aff;
-
     color:#fff;
 
     box-shadow:
         0 0 12px rgba(0,122,255,.35);
 }
 
-/* QUICK ACTIONS */
+/* =========================================================
+   QUICK ACTIONS
+========================================================= */
 
 .quick-actions{
     display:flex;
@@ -3550,7 +2372,6 @@ button{
 }
 
 .quick-btn:hover{
-
     color:#b9c3cd;
 
     border-color:
@@ -3561,13 +2382,11 @@ button{
 }
 
 .quick-btn:active{
-
     transform:
         translateY(3px)
         scale(.91);
 
-    background:
-        #101821;
+    background:#101821;
 
     color:#00aaff;
 
@@ -3579,13 +2398,14 @@ button{
 }
 
 .quick-btn:active span{
-
     transform:
         scale(1.25)
         translateY(-2px);
 }
 
-/* MANUAL */
+/* =========================================================
+   MANUAL
+========================================================= */
 
 .search-box{
     display:none;
@@ -3680,7 +2500,6 @@ button{
 }
 
 .search-btn:active{
-
     transform:scale(.88);
 
     background:#007aff;
@@ -3688,7 +2507,9 @@ button{
     color:#fff;
 }
 
-/* RESULT */
+/* =========================================================
+   RESULT
+========================================================= */
 
 .result{
     display:none;
@@ -3862,7 +2683,9 @@ button{
     border-radius:15px;
 }
 
-/* RECENT */
+/* =========================================================
+   RECENT
+========================================================= */
 
 .recent-section{
     margin-top:15px;
@@ -3902,7 +2725,6 @@ button{
 }
 
 .clear-recent:hover{
-
     color:#ff5c5c;
 
     background:
@@ -3946,7 +2768,6 @@ button{
 }
 
 .recent-item:hover{
-
     background:#0d1218;
 
     border-color:
@@ -3954,13 +2775,11 @@ button{
 }
 
 .recent-item:active{
-
     transform:
         scale(.97)
         translateY(2px);
 
-    background:
-        #101720;
+    background:#101720;
 
     border-color:
         rgba(0,122,255,.25);
@@ -3998,7 +2817,9 @@ button{
     padding:10px;
 }
 
-/* TOAST */
+/* =========================================================
+   TOAST
+========================================================= */
 
 .toast{
     position:fixed;
@@ -4043,7 +2864,6 @@ button{
 }
 
 .toast.show{
-
     opacity:1;
 
     transform:
@@ -4051,7 +2871,9 @@ button{
         scale(1);
 }
 
-/* MEDIA */
+/* =========================================================
+   MEDIA
+========================================================= */
 
 @media(max-height:700px){
 
@@ -4087,8 +2909,29 @@ button{
         font-size:1.8rem;
     }
 
-    .intro-credit{
-        font-size:.58rem;
+    .maintenance-content{
+        padding:18px;
+    }
+
+    .maintenance-title{
+        font-size:1.25rem;
+    }
+
+    .maintenance-desc{
+        margin-bottom:13px;
+    }
+
+    .maintenance-timer-wrap{
+        margin-top:12px;
+        padding:11px;
+    }
+
+    #maintenance-timer{
+        font-size:1.7rem;
+    }
+
+    .maintenance-footer{
+        margin-top:15px;
     }
 
 }
@@ -4097,6 +2940,98 @@ button{
 </head>
 
 <body>
+
+<!-- =========================================================
+     MAINTENANCE SCREEN
+========================================================= -->
+
+<div id="maintenance-screen">
+
+    <div class="maintenance-grid"></div>
+
+    <div class="maintenance-ambient"></div>
+
+    <div class="maintenance-rise"></div>
+
+    <div class="maintenance-side"></div>
+
+    <div class="maintenance-beams">
+        <div class="beam"></div>
+        <div class="beam"></div>
+        <div class="beam"></div>
+        <div class="beam"></div>
+    </div>
+
+    <div class="maintenance-particles">
+
+        <span class="m-particle mp1"></span>
+        <span class="m-particle mp2"></span>
+        <span class="m-particle mp3"></span>
+        <span class="m-particle mp4"></span>
+        <span class="m-particle mp5"></span>
+        <span class="m-particle mp6"></span>
+        <span class="m-particle mp7"></span>
+        <span class="m-particle mp8"></span>
+        <span class="m-particle mp9"></span>
+        <span class="m-particle mp10"></span>
+        <span class="m-particle mp11"></span>
+        <span class="m-particle mp12"></span>
+
+    </div>
+
+    <div class="maintenance-content">
+
+        <div class="maintenance-logo">
+            A2Z
+        </div>
+
+        <div class="maintenance-brand">
+            COSMETIC
+        </div>
+
+        <div class="maintenance-line"></div>
+
+        <h1 class="maintenance-title">
+            الموقع <span>تحت الصيانة</span>
+        </h1>
+
+        <p class="maintenance-desc">
+            نقوم حالياً بإجراء بعض التحديثات والتحسينات
+            حتى نقدم لكم تجربة أفضل وأسرع.
+        </p>
+
+        <div class="maintenance-status">
+
+            <span class="maintenance-status-dot"></span>
+
+            <span id="maintenance-message">
+                جاري تنفيذ التحديثات...
+            </span>
+
+        </div>
+
+        <div class="maintenance-timer-wrap">
+
+            <div class="timer-label">
+                مدة الصيانة الحالية
+            </div>
+
+            <div id="maintenance-timer">
+                00:00:00
+            </div>
+
+            <div class="timer-progress"></div>
+
+        </div>
+
+        <div class="maintenance-footer">
+            A2Z COSMETIC • SYSTEM UPDATE
+        </div>
+
+    </div>
+
+</div>
+
 
 <!-- =========================================================
      PRESENTATION
@@ -4171,18 +3106,8 @@ button{
             دخول إلى الموقع
         </button>
 
-        <!-- الحقوق تحت الزر وخارجَه -->
-
-        <div class="intro-credit">
-
-            <span class="credit-spark">
-                ✦
-            </span>
-
-            <span>
-                © Ahmed J Alsafe
-            </span>
-
+        <div class="intro-footer">
+            A2Z COSMETIC
         </div>
 
     </div>
@@ -4236,8 +3161,6 @@ button{
 </header>
 
 
-<!-- HERO -->
-
 <section class="hero">
 
     <h1>
@@ -4250,8 +3173,6 @@ button{
 
 </section>
 
-
-<!-- SCANNER -->
 
 <section
     class="scanner-card"
@@ -4361,8 +3282,6 @@ button{
 </section>
 
 
-<!-- QUICK ACTIONS -->
-
 <div
     class="quick-actions"
     id="quick-actions"
@@ -4397,8 +3316,6 @@ button{
 </div>
 
 
-<!-- MANUAL SEARCH -->
-
 <div
     class="search-box"
     id="manual-box"
@@ -4429,8 +3346,6 @@ button{
 
 </div>
 
-
-<!-- RESULT -->
 
 <section
     class="result"
@@ -4502,8 +3417,6 @@ button{
 </section>
 
 
-<!-- RECENT -->
-
 <section
     class="recent-section"
     id="recent-section"
@@ -4549,11 +3462,186 @@ button{
 <script>
 
 /* =========================================================
-   إعدادات
+   إعدادات الموقع
+========================================================= */
+
+/*
+   true  = تشغيل الصيانة
+   false = تشغيل الموقع الطبيعي
+*/
+
+const MAINTENANCE_MODE = true;
+
+
+/* =========================================================
+   تشغيل / إيقاف شاشة الصيانة
+========================================================= */
+
+const maintenanceScreen =
+    document.getElementById(
+        "maintenance-screen"
+    );
+
+const app =
+    document.querySelector(".app");
+
+const intro =
+    document.getElementById("intro");
+
+
+if(MAINTENANCE_MODE){
+
+    maintenanceScreen.classList.add(
+        "active"
+    );
+
+    app.style.display = "none";
+
+    intro.style.display = "none";
+
+}else{
+
+    maintenanceScreen.classList.remove(
+        "active"
+    );
+
+}
+
+
+/* =========================================================
+   عداد الصيانة الصاعد
+========================================================= */
+
+let maintenanceElapsed = 0;
+
+let maintenanceTimerInterval = null;
+
+
+function updateMaintenanceTimer(){
+
+    const hours =
+        Math.floor(
+            maintenanceElapsed / 3600
+        );
+
+    const minutes =
+        Math.floor(
+            (maintenanceElapsed % 3600) / 60
+        );
+
+    const seconds =
+        maintenanceElapsed % 60;
+
+
+    const timer =
+        document.getElementById(
+            "maintenance-timer"
+        );
+
+
+    timer.textContent =
+        String(hours).padStart(2,"0") +
+        ":" +
+        String(minutes).padStart(2,"0") +
+        ":" +
+        String(seconds).padStart(2,"0");
+
+
+    maintenanceElapsed++;
+
+}
+
+
+if(MAINTENANCE_MODE){
+
+    updateMaintenanceTimer();
+
+    maintenanceTimerInterval =
+        setInterval(
+            updateMaintenanceTimer,
+            1000
+        );
+
+}
+
+
+/* =========================================================
+   رسائل الصيانة المتغيرة
+========================================================= */
+
+const maintenanceMessages = [
+
+    "جاري تنفيذ التحديثات...",
+
+    "تحسين أداء النظام...",
+
+    "تحديث بعض المكونات...",
+
+    "اختبار الخدمات...",
+
+    "تحسين تجربة الاستخدام...",
+
+    "جاري وضع اللمسات الأخيرة..."
+
+];
+
+
+let maintenanceMessageIndex = 0;
+
+
+const maintenanceMessage =
+    document.getElementById(
+        "maintenance-message"
+    );
+
+
+if(MAINTENANCE_MODE){
+
+    setInterval(
+        function(){
+
+            maintenanceMessage.classList.add(
+                "change"
+            );
+
+
+            setTimeout(
+                function(){
+
+                    maintenanceMessageIndex =
+                        (
+                            maintenanceMessageIndex + 1
+                        ) %
+                        maintenanceMessages.length;
+
+
+                    maintenanceMessage.innerText =
+                        maintenanceMessages[
+                            maintenanceMessageIndex
+                        ];
+
+
+                    maintenanceMessage.classList.remove(
+                        "change"
+                    );
+
+                },
+                300
+            );
+
+        },
+        3000
+    );
+
+}
+
+
+/* =========================================================
+   إعدادات الأسعار والكاميرا
 ========================================================= */
 
 const GOOGLE_SCRIPT_URL =
-"https://script.google.com/macros/s/AKfycbwwisjm-Jxyna4udY4irlnYnpqTa6wAZ6tJrkzOENXcoo3Q49GBfKrZOZ9MSSXVGZ10aQ/exec";
+"https://script.google.com/macros/s/AKfycbwwisjm-Jxyna4udY4irlnYnpqTa6wAZ6tJrkzOENXcoo3Q49GBfKrZOZ9MSSXVGZ10AqQ/exec";
 
 
 let codeReader = null;
@@ -4587,11 +3675,10 @@ let currentZoom = 1;
    PRESENTATION
 ========================================================= */
 
-const intro =
-    document.getElementById("intro");
-
 const enterBtn =
-    document.getElementById("enter-btn");
+    document.getElementById(
+        "enter-btn"
+    );
 
 
 enterBtn.addEventListener(
@@ -4626,6 +3713,12 @@ enterBtn.addEventListener(
 window.addEventListener(
     "load",
     function(){
+
+        if(MAINTENANCE_MODE){
+
+            return;
+
+        }
 
         loadRecent();
 
