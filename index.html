@@ -4053,48 +4053,39 @@ function handleResult(
     source
 ){
 
-    if(!barcode){
-
+    if(!barcode || scanLocked){
         return;
-
     }
-
 
     const clean =
         String(barcode)
             .replace(/\s+/g,"")
             .trim();
 
-
     if(!clean){
-
         return;
-
     }
 
+    // اقفل القراءة فوراً حتى لا تتكرر النتيجة وتسبب ضغط على الجهاز
+    scanLocked = true;
+    canScan = false;
 
     if(navigator.vibrate){
-
-        navigator.vibrate([
-            70,
-            40,
-            70
-        ]);
-
+        navigator.vibrate([70,40,70]);
     }
-
 
     playBeep();
 
-
+    // إيقاف الكاميرا بالكامل قبل عرض السعر
     stopCamera();
 
-
-    showResult(
-        clean,
-        source || "camera"
-    );
-
+    // ننتظر فريم واحد حتى يحرر المتصفح موارد الكاميرا
+    requestAnimationFrame(function(){
+        showResult(
+            clean,
+            source || "camera"
+        );
+    });
 }
 
 
@@ -4113,12 +4104,19 @@ function showResult(
         );
 
 
+    // ضمان اختفاء بطاقة الكاميرا قبل إظهار السعر
     document
         .getElementById(
             "scanner-card"
         )
         .style.display =
         "none";
+
+    const resultContainer =
+        document.getElementById(
+            "result-container"
+        );
+
 
 
     document
@@ -4170,6 +4168,8 @@ function showResult(
             .innerText =
             "✅";
 
+        resultContainer.classList.remove("not-found");
+
 
         document
             .getElementById(
@@ -4219,6 +4219,8 @@ function showResult(
             )
             .innerText =
             "❌";
+
+        resultContainer.classList.add("not-found");
 
 
         document
@@ -4374,6 +4376,12 @@ function resetScanner(){
 
     stopCamera();
 
+    document
+        .getElementById(
+            "result-container"
+        )
+        .classList.remove("not-found");
+
 
     document
         .getElementById(
@@ -4459,90 +4467,94 @@ function resetScanner(){
 
 function stopCamera(){
 
+    // أوقف قارئ ZXing أولاً
     try{
-
         if(codeReader){
-
             codeReader.reset();
-
         }
-
     }catch(error){
-
-        console.log(error);
-
+        console.log("ZXing reset:", error);
     }
 
+    // أوقف جميع مسارات الفيديو حتى تتحرر الكاميرا فعلياً
+    const streams = [];
 
     if(videoStream){
-
-        videoStream
-            .getTracks()
-            .forEach(
-                function(track){
-
-                    track.stop();
-
-                }
-            );
-
-
-        videoStream = null;
-
+        streams.push(videoStream);
     }
-
 
     const video =
         document.getElementById(
             "webcam-video"
         );
 
-
-    if(video.srcObject){
-
-        video.srcObject
-            .getTracks()
-            .forEach(
-                function(track){
-
-                    track.stop();
-
-                }
-            );
-
-
-        video.srcObject = null;
-
+    if(video && video.srcObject){
+        streams.push(video.srcObject);
     }
 
+    streams.forEach(function(stream){
+        try{
+            stream.getTracks().forEach(function(track){
+                try{
+                    track.stop();
+                }catch(e){}
+            });
+        }catch(e){}
+    });
+
+    videoStream = null;
+
+    if(video){
+        try{
+            video.pause();
+        }catch(e){}
+
+        video.srcObject = null;
+        video.style.display = "none";
+    }
+
+    const overlay =
+        document.getElementById(
+            "camera-overlay"
+        );
+
+    if(overlay){
+        overlay.style.display = "none";
+    }
 
     scannerRunning = false;
-
     canScan = false;
-
     scanLocked = false;
-
     videoTrack = null;
-
     torchOn = false;
 
-
-    document
-        .getElementById(
+    const torchButton =
+        document.getElementById(
             "torch-btn"
-        )
-        .style.display =
-        "none";
-
-
-    document
-        .getElementById(
-            "zoom-controls"
-        )
-        .classList
-        .remove(
-            "visible"
         );
+
+    if(torchButton){
+        torchButton.style.display = "none";
+    }
+
+    const zoomControls =
+        document.getElementById(
+            "zoom-controls"
+        );
+
+    if(zoomControls){
+        zoomControls.classList.remove("visible");
+    }
+
+    // رجّع شاشة البداية داخل بطاقة الماسح بدون إبقاء أي فيديو يعمل
+    const start =
+        document.getElementById(
+            "start-screen"
+        );
+
+    if(start){
+        start.style.display = "flex";
+    }
 
 }
 
