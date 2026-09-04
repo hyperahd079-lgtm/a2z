@@ -3729,88 +3729,79 @@ async function enhanceCameraForBarcode(){
    ZXING
 ========================================================= */
 
-function startZXingScanner(){
+let barcodeScanTimer = null;
+let nativeBarcodeDetector = null;
 
-    createBarcodeReader();
-
-
-    if(!codeReader){
-
-        showToast(
-            "تعذر تشغيل قارئ الباركود"
-        );
-
-        return;
-
+function stopBarcodeDetection(){
+    if(barcodeScanTimer){
+        clearTimeout(barcodeScanTimer);
+        barcodeScanTimer = null;
     }
+}
 
+async function scanBarcodeFrame(){
+    if(!canScan || scanLocked || !scannerRunning){ return; }
 
-    const video =
-        document.getElementById(
-            "webcam-video"
-        );
-
-
-    if(!video || !video.srcObject){
-
-        showToast(
-            "تعذر ربط قارئ الباركود بالكاميرا"
-        );
-
+    const video = document.getElementById("webcam-video");
+    if(!video || video.readyState < 2 || video.videoWidth < 100){
+        barcodeScanTimer = setTimeout(scanBarcodeFrame, 150);
         return;
-
     }
-
 
     try{
+        // استخدم قارئ المتصفح الأصلي أولاً لأنه أسرع مع كاميرات الهاتف.
+        if(!nativeBarcodeDetector && "BarcodeDetector" in window){
+            const supported = await BarcodeDetector.getSupportedFormats();
+            const wanted = ["ean_13","ean_8","upc_a","upc_e","code_128","code_39","code_93","itf","codabar","qr_code","data_matrix"];
+            const formats = wanted.filter(function(x){ return supported.includes(x); });
+            if(formats.length){ nativeBarcodeDetector = new BarcodeDetector({formats:formats}); }
+        }
 
-        /*
-         * مهم جداً:
-         * لا نستخدم decodeFromVideoDevice هنا، لأنه قد يطلب
-         * stream جديداً ويستبدل الكاميرا التي فتحناها يدوياً.
-         * نستخدم نفس عنصر الفيديو ونفس stream الذي وافق عليه المستخدم.
-         */
-        codeReader.decodeFromVideoElement(
-            video,
-            function(result,error){
-
-                if(
-                    result &&
-                    result.text &&
-                    canScan &&
-                    !scanLocked
-                ){
-
-                    scanLocked = true;
-
-                    canScan = false;
-
-
-                    handleResult(
-                        result.text,
-                        "camera"
-                    );
-
-                }
-
+        if(nativeBarcodeDetector){
+            const results = await nativeBarcodeDetector.detect(video);
+            if(results && results.length && results[0].rawValue){
+                handleResult(results[0].rawValue, "camera");
+                return;
             }
-
-        );
-
+        }
     }catch(error){
-
-        console.error(
-            "ZXing error:",
-            error
-        );
-
-
-        showToast(
-            "تعذر تشغيل قارئ الباركود"
-        );
-
+        console.log("Native barcode detection:", error);
     }
 
+    // إذا لم يتوفر BarcodeDetector، استخدم ZXing على نفس فيديو الكاميرا.
+    if(!nativeBarcodeDetector && codeReader && typeof codeReader.decodeFromVideoElement === "function"){
+        try{
+            codeReader.decodeFromVideoElement(video, function(result){
+                if(result && result.text && canScan && !scanLocked){
+                    handleResult(result.text, "camera");
+                }
+            });
+            return;
+        }catch(error){
+            console.log("ZXing video detection:", error);
+        }
+    }
+
+    barcodeScanTimer = setTimeout(scanBarcodeFrame, 120);
+}
+
+function startZXingScanner(){
+    createBarcodeReader();
+    stopBarcodeDetection();
+    nativeBarcodeDetector = null;
+
+    const video = document.getElementById("webcam-video");
+    if(!codeReader || !video || !video.srcObject){
+        showToast("تعذر تشغيل قارئ الباركود");
+        return;
+    }
+
+    if(video.readyState >= 2){
+        scanBarcodeFrame();
+    }else{
+        video.addEventListener("loadeddata", scanBarcodeFrame, {once:true});
+        barcodeScanTimer = setTimeout(scanBarcodeFrame, 300);
+    }
 }
 
 
@@ -4591,6 +4582,8 @@ function resetScanner(){
 ========================================================= */
 
 function stopCamera(){
+
+    stopBarcodeDetection();
 
     // أوقف قارئ ZXing أولاً
     try{
