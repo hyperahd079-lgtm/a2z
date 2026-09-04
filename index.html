@@ -2739,7 +2739,6 @@ button{
 <video
     id="webcam-video"
     playsinline
-    autoplay
     muted
 ></video>
 
@@ -3439,16 +3438,11 @@ async function initScanner(){
                     },
 
                     width:{
-                        ideal:1920
+                        ideal:1280
                     },
 
                     height:{
-                        ideal:1080
-                    },
-
-                    frameRate:{
-                        ideal:30,
-                        max:60
+                        ideal:720
                     }
 
                 }
@@ -3483,15 +3477,6 @@ async function initScanner(){
                 tracks[0];
 
         }
-
-
-        /*
-         * تحسين إعدادات كاميرا الهاتف للباركود:
-         * فوكس مستمر + تعريض + توازن أبيض عندما يدعمها الجهاز.
-         * هذه التحسينات لا تلغي إذن الكاميرا؛ الإذن يبقى مطلوباً
-         * من getUserMedia عند فتح الكاميرا.
-         */
-        await enhanceCameraForBarcode();
 
 
         scannerRunning = true;
@@ -3635,12 +3620,19 @@ async function initScanner(){
 
 
 /* =========================================================
-   CAMERA ENHANCEMENT
+   ZXING
 ========================================================= */
 
-async function enhanceCameraForBarcode(){
+function startZXingScanner(){
 
-    if(!videoTrack || !videoTrack.getCapabilities){
+    createBarcodeReader();
+
+
+    if(!codeReader){
+
+        showToast(
+            "تعذر تشغيل قارئ الباركود"
+        );
 
         return;
 
@@ -3649,159 +3641,51 @@ async function enhanceCameraForBarcode(){
 
     try{
 
-        const caps =
-            videoTrack.getCapabilities();
+        codeReader.decodeFromVideoElement(video, /* preserved existing camera stream */
+
+            undefined,
+
+            "webcam-video",
+
+            function(result,error){
+
+                if(
+                    result &&
+                    result.text &&
+                    canScan &&
+                    !scanLocked
+                ){
+
+                    scanLocked = true;
+
+                    canScan = false;
 
 
-        const advanced = [];
+                    handleResult(
+                        result.text,
+                        "camera"
+                    );
 
-
-        if(caps.focusMode){
-
-            if(
-                caps.focusMode.includes("continuous")
-            ){
-
-                advanced.push({
-                    focusMode:"continuous"
-                });
-
-            }
-
-        }
-
-
-        if(caps.exposureMode){
-
-            if(
-                caps.exposureMode.includes("continuous")
-            ){
-
-                advanced.push({
-                    exposureMode:"continuous"
-                });
+                }
 
             }
 
-        }
-
-
-        if(caps.whiteBalanceMode){
-
-            if(
-                caps.whiteBalanceMode.includes("continuous")
-            ){
-
-                advanced.push({
-                    whiteBalanceMode:"continuous"
-                });
-
-            }
-
-        }
-
-
-        if(advanced.length){
-
-            await videoTrack.applyConstraints({
-                advanced:advanced
-            });
-
-        }
+        );
 
     }catch(error){
 
-        /*
-         * بعض الهواتف لا تسمح بكل خصائص التحكم.
-         * لا نوقف الكاميرا إذا كانت خاصية اختيارية غير مدعومة.
-         */
-        console.log(
-            "Camera enhancement not fully supported:",
+        console.error(
+            "ZXing error:",
             error
+        );
+
+
+        showToast(
+            "تعذر تشغيل قارئ الباركود"
         );
 
     }
 
-}
-
-
-/* =========================================================
-   ZXING
-========================================================= */
-
-let barcodeScanTimer = null;
-let nativeBarcodeDetector = null;
-
-function stopBarcodeDetection(){
-    if(barcodeScanTimer){
-        clearTimeout(barcodeScanTimer);
-        barcodeScanTimer = null;
-    }
-}
-
-async function scanBarcodeFrame(){
-    if(!canScan || scanLocked || !scannerRunning){ return; }
-
-    const video = document.getElementById("webcam-video");
-    if(!video || video.readyState < 2 || video.videoWidth < 100){
-        barcodeScanTimer = setTimeout(scanBarcodeFrame, 150);
-        return;
-    }
-
-    try{
-        // استخدم قارئ المتصفح الأصلي أولاً لأنه أسرع مع كاميرات الهاتف.
-        if(!nativeBarcodeDetector && "BarcodeDetector" in window){
-            const supported = await BarcodeDetector.getSupportedFormats();
-            const wanted = ["ean_13","ean_8","upc_a","upc_e","code_128","code_39","code_93","itf","codabar","qr_code","data_matrix"];
-            const formats = wanted.filter(function(x){ return supported.includes(x); });
-            if(formats.length){ nativeBarcodeDetector = new BarcodeDetector({formats:formats}); }
-        }
-
-        if(nativeBarcodeDetector){
-            const results = await nativeBarcodeDetector.detect(video);
-            if(results && results.length && results[0].rawValue){
-                handleResult(results[0].rawValue, "camera");
-                return;
-            }
-        }
-    }catch(error){
-        console.log("Native barcode detection:", error);
-    }
-
-    // إذا لم يتوفر BarcodeDetector، استخدم ZXing على نفس فيديو الكاميرا.
-    if(!nativeBarcodeDetector && codeReader && typeof codeReader.decodeFromVideoElement === "function"){
-        try{
-            codeReader.decodeFromVideoElement(video, function(result){
-                if(result && result.text && canScan && !scanLocked){
-                    handleResult(result.text, "camera");
-                }
-            });
-            return;
-        }catch(error){
-            console.log("ZXing video detection:", error);
-        }
-    }
-
-    barcodeScanTimer = setTimeout(scanBarcodeFrame, 120);
-}
-
-function startZXingScanner(){
-    createBarcodeReader();
-    stopBarcodeDetection();
-    nativeBarcodeDetector = null;
-
-    const video = document.getElementById("webcam-video");
-    if(!codeReader || !video || !video.srcObject){
-        showToast("تعذر تشغيل قارئ الباركود");
-        return;
-    }
-
-    if(video.readyState >= 2){
-        scanBarcodeFrame();
-    }else{
-        video.addEventListener("loadeddata", scanBarcodeFrame, {once:true});
-        barcodeScanTimer = setTimeout(scanBarcodeFrame, 300);
-    }
 }
 
 
@@ -4582,8 +4466,6 @@ function resetScanner(){
 ========================================================= */
 
 function stopCamera(){
-
-    stopBarcodeDetection();
 
     // أوقف قارئ ZXing أولاً
     try{
