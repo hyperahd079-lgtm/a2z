@@ -2739,6 +2739,7 @@ button{
 <video
     id="webcam-video"
     playsinline
+    autoplay
     muted
 ></video>
 
@@ -3438,11 +3439,16 @@ async function initScanner(){
                     },
 
                     width:{
-                        ideal:1280
+                        ideal:1920
                     },
 
                     height:{
-                        ideal:720
+                        ideal:1080
+                    },
+
+                    frameRate:{
+                        ideal:30,
+                        max:60
                     }
 
                 }
@@ -3477,6 +3483,15 @@ async function initScanner(){
                 tracks[0];
 
         }
+
+
+        /*
+         * تحسين إعدادات كاميرا الهاتف للباركود:
+         * فوكس مستمر + تعريض + توازن أبيض عندما يدعمها الجهاز.
+         * هذه التحسينات لا تلغي إذن الكاميرا؛ الإذن يبقى مطلوباً
+         * من getUserMedia عند فتح الكاميرا.
+         */
+        await enhanceCameraForBarcode();
 
 
         scannerRunning = true;
@@ -3620,6 +3635,97 @@ async function initScanner(){
 
 
 /* =========================================================
+   CAMERA ENHANCEMENT
+========================================================= */
+
+async function enhanceCameraForBarcode(){
+
+    if(!videoTrack || !videoTrack.getCapabilities){
+
+        return;
+
+    }
+
+
+    try{
+
+        const caps =
+            videoTrack.getCapabilities();
+
+
+        const advanced = [];
+
+
+        if(caps.focusMode){
+
+            if(
+                caps.focusMode.includes("continuous")
+            ){
+
+                advanced.push({
+                    focusMode:"continuous"
+                });
+
+            }
+
+        }
+
+
+        if(caps.exposureMode){
+
+            if(
+                caps.exposureMode.includes("continuous")
+            ){
+
+                advanced.push({
+                    exposureMode:"continuous"
+                });
+
+            }
+
+        }
+
+
+        if(caps.whiteBalanceMode){
+
+            if(
+                caps.whiteBalanceMode.includes("continuous")
+            ){
+
+                advanced.push({
+                    whiteBalanceMode:"continuous"
+                });
+
+            }
+
+        }
+
+
+        if(advanced.length){
+
+            await videoTrack.applyConstraints({
+                advanced:advanced
+            });
+
+        }
+
+    }catch(error){
+
+        /*
+         * بعض الهواتف لا تسمح بكل خصائص التحكم.
+         * لا نوقف الكاميرا إذا كانت خاصية اختيارية غير مدعومة.
+         */
+        console.log(
+            "Camera enhancement not fully supported:",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
    ZXING
 ========================================================= */
 
@@ -3639,14 +3745,33 @@ function startZXingScanner(){
     }
 
 
+    const video =
+        document.getElementById(
+            "webcam-video"
+        );
+
+
+    if(!video || !video.srcObject){
+
+        showToast(
+            "تعذر ربط قارئ الباركود بالكاميرا"
+        );
+
+        return;
+
+    }
+
+
     try{
 
-        codeReader.decodeFromVideoDevice(
-
-            undefined,
-
-            "webcam-video",
-
+        /*
+         * مهم جداً:
+         * لا نستخدم decodeFromVideoDevice هنا، لأنه قد يطلب
+         * stream جديداً ويستبدل الكاميرا التي فتحناها يدوياً.
+         * نستخدم نفس عنصر الفيديو ونفس stream الذي وافق عليه المستخدم.
+         */
+        codeReader.decodeFromVideoElement(
+            video,
             function(result,error){
 
                 if(
